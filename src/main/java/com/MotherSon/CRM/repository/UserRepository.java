@@ -8,4 +8,6 @@ import com.MotherSon.CRM.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);  // Check if email already exists
+
+	boolean existsById(int i);
 }

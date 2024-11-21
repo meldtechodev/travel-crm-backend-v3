@@ -1,6 +1,8 @@
 package com.MotherSon.CRM.controller;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -226,6 +228,17 @@ public class CompanyController {
 	        }
 	    }
 	
+
+		@GetMapping("/ipAddress")
+	    public String getIpAddress() {
+	        try {
+	            InetAddress ip = InetAddress.getLocalHost();
+	            return ip.getHostAddress();
+	        } catch (UnknownHostException e) {
+	            e.printStackTrace();
+	            return "Unable to fetch IP Address";
+	        }
+	    }
 	
 	
 	

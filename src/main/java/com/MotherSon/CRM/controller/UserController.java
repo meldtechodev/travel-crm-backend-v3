@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MotherSon.CRM.dto.SignupRequestDTO;
+import com.MotherSon.CRM.dto.SignupRequestSuper;
 import com.MotherSon.CRM.security.services.UserService;
 
 @RestController
@@ -23,4 +24,10 @@ public class UserController {
     public String signup(@RequestBody SignupRequestDTO signupRequestDTO) {
         return userService.registerUser(signupRequestDTO);
     }
+    
+    @PostMapping("/signupsuperadmin")
+    public String signupsuperadimncon(@RequestBody SignupRequestSuper signupRequestsuper) {
+        return userService.registersuperadmin(signupRequestsuper);
+    }
+ 
 }

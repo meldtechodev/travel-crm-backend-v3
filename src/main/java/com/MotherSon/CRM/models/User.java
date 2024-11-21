@@ -25,6 +25,12 @@ public class User {
     private String createdBy;
     private String modifiedBy;
     private String ipaddress;
+    
+    private int companyId;
+    private int roleId;
+    private int departmentId;
+    private int designationId;
+ 
 
     private boolean status;
     private boolean isdelete;
@@ -132,4 +138,38 @@ public class User {
 	public void setModifiedDate(LocalDateTime modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+
+	public int getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(int departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public int getDesignationId() {
+		return designationId;
+	}
+
+	public void setDesignationId(int designationId) {
+		this.designationId = designationId;
+	}
+	
+	
 }
