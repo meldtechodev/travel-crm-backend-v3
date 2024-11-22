@@ -15,10 +15,10 @@
     <description>Motherson CRM</description>
 
     <properties>
-        <java.version>19</java.version> <!-- Update Java version to 19 -->
-        <maven.compiler.source>19</maven.compiler.source> <!-- Update compiler source to 19 -->
-        <maven.compiler.target>19</maven.compiler.target> <!-- Update compiler target to 19 -->
-        <maven.compiler.compilerVersion>19</maven.compiler.compilerVersion> <!-- Update compiler version to 19 -->
+        <java.version>17</java.version> <!-- Update Java version to 19 -->
+        <maven.compiler.source>17</maven.compiler.source> <!-- Update compiler source to 19 -->
+        <maven.compiler.target>17</maven.compiler.target> <!-- Update compiler target to 19 -->
+        <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion> <!-- Update compiler version to 19 -->
         <maven.compiler.verbose>true</maven.compiler.verbose>
     </properties>
 
@@ -162,8 +162,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version> <!-- Make sure you're using the latest version -->
                 <configuration>
-                    <source>19</source> <!-- Java version to compile against -->
-                    <target>19</target> <!-- Java version to compile to -->
+                    <source>17</source> <!-- Java version to compile against -->
+                    <target>17</target> <!-- Java version to compile to -->
                 </configuration>
             </plugin>
 			<plugin>
