@@ -1,28 +1,42 @@
 package com.MotherSon.CRM.security.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.MotherSon.CRM.dto.LoginRequest;
+import com.MotherSon.CRM.dto.LoginResponse;
 import com.MotherSon.CRM.dto.SignupRequestDTO;
 import com.MotherSon.CRM.dto.SignupRequestSuper;
 import com.MotherSon.CRM.models.User;
-import com.MotherSon.CRM.repository.RoleRepository;
 import com.MotherSon.CRM.repository.UserRepository;
+import com.MotherSon.CRM.utils.JwtUtil;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService  {
 
     @Autowired
     private UserRepository userRepository;
-    
     @Autowired
-    private RoleRepository roleRepository;
+    private JwtUtil jwtutil;
+    
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public UserService(UserRepository userRepository, JwtUtil jwtutil) {
+		super();
+		this.userRepository = userRepository;
+		this.jwtutil = jwtutil;
+	}
+
+
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
     private ModelMapper modelMapper;  // Inject ModelMapper
 
@@ -49,42 +63,71 @@ public class UserService {
         return "User registered successfully!";
     }
     
+//    public String registersuperadmin(SignupRequestSuper signupRequestsuper) {
+//        // Check if email already exists
+//        if (userRepository.existsByEmail(signupRequestsuper.getEmail())) {
+//            return "Email is already in use.";
+//        }
+//
+//        // Map DTO to User entity using ModelMapper
+//        User user = modelMapper.map(signupRequestsuper, User.class);
+//
+//        // Encrypt the password
+//        String encodedPassword = passwordEncoder.encode(user.getPassword());
+//        user.setPassword(encodedPassword);
+//
+//        // Set additional fields
+//        user.setCreatedDate(LocalDateTime.now());
+//        user.setStatus(true);  // Assume the user is active by default
+//        user.setCreatedBy("Narender");
+//        user.setModifiedBy("Narender");
+//      //  user.setDepartmentId(user.getDepartmentId());
+//        user.setIsdelete(false);
+//        
+//
+//        // Save user to the database
+//        userRepository.save(user);
+//
+//        return "super admin registered successfully!";
+//    }
     
-    public String registersuperadmin(SignupRequestSuper signupRequestsuper) {
-        // Check if email already exists
-        if (userRepository.existsByEmail(signupRequestsuper.getEmail())) {
-            return "Email is already in use.";
-        }
-        
+    public LoginResponse login(LoginRequest request) {
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
 
-        if(userRepository.existsById(1)) {
-        	return "Super Admin already exist";
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                // Generate JWT token
+                String token = jwtutil.generateToken(request.getEmail());
+                return new LoginResponse(token);
+            }
         }
- 
-        // Map DTO to User entity using ModelMapper
-        User user = modelMapper.map(signupRequestsuper, User.class);
- 
-        // Encrypt the password
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
- 
-        // Set additional fields
-        user.setCreatedDate(LocalDateTime.now());
-        user.setStatus(true);  // Assume the user is active by default
-        user.setCreatedBy("Narender");
-        user.setModifiedBy("Narender");
-        user.setCompanyId(1);
-        user.setDesignationId(1);
-        user.setDepartmentId(1);
-        user.setRoleId(1);
-        user.setIsdelete(false);
-        
- 
-        // Save user to the database
-        userRepository.save(user);
- 
-        return "super admin registered successfully!";
+
+        throw new RuntimeException("Invalid email or password");
     }
+    public List<User>getalluser()
+    {
+    	 List<User>getuserser=userRepository.findAll();
+		return getuserser;
+    	
+    }
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		  User user = userRepository.findByEmail(username)
+	                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+
+	        return org.springframework.security.core.userdetails.User
+	                .withUsername(user.getEmail())
+	                .password(user.getPassword())
+	                .authorities("Super_Admin")
+	                .build();
+	    }
+	
+	}
     
- 
-}
+    
+    
+    
+

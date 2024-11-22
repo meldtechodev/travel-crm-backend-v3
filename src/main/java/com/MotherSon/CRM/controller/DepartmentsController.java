@@ -1,11 +1,9 @@
 package com.MotherSon.CRM.controller;
 
-
-
-import java.util.List;
 import java.util.Optional;
-
+ 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,26 +14,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+ 
 import com.MotherSon.CRM.models.Departments;
 import com.MotherSon.CRM.security.services.DepartmentsService;
-
+ 
 import jakarta.persistence.EntityNotFoundException;
-
+ 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("Motherson/crm/v1/departments")
 public class DepartmentsController {
 	
 	
-
+ 
 	@Autowired
 	private DepartmentsService departmentsService;
 	
 	
 	
-	@GetMapping("/getbyId/{id}")
+	@GetMapping("/getbyid/{id}")
 	public ResponseEntity<Departments> getDepartmentsById(@PathVariable Long id){
 		Optional<Departments> depart = departmentsService.getDepartmentsById(id);
 		return depart.map(value  -> new ResponseEntity<>(value, HttpStatus.OK))
@@ -44,10 +43,24 @@ public class DepartmentsController {
 	
 	
 	
-	@GetMapping("/getAll")
-	public List<Departments> getAllDepartments(){
-		return departmentsService.getAllDepartments();
-	}
+ 
+	
+//	@GetMapping("/getall")
+//    public Page<Departments> getDepartments(
+//        @RequestParam(value = "page", defaultValue = "0") int page,  // Default page is 0
+//        @RequestParam(value = "size", defaultValue = "10") int size   // Default size is 10
+//    ) {
+//        return departmentsService.getDepartments(page, size);  // Call the service method with pagination parameters
+//    }
+ 
+	@GetMapping("/getall")
+	public Page<Departments> getDepartments(
+		    @RequestParam(value = "page", defaultValue = "0") int page,  // Default page is 0
+		    @RequestParam(value = "size", defaultValue = "10") int size, // Default size is 10
+		    @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection // Default sort direction is ascending
+		) {
+		    return departmentsService.getDepartments(page, size, sortDirection);  // Call the service method with pagination and sorting parameters
+		}
 	
 	
 	
@@ -75,7 +88,7 @@ public class DepartmentsController {
                     .body(e.getMessage()); // Return the error message if department name already exists
         }
     }
-
+ 
 	
 	
 	
@@ -120,9 +133,9 @@ public class DepartmentsController {
 //	{
 //		return ResponseEntity.notFound().build();
 //	}
-// 
+//
 //}}
-
+ 
 	
 	
 	@DeleteMapping("deletebyid/{id}")
@@ -134,3 +147,5 @@ public class DepartmentsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }}
+ 
+ 

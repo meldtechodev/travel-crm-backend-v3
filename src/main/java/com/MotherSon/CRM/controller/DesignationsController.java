@@ -1,8 +1,9 @@
 package com.MotherSon.CRM.controller;
-import java.util.List;
+ 
 import java.util.Optional;
-
+ 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,14 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+ 
 import com.MotherSon.CRM.models.Departments;
 import com.MotherSon.CRM.models.Designations;
+import com.MotherSon.CRM.security.services.DepartmentsService;
 import com.MotherSon.CRM.security.services.DesignationsService;
-
+ 
 import jakarta.persistence.EntityNotFoundException;
-
+ 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("Motherson/crm/v1/designations")
@@ -31,10 +34,18 @@ public class DesignationsController {
 	private DesignationsService designationsService;
 	
 	
+	@Autowired
+	private DepartmentsService departmentsService;
+	
+	
 	
 	@GetMapping("/getall")
-	public List<Designations> getAllDesignations(){
-		return designationsService.getAllDesignations();
+	public Page<Designations> getDesignations(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			@RequestParam(value = "sortDirection" , defaultValue =  "asc") String sortDirection
+			){
+		return designationsService.getDesignations(page, size, sortDirection);
 	}
 	
 	
@@ -65,48 +76,30 @@ public class DesignationsController {
                     .body(e.getMessage()); // Return the error message if department name already exists
         }}
 	
-//	@PutMapping("/updateby/{id}")
-//	public ResponseEntity<Designations> updateDesignations(@PathVariable Long id, @RequestBody Designations designations){
-//		if(designations != null)
-//		{
-//			Designations des = new Designations();
-//			
-//			des.setId(id);
-//			des.setDesignationName(designations.getDesignationName());
-//			des.setCreatedBy(designations.getCreatedBy());
-//			des.setModifiedBy(designations.getModifiedBy());
-//			des.setIpAddress(designations.getIpAddress());
-//			des.setStatus(designations.isStatus());
-//			des.setIsdelete(designations.isIsdelete());
-//			des.setModifiedDate(designations.getModifiedDate());
-//			des.setCreatedDate(designations.getCreatedDate());
-//			
-//			
-//			
-//			designationsService.updateDesignations(des);
-//			return ResponseEntity.ok(des);
-//		}
-//		else
-//		{
-//			return ResponseEntity.notFound().build();
-//		}
-//	}
+ 
 	
 	
 	
-	@PutMapping("/updateby/{id}")
-    public ResponseEntity<Designations> updateDesignation(@PathVariable Long id, @RequestBody Designations designations) {
-        try {
-            // Call service to update the Designation
-            Designations updatedDesignation = designationsService.updateDesignation(id, designations);
-            
-            // Return the updated Designation with status 200 OK
-            return ResponseEntity.ok(updatedDesignation);
-        } catch (Exception e) {
-            // Return an error message if the Designation is not found
-            return ResponseEntity.notFound().build();
-        }
-    }
+	@PutMapping("/update/{id}")
+	public ResponseEntity<Designations> updateDesignation(
+	        @PathVariable("id") Long id,
+	        @RequestBody Designations updatedDesignation) {
+ 
+	    // Ensure the department exists in the database
+	    Departments department = departmentsService.getDepartmentById(updatedDesignation.getDepartments().getId());
+	    if (department == null) {
+	        return ResponseEntity.badRequest().body(null); // or throw an exception
+	    }
+ 
+	    updatedDesignation.setDepartments(department);
+	    Designations updated = designationsService.updateDesignation(id, updatedDesignation);
+ 
+	    if (updated != null) {
+	        return ResponseEntity.ok(updated);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
+	}
 	
 	
 	
@@ -126,10 +119,10 @@ public class DesignationsController {
 //	{
 //		return ResponseEntity.notFound().build();
 //	}
-// 
+//
 //}}
-
-
+ 
+ 
 	@DeleteMapping("deletebyid/{id}")
     public ResponseEntity<String> deleteCompany(@PathVariable Long id) {
         try {
@@ -139,7 +132,9 @@ public class DesignationsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }}
-
+ 
     
 	
-
+ 
+ 
+ 
