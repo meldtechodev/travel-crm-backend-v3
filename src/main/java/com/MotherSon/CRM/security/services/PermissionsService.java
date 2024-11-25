@@ -52,6 +52,15 @@ public class PermissionsService {
 			return allpermision;
 		}
 		
+		public Permissions updatePermissions(Long id, Permissions updatedPermissions) {
+	        // Check if the Permissions entity exists
+	        if (permissionsRepository.existsById(id)) {
+	            updatedPermissions.setId(id);
+	            return permissionsRepository.save(updatedPermissions);
+	        }
+	        return null;
+	    }
+ 
 		
 		
 		public void deleteById(Long id) {

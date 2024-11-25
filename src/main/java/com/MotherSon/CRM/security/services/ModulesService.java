@@ -36,6 +36,11 @@ public class ModulesService {
 		return modulesRepository.findById(id);
 	}
 	
+	public Modules getModuleById(Long id) {
+        Optional<Modules> module = modulesRepository.findById(id);
+        return module.orElse(null);  
+    }
+
 	public Modules updateModule(Long id, Modules updatedModule) {
         Optional<Modules> existingModule = modulesRepository.findById(id);
         

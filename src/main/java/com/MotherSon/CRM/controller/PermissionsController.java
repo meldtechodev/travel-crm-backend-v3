@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MotherSon.CRM.models.Designations;
+import com.MotherSon.CRM.models.Modules;
 import com.MotherSon.CRM.models.Permissions;
+import com.MotherSon.CRM.security.services.ModulesService;
 import com.MotherSon.CRM.security.services.PermissionsService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -29,6 +32,10 @@ public class PermissionsController {
 	
 	@Autowired
 	private PermissionsService permissionsService;
+	
+	@Autowired
+    private ModulesService modulesService;
+ 
 	
 	
 //	@GetMapping("/getbyid/{id}")
@@ -91,5 +98,30 @@ public class PermissionsController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
+	
+	@PutMapping("/update/{id}")
+    public ResponseEntity<String> updatePermissions(
+            @PathVariable("id") Long id,
+            @RequestBody Permissions updatedPermissions) {
+ 
+        
+        if (updatedPermissions.getModules() != null) {
+            Modules module = modulesService.getModuleById(updatedPermissions.getModules().getId());
+            if (module == null) {
+                return ResponseEntity.badRequest().body("Module with the provided ID does not exist.");
+            }
+            updatedPermissions.setModules(module);
+        }
+ 
+        // Ensure the Permissions entity exists
+        Permissions existingPermissions = permissionsService.updatePermissions(id, updatedPermissions);
+ 
+        if (existingPermissions != null) {
+            return ResponseEntity.ok("Update successful! Permissions with ID " + id + " has been updated.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Permissions found with ID " + id + ".");
+        }
+    }
+ 
 
 }
