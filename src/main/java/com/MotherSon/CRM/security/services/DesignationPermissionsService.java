@@ -1,16 +1,19 @@
 package com.MotherSon.CRM.security.services;
-
+ 
 import java.util.List;
 import java.util.Optional;
-
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+ 
+ 
 import com.MotherSon.CRM.models.DesignationPermissions;
+ 
 import com.MotherSon.CRM.repository.DesignationPermissionsRepository;
-
+ 
 import jakarta.persistence.EntityNotFoundException;
-
+ 
+ 
 @Service
 public class DesignationPermissionsService {
 	
@@ -19,18 +22,22 @@ public class DesignationPermissionsService {
 	private DesignationPermissionsRepository designationPermissionsRepository;
 	
 	
+	@Autowired
+	private DesignationsService designationsService;
 	
-	public List<DesignationPermissions>  getAllDesignationPermissions(){
 	
-		
+	
+	public List<DesignationPermissions>  getAllDesignationPermissions()
+	{
 		List<DesignationPermissions> allPerm = designationPermissionsRepository.findAll();
 		return allPerm;
 	}
 	
 	
+	
+	
 	public Optional<DesignationPermissions> getDesignationPermissionsById(Long id)
 	{
-		
 		Optional<DesignationPermissions> dPermission = designationPermissionsRepository.findById(id);
 		return dPermission;
 	}
@@ -40,7 +47,6 @@ public class DesignationPermissionsService {
 	
 	public DesignationPermissions addDesignationPermissions(DesignationPermissions designationPermissions)
 	{
-		
 		DesignationPermissions dePermissions = designationPermissionsRepository.save(designationPermissions);
 		return dePermissions;
 	}
@@ -58,10 +64,24 @@ public class DesignationPermissionsService {
 		else {
 			throw new EntityNotFoundException(" This Id "  + id +  "     Is not Present in this Record  ");
 		}
-			
-		
 	}
 	
 	
-
-}
+	
+	
+	public DesignationPermissions updateDesignationPermissions(Long id, DesignationPermissions updatedDesignationPermissions) {
+        // Check if the record exists
+        if (designationPermissionsRepository.existsById(id)) {
+            updatedDesignationPermissions.setId(id);  // Preserve the existing ID
+            return designationPermissionsRepository.save(updatedDesignationPermissions);  // Save and return the updated record
+        }
+        return null;  // Return null if the record doesn't exist
+    }}
+	
+	
+ 
+	
+ 
+ 
+ 
+ 
