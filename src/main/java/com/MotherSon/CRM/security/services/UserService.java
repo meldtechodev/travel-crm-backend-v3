@@ -124,6 +124,15 @@ public class UserService implements UserDetailsService  {
 	                .authorities("Super_Admin")
 	                .build();
 	    }
+
+
+        public String getNameFromEmail(String email) {
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+            return user.getName(); // Assuming your User entity has a `name` field
+        }
+        
+     
 	
 	}
     
