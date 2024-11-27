@@ -4,9 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
  
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+ 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -25,7 +22,6 @@ import jakarta.validation.constraints.Pattern;
  
 @Entity
 @Table(name = "designations_master")
-@JsonIgnoreProperties(value= {"user"})
 public class Designations {
 	
 	@Id
@@ -55,12 +51,6 @@ public class Designations {
 	@JsonIgnore
     @OneToMany(mappedBy = "designations", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private Set<DesignationPermissions> designationPermission;
-	
-	
-	
-	@JsonManagedReference
-	@OneToOne(mappedBy="designation",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	private User user;
 	
 	private boolean status;
 	
@@ -174,14 +164,6 @@ public class Designations {
  
 	public void setDesignationPermission(Set<DesignationPermissions> designationPermission) {
 		this.designationPermission = designationPermission;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 	
 	

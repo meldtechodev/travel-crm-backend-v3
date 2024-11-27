@@ -1,26 +1,19 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Roles_Master")
-@JsonIgnoreProperties(value= {"user"})
+
 public class Role {
        
 	
@@ -49,13 +42,6 @@ public class Role {
 	
 	@Column(name="modified_date")
 	private LocalDateTime modifieddate;
-	
-	
-	
-	@OneToMany(mappedBy="role",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JsonManagedReference
-	private List<User> user;
-	
 	
 	 @PrePersist
 	    protected void onCreate() {
@@ -146,14 +132,6 @@ public class Role {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-	}
-
-	public List<User> getUser() {
-		return user;
-	}
-
-	public void setUser(List<User> user) {
-		this.user = user;
 	}
 
 	

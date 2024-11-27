@@ -1,13 +1,10 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
  
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+ 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +21,6 @@ import jakarta.validation.constraints.Pattern;
  
 @Entity
 @Table(name = "departments_master")
-@JsonIgnoreProperties(value= {"user"})
 public class Departments {
 	
 	
@@ -58,12 +54,6 @@ public class Departments {
 //	
 //	//@JsonManagedReference
 	private Set<Designations> designations;
-	
-	
-	
-	@OneToMany(mappedBy="department",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JsonManagedReference
-	private List<User> user;
 	
 	
 	@PrePersist
@@ -158,15 +148,5 @@ public class Departments {
 	public void setDesignations(Set<Designations> designations) {
 		this.designations = designations;
 	}
-
-	public List<User> getUser() {
-		return user;
-	}
-
-	public void setUser(List<User> user) {
-		this.user = user;
-	}
-	
-	
 
 }
