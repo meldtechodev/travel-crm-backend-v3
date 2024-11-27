@@ -4,11 +4,17 @@ import java.time.LocalDateTime;
 //import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -20,6 +26,7 @@ import jakarta.validation.constraints.Size;
 
 @Table(name="campany_master")
 @Entity
+@JsonIgnoreProperties(value= {"user"})
 public class Company {
      
 	@Id
@@ -70,6 +77,11 @@ public class Company {
 	private boolean status;
 	
 	private boolean isdelete;
+	
+	
+	@JsonManagedReference
+	@OneToMany( mappedBy="company",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	private List<User> user;
 	
 	
  
@@ -233,6 +245,16 @@ public class Company {
  
 	public void setIsdelete(boolean isdelete) {
 		this.isdelete = isdelete;
+	}
+
+
+	public List<User> getUser() {
+		return user;
+	}
+
+
+	public void setUser(List<User> user) {
+		this.user = user;
 	}
  
 	

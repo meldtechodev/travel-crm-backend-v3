@@ -1,87 +1,85 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Roles_Master")
-@JsonIgnoreProperties(value= {"user"})
-public class Role {
-       
+@Table(name = "Mealspackage_Master")
+public class Mealspackage {
+	
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(unique = true)
-	private String roleName;
-	private String ipaddress;
+	
+	private String mealstype_code;
+	
+	private String mealstype_name;
 	
 	private boolean status;
 	
 	private boolean isdelete;
 	
+	private String ipaddress;
 	
-
-	@Column(name="created_by")
 	private String createdby;
 	
-	@Column(name="modified_by")
 	private String modifiedby;
 	
-	@Column(name="created_date")
 	private LocalDateTime createddate;
 	
-	@Column(name="modified_date")
 	private LocalDateTime modifieddate;
 	
 	
 	
-	@OneToMany(mappedBy="role",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JsonManagedReference
-	private List<User> user;
+//	@ManyToMany(mappedBy = "mealPackages")
+//    private Set<PackageitineraryDetails> packageitineraryDetails = new HashSet<>();
 	
 	
-	 @PrePersist
-	    protected void onCreate() {
-			createddate = LocalDateTime.now();
-			modifieddate = LocalDateTime.now();
-
-		}
-
-	    @PreUpdate
+	
+	@PrePersist
+	protected void onCreate() {
+		createddate = LocalDateTime.now();
+		modifieddate = LocalDateTime.now();
+		
+	}
+		
+		@PreUpdate
 		protected void onUpdate() {
 			modifieddate = LocalDateTime.now();
-		}
-	    
-	    
-
-	public Role() {
-			super();
-			// TODO Auto-generated constructor stub
+			
 		}
 
-	public String getIpaddress() {
-			return ipaddress;
+		public Long getId() {
+			return id;
 		}
 
-		public void setIpaddress(String ipaddress) {
-			this.ipaddress = ipaddress;
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public String getMealstype_code() {
+			return mealstype_code;
+		}
+
+		public void setMealstype_code(String mealstype_code) {
+			this.mealstype_code = mealstype_code;
+		}
+
+		public String getMealstype_name() {
+			return mealstype_name;
+		}
+
+		public void setMealstype_name(String mealstype_name) {
+			this.mealstype_name = mealstype_name;
 		}
 
 		public boolean isStatus() {
@@ -98,6 +96,14 @@ public class Role {
 
 		public void setIsdelete(boolean isdelete) {
 			this.isdelete = isdelete;
+		}
+
+		public String getIpaddress() {
+			return ipaddress;
+		}
+
+		public void setIpaddress(String ipaddress) {
+			this.ipaddress = ipaddress;
 		}
 
 		public String getCreatedby() {
@@ -132,30 +138,7 @@ public class Role {
 			this.modifieddate = modifieddate;
 		}
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+		
 
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-	public List<User> getUser() {
-		return user;
-	}
-
-	public void setUser(List<User> user) {
-		this.user = user;
-	}
-
-	
-	
 }
