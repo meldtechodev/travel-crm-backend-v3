@@ -11,10 +11,19 @@ public class SignupRequestDTO {
 	    private boolean status;
 	    private boolean isdelete;
 	    
+	    
+	    private Long companyId;
+	       private Long departmentId;
+	       private Long roleId;
+	       private Long designationId;
+	    
 		
 		
+		
+
 		public SignupRequestDTO(String name, String email, String password, String createdBy, String modifiedBy,
-				String ipaddress, boolean status, boolean isdelete) {
+				String ipaddress, boolean status, boolean isdelete, Long companyId, Long departmentId, Long roleId,
+				Long designationId) {
 			super();
 			this.name = name;
 			this.email = email;
@@ -24,7 +33,22 @@ public class SignupRequestDTO {
 			this.ipaddress = ipaddress;
 			this.status = status;
 			this.isdelete = isdelete;
+			this.companyId = companyId;
+			this.departmentId = departmentId;
+			this.roleId = roleId;
+			this.designationId = designationId;
 		}
+		
+		
+		
+
+		public SignupRequestDTO() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		public String getCreatedBy() {
 			return createdBy;
@@ -84,5 +108,41 @@ public class SignupRequestDTO {
 		public void setPassword(String password) {
 			this.password = password;
 		}
+
+		public Long getCompanyId() {
+			return companyId;
+		}
+
+		public void setCompanyId(Long companyId) {
+			this.companyId = companyId;
+		}
+
+		public Long getDepartmentId() {
+			return departmentId;
+		}
+
+		public void setDepartmentId(Long departmentId) {
+			this.departmentId = departmentId;
+		}
+
+		public Long getRoleId() {
+			return roleId;
+		}
+
+		public void setRoleId(Long roleId) {
+			this.roleId = roleId;
+		}
+
+		public Long getDesignationId() {
+			return designationId;
+		}
+
+		public void setDesignationId(Long designationId) {
+			this.designationId = designationId;
+		}
+		
+		
+		
+		
 	    
 }
