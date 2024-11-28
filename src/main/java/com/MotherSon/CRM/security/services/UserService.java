@@ -126,10 +126,17 @@ public class UserService implements UserDetailsService  {
 	    }
 
 
-        public String getNameFromEmail(String email) {
+        public User getNameFromEmail(String email) {
+        	
+        	List<User> allUser = userRepository.findAll();
+        	
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
-            return user.getName(); // Assuming your User entity has a `name` field
+//            return user.getId(); // Assuming your User entity has a `name` field
+            return allUser.stream()
+            		.filter(u -> u.getEmail() == user.getEmail())
+            		.findFirst()
+                    .orElseThrow(() -> new RuntimeException("User not found with email: " + user.getEmail()));
         }
         
      

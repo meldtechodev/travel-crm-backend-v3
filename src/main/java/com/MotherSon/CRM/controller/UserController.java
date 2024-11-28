@@ -1,5 +1,7 @@
 package com.MotherSon.CRM.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/username")
-    public String getNameFromToken(@RequestHeader("Authorization") String token) {
+    public User getNameFromToken(@RequestHeader("Authorization") String token) {
         // Remove "Bearer " prefix if present
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);
@@ -78,8 +80,21 @@ public class UserController {
         // Extract email from the token
         String email = jwtUtil.extractUsername(token);
 
+//        String user = jwtUtil.extractUsername(token);
+
         // Retrieve the name associated with the email
         return userService.getNameFromEmail(email);
+    }
+    
+	@GetMapping("/ipAddress")
+    public String getIpAddress() {
+        try {
+            InetAddress ip = InetAddress.getLocalHost();
+            return ip.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return "Unable to fetch IP Address";
+        }
     }
 
 }
