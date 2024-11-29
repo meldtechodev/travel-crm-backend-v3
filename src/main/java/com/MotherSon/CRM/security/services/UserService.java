@@ -20,6 +20,8 @@ import com.MotherSon.CRM.models.User;
 import com.MotherSon.CRM.repository.UserRepository;
 import com.MotherSon.CRM.utils.JwtUtil;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService implements UserDetailsService  {
 
@@ -138,6 +140,31 @@ public class UserService implements UserDetailsService  {
             		.findFirst()
                     .orElseThrow(() -> new RuntimeException("User not found with email: " + user.getEmail()));
         }
+        
+        
+        @Transactional
+        public String updateUserById(Long userId, SignupRequestDTO signupRequestDTO) {
+            // Check if user exists
+            User existingUser = userRepository.findById(userId).orElse(null);
+            if (existingUser == null) {
+                return "User not found";
+            }
+     
+            // Map the updated fields from DTO to the existing User entity
+            modelMapper.map(signupRequestDTO, existingUser);
+     
+            // If the password is updated, re-encode it
+            if (signupRequestDTO.getPassword() != null && !signupRequestDTO.getPassword().isEmpty()) {
+                String encodedPassword = passwordEncoder.encode(signupRequestDTO.getPassword());
+                existingUser.setPassword(encodedPassword);
+            }
+     
+            // Save updated user to the database
+            userRepository.save(existingUser);
+     
+            return "User updated successfully";
+        }
+     
         
      
 	

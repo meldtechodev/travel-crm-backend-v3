@@ -11,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,6 +64,12 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtUtil.generateToken(request.getEmail());
     }
+    
+    @PutMapping("/updatebyid/{userId}")
+    public String updateUser(@PathVariable Long userId, @RequestBody SignupRequestDTO signupRequestDTO) {
+        return userService.updateUserById(userId, signupRequestDTO);
+    }
+ 
 
     @GetMapping("/usergetall")
     public List<User> getalluser() {
@@ -69,6 +77,7 @@ public class UserController {
         return getuserco;
 
     }
+    
 
     @GetMapping("/username")
     public User getNameFromToken(@RequestHeader("Authorization") String token) {

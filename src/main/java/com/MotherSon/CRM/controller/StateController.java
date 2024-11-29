@@ -16,6 +16,7 @@ import java.util.UUID;
 //import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -46,11 +47,22 @@ public class StateController {
 	  @Autowired
 	    private StateService stateService;
 
-	    @GetMapping("/get")
-	    public ResponseEntity<List<State>> getAllStates() {
-	        List<State> states = stateService.getAllStates();
-	        return new ResponseEntity<>(states, HttpStatus.OK);
-	    }
+//	    @GetMapping("/get")
+//	    public ResponseEntity<List<State>> getAllStates() {
+//	        List<State> states = stateService.getAllStates();
+//	        return new ResponseEntity<>(states, HttpStatus.OK);
+//	    }
+	    
+	    @GetMapping("/getall")
+		  public Page<State> getState(
+				  @RequestParam(value = "page" , defaultValue = "0" ) int page,
+				  @RequestParam(value = "size" , defaultValue = "10" ) int size,
+				  @RequestParam(value = "sortDirection" , defaultValue = "asc" ) String sortDirection
+				  ){
+			  
+			  return stateService.getState(page , size , sortDirection);
+		  }
+	 
 
 	    @GetMapping("/getid/{id}")
 	    public ResponseEntity<State> getStateById(@PathVariable Long id) {

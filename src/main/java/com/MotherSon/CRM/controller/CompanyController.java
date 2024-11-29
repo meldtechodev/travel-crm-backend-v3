@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -147,14 +148,14 @@ public class CompanyController {
 		return timestamp + "_" + uniqueID + extension;
 	}
  
-	@GetMapping("/getall")
-	public List<Company> getallcompanycon()
-	{
-		
-		List<Company>getallcompc=companyservice.getallcompanyser();
-		return getallcompc;
-		
-	}
+//	@GetMapping("/getall")
+//	public List<Company> getallcompanycon()
+//	{
+//		
+//		List<Company>getallcompc=companyservice.getallcompanyser();
+//		return getallcompc;
+//		
+//	}
 	
 	@GetMapping("getbyid/{id}")
 	public Optional<Company> getcompanybyidcon(@PathVariable Long id)
@@ -227,6 +228,16 @@ public class CompanyController {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	        }
 	    }
+	  
+	  @GetMapping("/getall")
+		public Page<Company> getCompany(
+				@RequestParam(value = "page" , defaultValue = "0") int page,
+				@RequestParam(value = "size" , defaultValue = "10") int size,
+				@RequestParam(value = "sortDirection" ,defaultValue = "asc") String sortDirection
+				){
+			return companyservice.getCompany(page, size, sortDirection);
+		}
+	 
 	
 	
 	

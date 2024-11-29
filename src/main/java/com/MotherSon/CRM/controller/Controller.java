@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -79,11 +80,21 @@ public class Controller {
 	@Autowired
 	private CountryService countryService;
 
+//	@GetMapping("/getall")
+//	public ResponseEntity<List<Country>> getAllCountries() {
+//		List<Country> countries = countryService.getAllCountries();
+//		return new ResponseEntity<>(countries, HttpStatus.OK);
+//	}
+	
 	@GetMapping("/getall")
-	public ResponseEntity<List<Country>> getAllCountries() {
-		List<Country> countries = countryService.getAllCountries();
-		return new ResponseEntity<>(countries, HttpStatus.OK);
+	public Page<Country> getCountry(
+			@RequestParam(value = "page" , defaultValue = "0") int page,
+			@RequestParam(value = "size" , defaultValue = "10") int size,
+			@RequestParam(value = "sortDirection" , defaultValue = "asc") String sortDirection
+			){
+		return countryService.getCountry(page, size, sortDirection);
 	}
+ 
 
 	    @GetMapping("/getid/{id}")
 	    public ResponseEntity<Country> getCountrysById(@PathVariable Long id) {

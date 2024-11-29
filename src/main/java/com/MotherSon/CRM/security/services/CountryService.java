@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.repository.CountryRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+ 
+
 import jakarta.persistence.EntityExistsException;
 //import com.ms.jwt.repository.country.CountryRepository;
 @Service
@@ -20,9 +25,28 @@ public class CountryService {
 	@Autowired
     private CountryRepository countryRepository;
 
-    public List<Country> getAllCountries() {
-    	return countryRepository.findAll();
-    }
+//    public List<Country> getAllCountries() {
+//    	return countryRepository.findAll();
+//    }
+    
+
+	public Page<Country> getCountry(int page, int size, String sortDirection){
+		
+		Sort sort = Sort.by(Sort.Order.asc("countryName"));
+		
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.desc("countryName"));
+		}
+		
+		PageRequest pageable = PageRequest.of(page, size, sort);
+		
+		return countryRepository.findAll(pageable);
+			
+			
+			
+		}
+	
+ 
         
     
 
