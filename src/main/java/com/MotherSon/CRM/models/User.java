@@ -22,7 +22,7 @@ public class User {
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
  
     
     @Column(name="f_name")
@@ -123,19 +123,30 @@ public class User {
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
 	}
+	
+	
  
-	public Long getUserId() {
-		return userId;
-	}
- 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+//	public Long getUserId() {
+//		return userId;
+//	}
+// 
+//	public void setUserId(Long userId) {
+//		this.userId = userId;
+//	}
+	
  
 	public String getName() {
 		return name;
 	}
  
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
