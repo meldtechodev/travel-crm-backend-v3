@@ -49,6 +49,7 @@ public class UserController {
     public String signup(@RequestBody SignupRequestDTO signupRequestDTO) {
         return userService.registerUser(signupRequestDTO);
     }
+    
 
     // @PostMapping("/signupsuperadmin")
     // public String signupsuperadimncon(@RequestBody SignupRequestSuper
@@ -68,8 +69,7 @@ public class UserController {
     @PutMapping("/updatebyid/{userId}")
     public String updateUser(@PathVariable Long userId, @RequestBody SignupRequestDTO signupRequestDTO) {
         return userService.updateUserById(userId, signupRequestDTO);
-    }
- 
+    } 
 
     @GetMapping("/usergetall")
     public List<User> getalluser() {

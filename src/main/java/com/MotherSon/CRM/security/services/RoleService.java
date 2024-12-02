@@ -1,5 +1,7 @@
 package com.MotherSon.CRM.security.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +26,11 @@ public class RoleService {
 	return roleRepository.save(role);
 	   
    }
+   
+   public List<Role> getallroleser()
+   {
+	 List<Role>getrolse=  roleRepository.findAll();
+	        return getrolse;
+   }
+ 
 }
