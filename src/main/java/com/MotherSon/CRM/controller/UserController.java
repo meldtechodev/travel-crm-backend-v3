@@ -1,5 +1,7 @@
 package com.MotherSon.CRM.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,4 +95,14 @@ public class UserController {
         return userService.updateUserById(userId, signupRequestDTO);
     }
     
+	@GetMapping("/ipAddress")
+    public String getIpAddress() {
+        try {
+            InetAddress ip = InetAddress.getLocalHost();
+            return ip.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return "Unable to fetch IP Address";
+        }
+    }
 }
