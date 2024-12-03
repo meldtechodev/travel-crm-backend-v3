@@ -166,7 +166,7 @@ import jakarta.validation.Valid;
 	        }
 
 //	        // Update other fields
-	        existingRoomTypes.setBed_size(roomtypes.getBed_size());
+	        existingRoomTypes.setBedSize(roomtypes.getBedSize());
 	        existingRoomTypes.setMax_person(roomtypes.getMax_person());
 	        existingRoomTypes.setRimage(roomtypes.getRimage());
 	        existingRoomTypes.setStatus(roomtypes.isStatus());
