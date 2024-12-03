@@ -49,10 +49,10 @@ public class PolicyService {
 	  
 	  
 	  public Page<Policy> getPolicy(int page , int size , String sortDirection){
-			Sort sort = Sort.by(Sort.Order.asc("pkName"));
+			Sort sort = Sort.by(Sort.Order.asc("policyName"));
 			
 			if("desc".equalsIgnoreCase(sortDirection)) {
-				sort =  Sort.by(Sort.Order.desc("pkName"));
+				sort =  Sort.by(Sort.Order.desc("policyName"));
 			}
 			
 			PageRequest  pageable = PageRequest.of(page, size, sort);

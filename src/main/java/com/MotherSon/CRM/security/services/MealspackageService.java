@@ -32,10 +32,10 @@ public class MealspackageService {
 //}
 	
 	public Page<Mealspackage> getMealspackage(int page , int size , String sortDirection){
-		Sort sort = Sort.by(Sort.Order.asc("mealstype_code"));
+		Sort sort = Sort.by(Sort.Order.asc("mealstypeCode"));
 		
 		if("desc".equalsIgnoreCase(sortDirection)) {
-			sort = Sort.by(Sort.Order.desc("mealstype_code"));
+			sort = Sort.by(Sort.Order.desc("mealstypeCode"));
 		}
 		
 		

@@ -26,10 +26,10 @@ import com.MotherSon.CRM.repository.RoomTypesRepository;
 		
 		
 		public Page<RoomTypes> getRoomTypes(int page , int size , String sortDirection){
-			Sort sort = Sort.by(Sort.Order.asc("bed_size"));
+			Sort sort = Sort.by(Sort.Order.asc("bedSize"));
 			
 			if("desc".equalsIgnoreCase(sortDirection)) {
-				sort =  Sort.by(Sort.Order.desc("bed_size"));
+				sort =  Sort.by(Sort.Order.desc("bedSize"));
 			}
 			
 			PageRequest  pageable = PageRequest.of(page, size, sort);

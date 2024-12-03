@@ -67,7 +67,8 @@ import jakarta.validation.constraints.NotBlank;
 
 	   
 		@NotBlank(message="bedsize is required")
-	    private String bed_size;
+		 @Column(name="bed_size")
+	    private String bedSize;
 	    
 		//@NotBlank(message="maxperson is required")
 	    @Column(name="max_person")
@@ -125,13 +126,13 @@ import jakarta.validation.constraints.NotBlank;
 //			this.hotel = hotel;
 //		}
 
-		public String getBed_size() {
-			return bed_size;
-		}
-
-		public void setBed_size(String bed_size) {
-			this.bed_size = bed_size;
-		}
+//		public String getBed_size() {
+//			return bed_size;
+//		}
+//
+//		public void setBed_size(String bed_size) {
+//			this.bed_size = bed_size;
+//		}
 
 		public int getMax_person() {
 			return max_person;
@@ -218,6 +219,14 @@ import jakarta.validation.constraints.NotBlank;
 		
 
 		
+		public String getBedSize() {
+			return bedSize;
+		}
+
+		public void setBedSize(String bedSize) {
+			this.bedSize = bedSize;
+		}
+
 		public Rooms getRooms() {
 			return rooms;
 		}

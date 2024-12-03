@@ -2,6 +2,7 @@ package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,8 +20,8 @@ public class Mealspackage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	
-	private String mealstype_code;
+	@Column(name = "mealstype_code")
+	private String mealstypeCode;
 	
 	private String mealstype_name;
 	
@@ -66,13 +67,13 @@ public class Mealspackage {
 			this.id = id;
 		}
 
-		public String getMealstype_code() {
-			return mealstype_code;
-		}
-
-		public void setMealstype_code(String mealstype_code) {
-			this.mealstype_code = mealstype_code;
-		}
+//		public String getMealstype_code() {
+//			return mealstype_code;
+//		}
+//
+//		public void setMealstype_code(String mealstype_code) {
+//			this.mealstype_code = mealstype_code;
+//		}
 
 		public String getMealstype_name() {
 			return mealstype_name;
@@ -136,6 +137,14 @@ public class Mealspackage {
 
 		public void setModifieddate(LocalDateTime modifieddate) {
 			this.modifieddate = modifieddate;
+		}
+
+		public String getMealstypeCode() {
+			return mealstypeCode;
+		}
+
+		public void setMealstypeCode(String mealstypeCode) {
+			this.mealstypeCode = mealstypeCode;
 		}
 
 
