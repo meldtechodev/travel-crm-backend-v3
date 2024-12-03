@@ -18,10 +18,23 @@ public class ModulesService {
 	@Autowired
 	private ModulesRepository modulesRepository;
 	
+//	public Modules addModules(Modules modules) {
+//		Modules admodule = modulesRepository.save(modules);
+//		return admodule;
+//	}
+	
+	
+	
+	
 	public Modules addModules(Modules modules) {
-		Modules admodule = modulesRepository.save(modules);
-		return admodule;
+		if(modulesRepository.existsByModuleName(modules.getModuleName())) {
+			throw new IllegalArgumentException("Modules With This Name" + modules.getModuleName() + "already exists.");
+		}
+		
+		return modulesRepository.save(modules);
 	}
+	
+	
 	
 	
 	public List<Modules> getAllModules(){

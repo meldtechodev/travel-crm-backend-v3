@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -33,10 +36,28 @@ public class DestinationService<Country> {
 		return destinationrepository.existsByDestinationName(destinationName);
 	}
 	
-	public List<Destination> getAllDestination(){
-		return destinationrepository.findAll();
+//	public List<Destination> getAllDestination(){
+//		return destinationrepository.findAll();
+//		
+//	}
+	
+	
+	
+	public Page<Destination> getDestination(int page, int size , String sortDirection ){
+		Sort sort = Sort.by(Sort.Order.asc("destinationName"));
 		
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.desc("destinationName"));
+		}
+		
+		PageRequest pageable = PageRequest.of(page, size, sort);
+		return destinationrepository.findAll(pageable);
 	}
+	
+	
+	
+	
+	
 	
 	public Optional <Destination> getDestinationsById(long id)	{
 		return destinationrepository.findById(id);
@@ -84,7 +105,7 @@ public class DestinationService<Country> {
 	
 	public Destination updateDestinationById(Long id, Destination destinationDetails) {
         Destination existingDestination = destinationrepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Country not found"));
+                .orElseThrow(() -> new RuntimeException("Destination not found"));
  
         existingDestination.setDestinationName(destinationDetails.getDestinationName());
         

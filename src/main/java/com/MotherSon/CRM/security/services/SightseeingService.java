@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Sightseeing;
+import com.MotherSon.CRM.models.Transport;
 import com.MotherSon.CRM.repository.SightseeingRepository;
 
 @Service
@@ -27,9 +31,18 @@ public class SightseeingService {
 	}
 	
 	
-	public List<Sightseeing> getAllSightseeing(){
-		return sightseeingRepository.findAll();
+	public Page<Sightseeing> getSightseeing(int page , int size , String sortDirection){
+		Sort sort = Sort.by(Sort.Order.asc("title"));
+		
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.by("title"));
+		}
+		
+		
+		PageRequest  pageable = PageRequest.of(page, size, sort);
+		return sightseeingRepository.findAll(pageable);
 	}
+
 	
 	
 	public Sightseeing updateSightseeing(Sightseeing si) {

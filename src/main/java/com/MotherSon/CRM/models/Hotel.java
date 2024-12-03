@@ -25,27 +25,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-//import java.time.LocalDateTime;
-//import java.util.List;
-//import java.util.Set;
-//
-//import javax.persistence.CascadeType;
-//import javax.persistence.ElementCollection;
-//import javax.persistence.Entity;
-//import javax.persistence.FetchType;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.JoinColumn;
-//import javax.persistence.ManyToOne;
-//import javax.persistence.OneToMany;
-//import javax.persistence.PrePersist;
-//import javax.persistence.PreUpdate;
-//import javax.persistence.Table;
-//import javax.validation.constraints.NotBlank;
-//
-//import com.fasterxml.jackson.annotation.JsonBackReference;
-//import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @JsonIgnoreProperties(value = { "roomtypes" 
 })
 @Entity
@@ -91,22 +71,7 @@ import jakarta.validation.constraints.Size;
 		@JsonManagedReference
 		private Set<RoomTypes> roomtypes;
 		
-		
-//		@OneToMany(mappedBy= "hotel",fetch=FetchType.LAZY,cascade= CascadeType.ALL)
-//		 @JsonManagedReference
-//		private Set<HotelPrice>hotelprice;
-//		
-		
-
-
-//		public Set<HotelPrice> getHotelprice() {
-//			return hotelprice;
-//		}
-//
-//
-//		public void setHotelprice(Set<HotelPrice> hotelprice) {
-//			this.hotelprice = hotelprice;
-//		}
+	
 
 
 		public Set<RoomTypes> getRoomtypes() {
@@ -117,20 +82,6 @@ import jakarta.validation.constraints.Size;
 		public void setRoomtypes(Set<RoomTypes> roomtypes) {
 			this.roomtypes = roomtypes;
 		}
-
-		
-		
-
-		
-		
-//		public Season getSeason() {
-//			return season;
-//		}
-	//
-	//
-//		public void setSeason(Season season) {
-//			this.season = season;
-//		}
       
 		
 		
@@ -237,24 +188,6 @@ import jakarta.validation.constraints.Size;
 	}
 
 
-	//public Country getCountry() {
-//		return country;
-	//}
-	//
-	//
-	//public void setCountry(Country country) {
-//		this.country = country;
-	//}
-	//
-	//
-	//public State getState() {
-//		return state;
-	//}
-	//
-	//
-	//public void setState(State state) {
-//		this.state = state;
-	//}
 
 
 	public String getHname() {

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 //import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -76,9 +77,19 @@ public class PkgController {
 	    }
 		
 		
+//		@GetMapping("/getAll")
+//		public List<Pkg> getAllPkg(){
+//			return pkgService.getAllPkg();
+//		}
+		
+		
 		@GetMapping("/getAll")
-		public List<Pkg> getAllPkg(){
-			return pkgService.getAllPkg();
+		public Page<Pkg> getPkg(
+				@RequestParam(value = "page" , defaultValue = "0") int page,
+				@RequestParam(value = "size" , defaultValue = "10") int size,
+				@RequestParam(value = "sortDirection" , defaultValue = "asc") String sortDirection
+				){
+			return pkgService.getPkg(page , size , sortDirection);
 		}
 		
 		

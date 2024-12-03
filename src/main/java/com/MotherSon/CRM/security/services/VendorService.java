@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.MotherSon.CRM.models.Transport;
 import com.MotherSon.CRM.models.Vendor;
 import com.MotherSon.CRM.repository.VendorRepository;
 
@@ -17,8 +21,21 @@ public class VendorService {
 	private VendorRepository vendorRepository;
 	
 	
-	public List<Vendor> getAllVendor(){
-		return vendorRepository.findAll();
+//	public List<Vendor> getAllVendor(){
+//		return vendorRepository.findAll();
+//	}
+	
+	
+	
+	public Page<Vendor> getVendor(int page , int size , String sortDirection){
+		Sort sort = Sort.by(Sort.Order.asc("vendorName"));
+		
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.desc("vendorName"));
+		}		
+		
+		PageRequest  pageable = PageRequest.of(page, size, sort);
+		return vendorRepository.findAll(pageable);
 	}
 	
 	

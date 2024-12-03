@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Itinerarys;
@@ -28,8 +31,21 @@ public class ItinerarysService {
 	
 	
 	
-	public List<Itinerarys> getAllItinerarys() {
-		return itinerarysRepository.findAll();
+//	public List<Itinerarys> getAllItinerarys() {
+//		return itinerarysRepository.findAll();
+//	}
+	
+	
+	public Page<Itinerarys> getItinerarys(int page , int size , String sortDirection){
+		Sort sort = Sort.by(Sort.Order.asc("daytitle"));
+		
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.desc("daytitle"));
+		}
+		
+		
+		PageRequest pageable = PageRequest.of(page, size, sort);
+		return itinerarysRepository.findAll(pageable);
 	}
 	
 	

@@ -17,6 +17,7 @@ import java.util.UUID;
 //import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -150,12 +151,25 @@ public class DestinationController {
 	}
 
 
+//	@GetMapping("/getall")
+//	public ResponseEntity<List<Destination>> getAlldestination() {
+//		List<Destination> destinationdt = destinationservice.getAllDestination();
+//		return ResponseEntity.ok(destinationdt);
+//
+//	}
+	
+	
 	@GetMapping("/getall")
-	public ResponseEntity<List<Destination>> getAlldestination() {
-		List<Destination> destinationdt = destinationservice.getAllDestination();
-		return ResponseEntity.ok(destinationdt);
-
+	public Page<Destination> getDestination(
+			@RequestParam(value = "page" , defaultValue = "0") int page,
+			@RequestParam(value = "size" , defaultValue = "10") int size,
+			@RequestParam(value = "sortDirection" , defaultValue = "asc") String sortDirection
+			){
+		return destinationservice.getDestination(page, size , sortDirection);
 	}
+	
+	
+	
 
 	@GetMapping("/getbyid/{id}")
 	public Optional<Destination> getDestinationById(@PathVariable Long id) {

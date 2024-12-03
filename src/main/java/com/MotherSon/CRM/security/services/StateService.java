@@ -4,16 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
- 
+import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.State;
 import com.MotherSon.CRM.repository.StateRepository;
 //import com.ms.jwt.repository.state.StateRepository;
-
 
 @Service
 
@@ -26,17 +24,22 @@ public class StateService {
 //	        return stateRepository.findAll();
 //	    }
 	  
-	    public Page<State> getState(int page, int size , String sortDirection){
-			  Sort sort = Sort.by(Sort.Order.asc("stateName"));
-			  
-			  if("desc".equalsIgnoreCase(sortDirection)) {
-				  sort = Sort.by(Sort.Order.desc("stateName"));
-			  }
-			  
-			  PageRequest pageable = PageRequest.of(page, size, sort);
-			  return stateRepository.findAll(pageable);
+	  
+	  
+	  public Page<State> getState(int page, int size , String sortDirection){
+		  Sort sort = Sort.by(Sort.Order.asc("stateName"));
+		  
+		  if("desc".equalsIgnoreCase(sortDirection)) {
+			  sort = Sort.by(Sort.Order.desc("stateName"));
 		  }
-	 
+		  
+		  PageRequest pageable = PageRequest.of(page, size, sort);
+		  return stateRepository.findAll(pageable);
+	  }
+	  
+	  
+	  
+	  
 
 	    public Optional<State> getStatesById(Long id) {
 	        return stateRepository.findById(id);

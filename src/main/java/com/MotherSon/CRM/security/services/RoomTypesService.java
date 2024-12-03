@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.RoomTypes;
+import com.MotherSon.CRM.models.Rooms;
 import com.MotherSon.CRM.repository.RoomTypesRepository;
 
 @Service
@@ -16,9 +20,21 @@ import com.MotherSon.CRM.repository.RoomTypesRepository;
 		private RoomTypesRepository roomtypesRepository;
 		
 		
-		public List<RoomTypes> getAllRoomTypes() {
-			return roomtypesRepository.findAll();
-		}
+//		public List<RoomTypes> getAllRoomTypes() {
+//			return roomtypesRepository.findAll();
+//		}
+		
+		
+		public Page<RoomTypes> getRoomTypes(int page , int size , String sortDirection){
+			Sort sort = Sort.by(Sort.Order.asc("bed_size"));
+			
+			if("desc".equalsIgnoreCase(sortDirection)) {
+				sort =  Sort.by(Sort.Order.desc("bed_size"));
+			}
+			
+			PageRequest  pageable = PageRequest.of(page, size, sort);
+			return roomtypesRepository.findAll(pageable);
+			}
 		
 		
 		public RoomTypes addRoomTypes(RoomTypes roomtypes) {

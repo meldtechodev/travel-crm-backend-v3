@@ -86,6 +86,7 @@ public class Controller {
 //		return new ResponseEntity<>(countries, HttpStatus.OK);
 //	}
 	
+	
 	@GetMapping("/getall")
 	public Page<Country> getCountry(
 			@RequestParam(value = "page" , defaultValue = "0") int page,
@@ -94,7 +95,6 @@ public class Controller {
 			){
 		return countryService.getCountry(page, size, sortDirection);
 	}
- 
 
 	    @GetMapping("/getid/{id}")
 	    public ResponseEntity<Country> getCountrysById(@PathVariable Long id) {

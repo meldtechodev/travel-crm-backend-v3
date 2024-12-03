@@ -52,17 +52,19 @@ public class StateController {
 //	        List<State> states = stateService.getAllStates();
 //	        return new ResponseEntity<>(states, HttpStatus.OK);
 //	    }
-	    
-	    @GetMapping("/getall")
-		  public Page<State> getState(
-				  @RequestParam(value = "page" , defaultValue = "0" ) int page,
-				  @RequestParam(value = "size" , defaultValue = "10" ) int size,
-				  @RequestParam(value = "sortDirection" , defaultValue = "asc" ) String sortDirection
-				  ){
-			  
-			  return stateService.getState(page , size , sortDirection);
-		  }
-	 
+	  
+	  @GetMapping("/getall")
+	  public Page<State> getState(
+			  @RequestParam(value = "page" , defaultValue = "0" ) int page,
+			  @RequestParam(value = "size" , defaultValue = "10" ) int size,
+			  @RequestParam(value = "sortDirection" , defaultValue = "asc" ) String sortDirection
+			  ){
+		  
+		  return stateService.getState(page , size , sortDirection);
+	  }
+	  
+	  
+	  
 
 	    @GetMapping("/getid/{id}")
 	    public ResponseEntity<State> getStateById(@PathVariable Long id) {

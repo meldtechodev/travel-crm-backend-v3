@@ -7,5 +7,7 @@ import com.MotherSon.CRM.models.Rooms;
 
 @Repository
 public interface RoomsRepository extends JpaRepository<Rooms,Long>{
+
+	boolean existsByRoomname(String roomname);
 		
 }

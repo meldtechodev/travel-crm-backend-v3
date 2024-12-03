@@ -3,6 +3,9 @@ package com.MotherSon.CRM.security.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Exclusion;
@@ -23,14 +26,17 @@ public class Exclusionservice {
 		       return exclusionser;
 	}
 	
-	 public List<Exclusion> getallExclusionser()
-	 {
-		 
-		    List<Exclusion> getexclusionservice=    exclusionrepository.findAll();
+	 
+	public Page<Exclusion> getExclusion(int page , int size , String sortDirection){
+		Sort sort = Sort.by(Sort.Order.asc("exclusionname"));
 		
-		    return getexclusionservice;
-		 
-	 }
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.desc("exclusionname"));
+		}
+		
+		PageRequest pageable = PageRequest.of(page, size, sort);
+		return exclusionrepository.findAll(pageable);
+		}
+	}
 	
-	
-}
+

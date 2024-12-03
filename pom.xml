@@ -145,11 +145,7 @@
         </dependency>
 
         <!-- Custom Dependency for your project -->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        
     </dependencies>
     <build>
 		<plugins>

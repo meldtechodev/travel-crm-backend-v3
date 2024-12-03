@@ -1,7 +1,7 @@
 package com.MotherSon.CRM.models;
  
 import java.time.LocalDateTime;
-
+ 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -242,6 +242,4 @@ public class User {
  
 	public void setDesignation(Designations designation) {
 		this.designation = designation;
-	}
-}
- 
+	}}

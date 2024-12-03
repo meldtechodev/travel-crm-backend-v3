@@ -8,4 +8,8 @@ import com.MotherSon.CRM.models.Modules;
 @Repository
 public interface ModulesRepository extends JpaRepository<Modules, Long> {
 
+	boolean existsByModuleName(String moduleName);
+
+	//boolean existsByModuleName(String moduleName);
+
 }

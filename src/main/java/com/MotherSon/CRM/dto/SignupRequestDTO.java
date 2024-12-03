@@ -1,7 +1,7 @@
 package com.MotherSon.CRM.dto;
  
 import jakarta.persistence.Column;
-
+ 
 public class SignupRequestDTO {
 	 private String name;
 	    private String email;
@@ -187,5 +187,8 @@ public class SignupRequestDTO {
 		public void setTimezone(String timezone) {
 			this.timezone = timezone;
 		}
-	       		
+	       
+	    
+		
+		
 }

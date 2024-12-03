@@ -27,6 +27,10 @@ public class UserService implements UserDetailsService  {
 
     @Autowired
     private UserRepository userRepository;
+    
+    
+    
+    
     @Autowired
     private JwtUtil jwtutil;
     
@@ -126,48 +130,38 @@ public class UserService implements UserDetailsService  {
 	                .authorities("Super_Admin")
 	                .build();
 	    }
-
-
-        public User getNameFromEmail(String email) {
-        	
-        	List<User> allUser = userRepository.findAll();
-        	
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
-//            return user.getId(); // Assuming your User entity has a `name` field
-            return allUser.stream()
-            		.filter(u -> u.getEmail() == user.getEmail())
-            		.findFirst()
-                    .orElseThrow(() -> new RuntimeException("User not found with email: " + user.getEmail()));
+	
+	
+	public String getNameFromEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        return user.getName(); // Assuming your User entity has a `name` field
+    }
+	
+	
+	
+	@Transactional
+    public String updateUserById(Long userId, SignupRequestDTO signupRequestDTO) {
+        // Check if user exists
+        User existingUser = userRepository.findById(userId).orElse(null);
+        if (existingUser == null) {
+            return "User not found";
         }
-        
-        
-        @Transactional
-        public String updateUserById(Long userId, SignupRequestDTO signupRequestDTO) {
-            // Check if user exists
-            User existingUser = userRepository.findById(userId).orElse(null);
-            if (existingUser == null) {
-                return "User not found";
-            }
-     
-            // Map the updated fields from DTO to the existing User entity
-            modelMapper.map(signupRequestDTO, existingUser);
-     
-            // If the password is updated, re-encode it
-            if (signupRequestDTO.getPassword() != null && !signupRequestDTO.getPassword().isEmpty()) {
-                String encodedPassword = passwordEncoder.encode(signupRequestDTO.getPassword());
-                existingUser.setPassword(encodedPassword);
-            }
-     
-            // Save updated user to the database
-            userRepository.save(existingUser);
-     
-            return "User updated successfully";
+ 
+        // Map the updated fields from DTO to the existing User entity
+        modelMapper.map(signupRequestDTO, existingUser);
+ 
+        // If the password is updated, re-encode it
+        if (signupRequestDTO.getPassword() != null && !signupRequestDTO.getPassword().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(signupRequestDTO.getPassword());
+            existingUser.setPassword(encodedPassword);
         }
-     
-     
-        
-     
+ 
+        // Save updated user to the database
+        userRepository.save(existingUser);
+ 
+        return "User updated successfully";
+    }
 	
 	}
     

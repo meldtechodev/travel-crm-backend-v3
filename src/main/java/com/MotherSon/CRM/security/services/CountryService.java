@@ -6,15 +6,13 @@ import java.util.Optional;
 //import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.repository.CountryRepository;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
- 
 
 import jakarta.persistence.EntityExistsException;
 //import com.ms.jwt.repository.country.CountryRepository;
@@ -28,8 +26,8 @@ public class CountryService {
 //    public List<Country> getAllCountries() {
 //    	return countryRepository.findAll();
 //    }
-    
-
+	
+	
 	public Page<Country> getCountry(int page, int size, String sortDirection){
 		
 		Sort sort = Sort.by(Sort.Order.asc("countryName"));
@@ -46,7 +44,6 @@ public class CountryService {
 			
 		}
 	
- 
         
     
 

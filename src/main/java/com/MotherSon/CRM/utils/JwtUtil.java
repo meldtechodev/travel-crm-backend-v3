@@ -5,8 +5,6 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
-import com.MotherSon.CRM.models.User;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 

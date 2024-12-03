@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Pkg;
@@ -27,9 +30,28 @@ private PkgRepository pkgRepository;
 	    }
 		
 		
-		public List<Pkg> getAllPkg() {
-			return pkgRepository.findAll();
-		}
+//		public Optional<Pkg> findPkgById(Pkg pkg) {
+//	        // Correct: Pass only the id of Pkg, not the entire Pkg object
+//	        return pkgRepository.findById(pkg.getId());
+//		}
+//		
+		
+//		public List<Pkg> getAllPkg() {
+//			return pkgRepository.findAll();
+//		}
+		
+		
+		public Page<Pkg> getPkg(int page , int size , String sortDirection){
+			Sort sort = Sort.by(Sort.Order.asc("pkName"));
+			
+			if("desc".equalsIgnoreCase(sortDirection)) {
+				sort =  Sort.by(Sort.Order.desc("pkName"));
+			}
+			
+			PageRequest  pageable = PageRequest.of(page, size, sort);
+			return pkgRepository.findAll(pageable);
+			}
+		
 		
 		
 		

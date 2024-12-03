@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MotherSon.CRM.models.PackageItinerary;
@@ -38,9 +40,19 @@ import jakarta.validation.Valid;
 		private PkgRepository pkgrepository;
 		
 		
+//		@GetMapping("/getAll")
+//		public List<PackageItinerary> getAllPackageItinerary(){
+//			return packageItineraryService.getAllPackageItinerary();
+//		}
+		
+		
 		@GetMapping("/getAll")
-		public List<PackageItinerary> getAllPackageItinerary(){
-			return packageItineraryService.getAllPackageItinerary();
+		public Page<PackageItinerary> getPackageItinerary(
+				@RequestParam(value = "page" , defaultValue = "0") int page,
+				@RequestParam(value = "size" , defaultValue = "10") int size,
+				@RequestParam(value = "sortDirection" , defaultValue = "asc") String sortDirection
+				){
+			return packageItineraryService.getPackageItinerary(page, size, sortDirection);
 		}
 		
 		
@@ -64,6 +76,7 @@ import jakarta.validation.Valid;
 //			return new ResponseEntity<>("itinerary is created",HttpStatus.CREATED);
 //			
 //		}
+		
 		@PostMapping("/create")
 		public  PackageItinerary addPackageItinerary (  @RequestBody PackageItinerary packageItinerary) {
 			
@@ -76,6 +89,21 @@ import jakarta.validation.Valid;
 //			return new ResponseEntity<>("itinerary is created",HttpStatus.CREATED);
 			return packagetitinersave;
 		}
+		
+		
+//		@PostMapping("/create")
+//		public PackageItinerary addPackageItinerary(@RequestBody PackageItinerary packageItinerary) {
+//
+//		    // Ensure that the packid is valid and exists in the repository
+//		    if (packageItinerary.getPackid() == null || !pkgrepository.existsById(packageItinerary.getPackid().getId())) {
+//		        throw new IllegalArgumentException("packid does not exist");
+//		    }
+//
+//		    // Call the service to save the package itinerary
+//		    PackageItinerary packagetitinersave = packageItineraryService.addPackageItinerary(packageItinerary);
+//
+//		    return packagetitinersave;
+//		}
 
 		
 		@PutMapping("/{id}")

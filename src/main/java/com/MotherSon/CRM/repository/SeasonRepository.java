@@ -7,5 +7,8 @@ import com.MotherSon.CRM.models.Season;
 
 @Repository
 public interface SeasonRepository extends JpaRepository<Season,Long>{
+
+	boolean existsBySeasonName(String seasonName);
+	
 	
 }

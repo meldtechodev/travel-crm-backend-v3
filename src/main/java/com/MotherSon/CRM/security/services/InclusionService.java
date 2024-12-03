@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Inclusion;
@@ -27,11 +30,16 @@ public class InclusionService {
 		
 	}
 	
-	public List<Inclusion>getallinclusionser()
-	{
-		    List<Inclusion> getinclusionse=inclusionrepository.findAll();
-		    
-		   return getinclusionse;
+	public Page<Inclusion> getInclusion(int page , int size , String sortDirection){
+		Sort sort = Sort.by(Sort.Order.asc("inclusionname"));
+		
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.desc("inclusionname"));
+		}
+		
+		PageRequest pageable = PageRequest.of(page, size, sort);
+		return inclusionrepository.findAll(pageable);
+		}
 		
 	}
-}
+

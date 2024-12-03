@@ -5,13 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Company;
 import com.MotherSon.CRM.repository.CompanyRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
- 
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -28,6 +27,15 @@ public class CompanyService {
 		
 	}
 	
+//	public List< Company> getallcompanyser()
+//	{
+//		       List<Company>getallcom=companyrepository.findAll();
+//	      	return getallcom;
+//		
+//	}
+	
+	
+	
 	public Page<Company> getCompany(int page, int size, String sortDirection){
 		Sort sort = Sort.by(Sort.Order.asc("companyname"));
 		
@@ -39,7 +47,11 @@ public class CompanyService {
 		return companyrepository.findAll(pageable);
 			
 		}
- 
+	
+	
+	
+	
+	
 	
 	public Optional<Company> getcompanybyid(Long id)
 	{

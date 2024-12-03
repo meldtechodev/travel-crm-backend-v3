@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.models.Customer;
 import com.MotherSon.CRM.repository.CustomerRepository;
 
@@ -53,9 +57,27 @@ public class CustomerService {
 	}
 
 	
-	public List<Customer> getAllCustomer() {
-		return customerRepository.findAll();
-	}
+//	public List<Customer> getAllCustomer() {
+//		return customerRepository.findAll();
+//	}
+	
+	
+	
+public Page<Customer> getCustomer(int page, int size, String sortDirection){
+		
+		Sort sort = Sort.by(Sort.Order.asc("fName"));
+		
+		if("desc".equalsIgnoreCase(sortDirection)) {
+			sort = Sort.by(Sort.Order.desc("fName"));
+		}
+		
+		PageRequest pageable = PageRequest.of(page, size, sort);
+		
+		return customerRepository.findAll(pageable);
+			
+			
+			
+		}
 	
 	
 

@@ -157,6 +157,19 @@ public class CompanyController {
 //		
 //	}
 	
+	
+	@GetMapping("/getall")
+	public Page<Company> getCompany(
+			@RequestParam(value = "page" , defaultValue = "0") int page,
+			@RequestParam(value = "size" , defaultValue = "10") int size,
+			@RequestParam(value = "sortDirection" ,defaultValue = "asc") String sortDirection
+			){
+		return companyservice.getCompany(page, size, sortDirection);
+	}
+	
+	
+	
+	
 	@GetMapping("getbyid/{id}")
 	public Optional<Company> getcompanybyidcon(@PathVariable Long id)
 	{
@@ -228,17 +241,18 @@ public class CompanyController {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	        }
 	    }
-	  
-	  @GetMapping("/getall")
-		public Page<Company> getCompany(
-				@RequestParam(value = "page" , defaultValue = "0") int page,
-				@RequestParam(value = "size" , defaultValue = "10") int size,
-				@RequestParam(value = "sortDirection" ,defaultValue = "asc") String sortDirection
-				){
-			return companyservice.getCompany(page, size, sortDirection);
-		}
-	 
 	
+
+		@GetMapping("/ipAddress")
+	    public String getIpAddress() {
+	        try {
+	            InetAddress ip = InetAddress.getLocalHost();
+	            return ip.getHostAddress();
+	        } catch (UnknownHostException e) {
+	            e.printStackTrace();
+	            return "Unable to fetch IP Address";
+	        }
+	    }
 	
 	
 	

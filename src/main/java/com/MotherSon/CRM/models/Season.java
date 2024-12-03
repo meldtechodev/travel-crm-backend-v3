@@ -16,6 +16,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 //import java.time.LocalDate;
 //import java.time.LocalDateTime;
@@ -53,9 +56,14 @@ import jakarta.persistence.Table;
 	    private Long id;
 		
 
-		private String seasonName; // Primary Key
+		@NotNull(message = "Season name cannot be null") 
+	    @NotEmpty(message = "Season name cannot be empty")
+		private String seasonName; 
 
+		@NotNull(message = "Start date cannot be null")
 	    private LocalDate startDate;
+		
+		@NotNull(message = "End date cannot be null")
 	    private LocalDate endDate;
 	    
 	    private boolean status;
@@ -70,6 +78,8 @@ import jakarta.persistence.Table;
 	   	
 	   	private boolean isdelete;
 	   	
+	   	
+	   	@Pattern(regexp = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$", message = "Invalid IP address format")
 	   	private String ipaddress;
 	   	
 	   	

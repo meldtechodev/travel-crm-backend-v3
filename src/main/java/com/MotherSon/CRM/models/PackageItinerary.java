@@ -14,7 +14,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-
+ 
 @Entity
 	@Table(name = "packageItinerary_master")
 	public class PackageItinerary {
@@ -52,7 +52,7 @@ import jakarta.validation.constraints.NotBlank;
 		@JoinColumn(name="transport_id")
 		private Transport transport;
 		
-
+ 
 //		@ManyToOne(fetch=FetchType.EAGER)
 //		@JoinColumn(name="packId")
 //		private Pkg packid;
@@ -65,23 +65,23 @@ import jakarta.validation.constraints.NotBlank;
 		public Long getPackid() {
 			return packid;
 		}
-
-
+ 
+ 
 		public void setPackid(Long packid) {
 			this.packid = packid;
 		}
-
-
+ 
+ 
 		public Transport getTransport() {
 			return transport;
 		}
-
-
+ 
+ 
 		public void setTransport(Transport transport) {
 			this.transport = transport;
 		}
-
-
+ 
+ 
 		@NotBlank(message = "Created By is required")
 		@Column(name = "created_by" , nullable =  false)
 		private String createdby;
@@ -111,141 +111,140 @@ import jakarta.validation.constraints.NotBlank;
 	    protected void onUpdate() {
 			modifieddate = LocalDateTime.now();
 		}
-
-
+ 
+ 
 		public Long getId() {
 			return id;
 		}
-
-
+ 
+ 
 		public void setId(Long id) {
 			this.id = id;
 		}
-
-
+ 
+ 
 		public int getDaynumber() {
 			return daynumber;
 		}
-
-
+ 
+ 
 		public void setDaynumber(int daynumber) {
 			this.daynumber = daynumber;
 		}
-
-
+ 
+ 
 		public String getCityname() {
 			return cityname;
 		}
-
-
+ 
+ 
 		public void setCityname(String cityname) {
 			this.cityname = cityname;
 		}
-
-
+ 
+ 
 		public String getDaytitle() {
 			return daytitle;
 		}
-
-
+ 
+ 
 		public void setDaytitle(String daytitle) {
 			this.daytitle = daytitle;
 		}
-
-
+ 
+ 
 		public String getProgram() {
 			return program;
 		}
-
-
+ 
+ 
 		public void setProgram(String program) {
 			this.program = program;
 		}
-
-
+ 
+ 
 		public String getMeals() {
 			return meals;
 		}
-
-
+ 
+ 
 		public void setMeals(String meals) {
 			this.meals = meals;
 		}
-
-
+ 
+ 
 		
-
-
+ 
+ 
 		public String getCreatedby() {
 			return createdby;
 		}
-
-
+ 
+ 
 		public void setCreatedby(String createdby) {
 			this.createdby = createdby;
 		}
-
-
+ 
+ 
 		public String getModifiedby() {
 			return modifiedby;
 		}
-
-
+ 
+ 
 		public void setModifiedby(String modifiedby) {
 			this.modifiedby = modifiedby;
 		}
-
-
+ 
+ 
 		public String getIpaddress() {
 			return ipaddress;
 		}
-
-
+ 
+ 
 		public void setIpaddress(String ipaddress) {
 			this.ipaddress = ipaddress;
 		}
-
-
+ 
+ 
 		public boolean isStatus() {
 			return status;
 		}
-
-
+ 
+ 
 		public void setStatus(boolean status) {
 			this.status = status;
 		}
-
-
+ 
+ 
 		public boolean isIsdelete() {
 			return isdelete;
 		}
-
-
+ 
+ 
 		public void setIsdelete(boolean isdelete) {
 			this.isdelete = isdelete;
 		}
-
-
+ 
+ 
 		public LocalDateTime getCreateddate() {
 			return createddate;
 		}
-
-
+ 
+ 
 		public void setCreateddate(LocalDateTime createddate) {
 			this.createddate = createddate;
 		}
-
-
+ 
+ 
 		public LocalDateTime getModifieddate() {
 			return modifieddate;
 		}
-
-
+ 
+ 
 		public void setModifieddate(LocalDateTime modifieddate) {
 			this.modifieddate = modifieddate;
 		}
-
-
-
+ 
+ 
+ 
 	}
-

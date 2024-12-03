@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 //import org.springframework.validation.BindingResult;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.validation.BindingResult;
 import com.MotherSon.CRM.models.RoomTypes;
+import com.MotherSon.CRM.models.Rooms;
 import com.MotherSon.CRM.security.services.RoomTypesService;
 
 import jakarta.validation.Valid;
@@ -43,10 +45,21 @@ import jakarta.validation.Valid;
 		private RoomTypesService roomtypesService;
 		
 		
+//		@GetMapping("/getAll")
+//		public List<RoomTypes> getAllRoomTypes(){
+//			return roomtypesService.getAllRoomTypes();
+//		}
+		
+		
 		@GetMapping("/getAll")
-		public List<RoomTypes> getAllRoomTypes(){
-			return roomtypesService.getAllRoomTypes();
+		public Page<RoomTypes> getRoomTypes(
+				@RequestParam(value = "page" , defaultValue = "0") int page,
+				@RequestParam(value = "size" , defaultValue = "10") int size,
+				@RequestParam(value = "sortDirection" , defaultValue = "asc") String sortDirection
+				){
+			return roomtypesService.getRoomTypes(page , size , sortDirection);
 		}
+		
 		
 		@GetMapping("/getById/{id}")
 		public ResponseEntity<RoomTypes> getRoomTypessById(@PathVariable Long id){

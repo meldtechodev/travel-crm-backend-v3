@@ -10,7 +10,7 @@ import com.MotherSon.CRM.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	boolean existsById(int i);
+	//boolean existsById(int i);
 	
 	boolean existsByEmail(String email);  // Check if email already exists
     Optional<User> findByEmail(String email);

@@ -57,11 +57,25 @@ public class ModulesController {
 	}
 	
 	
+//	@PostMapping("/create")
+//	public ResponseEntity<String> addModules(@RequestBody Modules modules){
+//		Modules admodule = modulesService.addModules(modules);
+//		return ResponseEntity.status(HttpStatus.CREATED).body(" Modules is Created ");
+//	}
+	
 	@PostMapping("/create")
-	public ResponseEntity<String> addModules(@RequestBody Modules modules){
-		Modules admodule = modulesService.addModules(modules);
-		return ResponseEntity.status(HttpStatus.CREATED).body(" Modules is Created ");
+	public ResponseEntity<?> addModules(@RequestBody Modules modules){
+		try
+		{
+			Modules modu = modulesService.addModules(modules);
+			return new ResponseEntity<>(modu, HttpStatus.CREATED);
+		}catch(IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+		
+		}
 	}
+	
+	
 	
 	
 	@PutMapping("/update/{id}")

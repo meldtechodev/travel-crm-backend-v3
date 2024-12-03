@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -256,6 +258,8 @@ import jakarta.validation.constraints.NotBlank;
 				modified_date = LocalDateTime.now();
 			}
 
+			
+		
 			public Long getId() {
 				return id;
 			}
@@ -429,6 +433,12 @@ import jakarta.validation.constraints.NotBlank;
 				this.nights = nights;
 			}
 
+			
+
+			
+			
+			
+			
 			
 			
 		}
