@@ -1,7 +1,7 @@
 package com.MotherSon.CRM.models;
  
 import java.time.LocalDateTime;
- 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,12 +22,11 @@ public class User {
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
  
     
     @Column(name="f_name")
     private String name;
-    
     private String email;
     private String password;
     
@@ -65,6 +64,13 @@ public class User {
     @JoinColumn(name="designationid")
     private Designations designation;
     
+    
+    
+ 
+  
+	
+	
+ 
 	
  
 	private LocalDateTime createdDate;
@@ -119,11 +125,11 @@ public class User {
 	}
  
 	public Long getUserId() {
-		return id;
+		return userId;
 	}
  
 	public void setUserId(Long userId) {
-		this.id = userId;
+		this.userId = userId;
 	}
  
 	public String getName() {
@@ -237,6 +243,5 @@ public class User {
 	public void setDesignation(Designations designation) {
 		this.designation = designation;
 	}
- 	
 }
  
