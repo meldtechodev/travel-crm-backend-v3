@@ -132,10 +132,10 @@ public class UserService implements UserDetailsService  {
 	    }
 	
 	
-	public String getNameFromEmail(String email) {
+	public User getNameFromEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
-        return user.getName(); // Assuming your User entity has a `name` field
+        return user; // Assuming your User entity has a `name` field
     }
 	
 	

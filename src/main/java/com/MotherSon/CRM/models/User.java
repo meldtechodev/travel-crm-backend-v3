@@ -70,9 +70,6 @@ public class User {
   
 	
 	
- 
-	
- 
 	private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     @PrePersist

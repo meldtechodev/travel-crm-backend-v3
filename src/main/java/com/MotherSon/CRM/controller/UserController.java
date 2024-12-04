@@ -76,7 +76,7 @@ public class UserController {
     
     
     @GetMapping("/username")
-    public String getNameFromToken(@RequestHeader("Authorization") String token) {
+    public User getNameFromToken(@RequestHeader("Authorization") String token) {
         // Remove "Bearer " prefix if present
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);
