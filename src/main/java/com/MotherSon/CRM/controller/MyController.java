@@ -151,7 +151,7 @@ import jakarta.validation.Valid;
 
 
 
-	@PutMapping("/update/{id}")
+	@PutMapping("/updatebyid/{id}")
 	public Hotel updateHotel(@PathVariable Long id,
 	                              @ModelAttribute Hotel hotel,
 	                              @RequestParam(value = "image", required = false) MultipartFile[] files) throws IOException {
