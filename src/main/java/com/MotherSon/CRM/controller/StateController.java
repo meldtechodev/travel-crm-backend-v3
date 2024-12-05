@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.models.State;
+import com.MotherSon.CRM.repository.StateRepository;
 import com.MotherSon.CRM.security.services.StateService;
 
 import jakarta.validation.Valid;
@@ -46,12 +47,20 @@ import jakarta.validation.Valid;
 public class StateController {
 	  @Autowired
 	    private StateService stateService;
+	  
+	  @Autowired
+	  private StateRepository stateRepository;
 
 //	    @GetMapping("/get")
 //	    public ResponseEntity<List<State>> getAllStates() {
 //	        List<State> states = stateService.getAllStates();
 //	        return new ResponseEntity<>(states, HttpStatus.OK);
 //	    }
+	  
+		@GetMapping("/getAllState")
+		public List<State> getAllState(){
+			return stateRepository.findAll();
+		}
 	  
 	  @GetMapping("/getall")
 	  public Page<State> getState(
