@@ -1,5 +1,7 @@
 package com.MotherSon.CRM.repository;
  
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +14,8 @@ public interface DesignationsRepository extends JpaRepository<Designations, Long
 	
 	boolean existsByDesignationName(String designationName);
     Page<Designations> findAll(Pageable pageable);
+    
+    Optional<Designations>findByDesignationName(String designationName);
 }
  
  
