@@ -72,7 +72,7 @@ public class DesignationPermissions {
 	private Designations designations;
 
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 
 	@JoinColumn(name = "permissions_id")
 
