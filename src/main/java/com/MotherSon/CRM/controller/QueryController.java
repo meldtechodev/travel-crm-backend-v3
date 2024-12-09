@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -61,21 +62,20 @@ public class QueryController {
             return ResponseEntity.badRequest().body(errors);
         }
 		
-		if (queryService.existsByEmailId(query.getEmailId())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Query with the emailId " + query.getEmailId() + " already exists.");
-        }
+//		if (queryService.existsByEmailId(query.getEmailId())) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body("Query with the emailId " + query.getEmailId() + " already exists.");
+//        }
 		
 		
-		if (queryService.existsByContactNo(query.getContactNo())) {
-	        return ResponseEntity.status(HttpStatus.CONFLICT)
-	                .body("Query with the ContactNo " + query.getContactNo() + " already exists.");
-	    }
+//		if (queryService.existsByContactNo(query.getContactNo())) {
+//	        return ResponseEntity.status(HttpStatus.CONFLICT)
+//	                .body("Query with the ContactNo " + query.getContactNo() + " already exists.");
+//	    }
 		
-		Query savedQuery = queryService.addQuery(query);
-		 return ResponseEntity.status(HttpStatus.CREATED).body("Query is created:");
-		
-	}
+//		Query savedQuery = queryService.addQuery(query);
+		return ResponseEntity.ok(this.queryService.addQuery(query));
+		 	}
 	
 	
 	@PutMapping("/updateby/{id}")
@@ -131,7 +131,7 @@ public class QueryController {
 	
 	
 	@DeleteMapping("/deleteby/{id}")
-	public ResponseEntity<Query> deleteQuery(@PathVariable Long id){
+	public ResponseEntity<?> deleteQuery(@PathVariable Long id){
 		
 		try
 		{

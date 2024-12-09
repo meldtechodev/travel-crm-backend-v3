@@ -20,9 +20,9 @@ public class StateService {
 	  
 	    private StateRepository stateRepository;
 
-//	    public List<State> getAllStates() {
-//	        return stateRepository.findAll();
-//	    }
+	    public List<State> getAllStates() {
+	        return stateRepository.findAll();
+	    }
 	  
 	  
 	  

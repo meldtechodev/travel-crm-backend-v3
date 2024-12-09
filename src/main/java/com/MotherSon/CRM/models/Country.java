@@ -67,7 +67,7 @@ public class Country {
 	private Long id;
 
 	@NotBlank(message = "country name is required")
-	@Size(min = 2, max = 30, message = "country name must be between 2 and 30 characters")
+	@Size(min = 2, max = 50, message = "country name must be between 2 and 30 characters")
 	 @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Country name must contain only alphabets")
 	@Column(name = "cname", nullable = false)
 	private String countryName;
