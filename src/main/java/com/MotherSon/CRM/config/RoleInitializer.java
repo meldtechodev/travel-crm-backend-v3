@@ -41,15 +41,15 @@ public class RoleInitializer {
 	        } else {
 	            System.out.println("Super Admin role already exists.");
 	        }
-	        Optional<Company> existingCompany = companyRepository.findByCompanyname("Visit Asia Private Limited ");
+	        Optional<Company> existingCompany = companyRepository.findByCompanyname("Motherson Travel");
             if (!existingCompany.isPresent()) {
                 Company defaultCompany = new Company();
-                defaultCompany.setCompanyname("Visit Asia Private Limited");
-                defaultCompany.setCompanyaddress("Auckland Tunnel Modern Shopping Complex Lakkar Bazar, Shimla (HP) 171001, INDIA");
-                defaultCompany.setCompanyemail("info@parentcompany.com");
+                defaultCompany.setCompanyname("Motherson Travel");
+                defaultCompany.setCompanyaddress("Noida Sector - 126, Uttar Pradesh");
+                defaultCompany.setCompanyemail("info@mothersontravel.com");
                 defaultCompany.setCompanyphone("9311066483");
                 defaultCompany.setCompanycountrycode("India (+91)");
-                defaultCompany.setCompanywebsite("https://www.parentcompany.com");
+                defaultCompany.setCompanywebsite("https://www.mothersontravel.com");
                 defaultCompany.setCreatedby("Anshul");
                 defaultCompany.setModifiedby("Anshul");
                 defaultCompany.setParent_id((long) 0);

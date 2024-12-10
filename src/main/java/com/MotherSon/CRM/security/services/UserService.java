@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService  {
 //    public String registersuperadmin(SignupRequestSuper signupRequestsuper) {
 //        // Check if email already exists
 //        if (userRepository.existsByEmail(signupRequestsuper.getEmail())) {
-//            return "Email is already in use.";
+//            return "Email already exists!";
 //        }
 //
 //        // Map DTO to User entity using ModelMapper
@@ -94,7 +94,7 @@ public class UserService implements UserDetailsService  {
 //        // Save user to the database
 //        userRepository.save(user);
 //
-//        return "super admin registered successfully!";
+//        return "Super Admin Registered Successfully!";
 //    }
     
     public LoginResponse login(LoginRequest request) {
@@ -109,7 +109,7 @@ public class UserService implements UserDetailsService  {
             }
         }
 
-        throw new RuntimeException("Invalid email or password");
+        throw new RuntimeException("Invalid Email or Password");
     }
     public List<User>getalluser()
     {

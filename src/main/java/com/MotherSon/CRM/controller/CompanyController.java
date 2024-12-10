@@ -170,7 +170,7 @@ public class CompanyController {
 	
 	
 	
-	@GetMapping("getbyid/{id}")
+	@GetMapping("/getbyid/{id}")
 	public Optional<Company> getcompanybyidcon(@PathVariable Long id)
 	{
 		

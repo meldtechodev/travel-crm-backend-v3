@@ -1,23 +1,30 @@
 package com.MotherSon.CRM.models.booking;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.MotherSon.CRM.models.Customer;
 import com.MotherSon.CRM.models.Destination;
+import com.MotherSon.CRM.models.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 
 @Entity
-@Table(name = "booking_mater")
+@Table(name = "booking_master")
 public class Booking {
 
 	@Id
@@ -29,9 +36,16 @@ public class Booking {
 
 	private String bookingStatus;
 	
-	private Long bookingByUserId;
 	
-	private String bookingByUserName;
+
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="user_id")
+	//@JsonBackReference
+	private User bookingByuserId;
+	//private Long bookingByUserId;
+	
+	//private String bookingByUserName;
 	
 	private String to_destination;
 	
@@ -54,34 +68,47 @@ public class Booking {
 	@Column(name="From_Destination",nullable=false)
 	private String from_Destination;
 	
-	@ManyToOne(cascade= CascadeType.ALL)
-	@JoinColumn(name="destination_id", nullable=false)
+	
+//	@ManyToOne(cascade= CascadeType.ALL)
+//	@JoinColumn(name="destination_Id")
+//	@JsonBackReference
+//	private Destination destination;
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="destination_id")
 	//@JsonBackReference
 	private Destination destination;
 	
 	
-
-	public Long getBookingByUserId() {
-		return bookingByUserId;
-	}
-
-
-	public void setBookingByUserId(Long bookingByUserId) {
-		this.bookingByUserId = bookingByUserId;
-	}
-
-
-	public String getBookingByUserName() {
-		return bookingByUserName;
-	}
-
-
 	
-
-
-	public void setBookingByUserName(String bookingByUserName) {
-		this.bookingByUserName = bookingByUserName;
+	private boolean isdelete;
+	
+	private String ipaddress;
+	
+	@Column(name = "created_Date")
+	private LocalDateTime createdDate;
+	
+	@Column(name = "modified_Date")
+	private LocalDateTime modifiedDate;
+	
+	
+	@Column(name = "modified_By")
+	private String modifiedBy;
+	
+	
+	@PrePersist
+	protected void onCreate() {
+		createdDate = LocalDateTime.now();
+		modifiedDate = LocalDateTime.now();
 	}
+	
+	
+   @PreUpdate
+    protected void onUpdate() {
+	   modifiedDate = LocalDateTime.now();
+   }
+
 
 
 	public String getBookingStatus() {
@@ -112,29 +139,13 @@ public class Booking {
 	}
 
 
-//	public Destination getTo_Destination() {
-//		return to_Destination;
-//	}
-//
-//
-//	public void setTo_Destination(Destination to_Destination) {
-//		this.to_Destination = to_Destination;
-//	}
-
 
 	public List<String> getCustomerIdProof() {
 		return customerIdProof;
 	}
 
 
-//	public Destination getDestination() {
-//		return Destination;
-//	}
-//
-//
-//	public void setDestination(Destination destination) {
-//		Destination = destination;
-//	}
+
 
 
 	public void setCustomerIdProof(List<String> customerIdProof) {
@@ -154,10 +165,42 @@ public class Booking {
 	private PaymentDetails paymentDetails;
 	
 	
-	private Long cust_Id;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = " cust_id")
+	private Customer customer;
 
 	
   
+
+
+	
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+
+//	public Destination getDestination() {
+//		return destination;
+//	}
+//
+//
+//	public void setDestination(Destination destination) {
+//		this.destination = destination;
+//	}
+
+
+
+
+
+	public Long getId() {
+		return Id;
+	}
 
 
 	
@@ -169,21 +212,6 @@ public class Booking {
 
 	public void setDestination(Destination destination) {
 		this.destination = destination;
-	}
-
-
-	public Long getCust_Id() {
-		return cust_Id;
-	}
-
-
-	public void setCust_Id(Long cust_Id) {
-		this.cust_Id = cust_Id;
-	}
-
-
-	public Long getId() {
-		return Id;
 	}
 
 
@@ -213,6 +241,84 @@ public class Booking {
 	}
 
 
+	public User getBookingByuserId() {
+		return bookingByuserId;
+	}
+
+
+	public void setBookingByuserId(User bookingByuserId) {
+		this.bookingByuserId = bookingByuserId;
+	}
+
+
+	public boolean isIsdelete() {
+		return isdelete;
+	}
+
+
+	public void setIsdelete(boolean isdelete) {
+		this.isdelete = isdelete;
+	}
+
+
+	public String getIpaddress() {
+		return ipaddress;
+	}
+
+
+	public void setIpaddress(String ipaddress) {
+		this.ipaddress = ipaddress;
+	}
+
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+
+	public LocalDateTime getModifiedDate() {
+		return modifiedDate;
+	}
+
+
+	public void setModifiedDate(LocalDateTime modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+
 	
 
-}	
+	
+
+
+
+	
+	
+	
+
+
+
+	
+
+
+
+
+
+	
+
+}
