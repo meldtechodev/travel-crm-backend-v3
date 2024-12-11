@@ -20,23 +20,6 @@ public class CustomerService {
 	private CustomerRepository customerRepository;
 	
 	
-	public boolean existsByEmailId(String emailId) {
-        return customerRepository.existsByEmailId(emailId);
-    }
-	
-	public boolean existsByContactNo(String contactNo) {
-		return customerRepository.existsByContactNo(contactNo);
-	}
-	
-	
-	public boolean existsByAdharNo(String adharNo) {
-		return customerRepository.existsByAdharNo(adharNo);
-	}
-	
-	public boolean existsByPassportId(String passportId) {
-		return customerRepository.existsByPassportId(passportId);
-	}
-	
 	public Customer addCustomer(Customer customer) {
 		return customerRepository.save(customer);
 	}
@@ -85,5 +68,3 @@ public Page<Customer> getCustomer(int page, int size, String sortDirection){
 		return customerRepository.findById(id);
 	}
 	}
-
-

@@ -15,6 +15,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -28,7 +29,7 @@ public class Customer {
 	
 	private long id;
 	
-	@NotBlank(message = "Salutation is required.")
+	//@NotBlank(message = "Salutation is required.")
 	private String salutation;
 	
 	@NotBlank(message = "First name is required.")
@@ -47,31 +48,33 @@ public class Customer {
 	@Column(name = "contact_No" , nullable = false)
 	private String 	contactNo;
 	
-	@NotBlank(message = "Marital status is required.")
+	//@NotBlank(message = "Marital status is required.")
 	private String marritalStatus;
 		
-	@NotBlank(message = "Customer type is required.")
+	//@NotBlank(message = "Customer type is required.")
 	private String customerType;
 	
 	@NotBlank(message = "Lead source is required.")
 	private String leadSource;
 	
-	@Pattern(regexp = "^[0-9]{12}$", message = "Aadhar number must be 12 digits.")
+	//@Pattern(regexp = "^[0-9]{12}$", message = "Aadhar number must be 12 digits.")
 	private String adharNo;
 	
-	@Pattern(regexp = "^[A-Z0-9]{9}$", message = "Passport ID must be 9 characters.")
+	//@Pattern(regexp = "^[A-Z0-9]{9}$", message = "Passport ID must be 9 characters.")
 	private String passportId;
 	
 	@NotBlank(message = "Created by is required.")
 	private String createdby;
 	
+	@NotBlank(message = "Created by is required.")
 	private String modifiedby;
 	
 	@NotBlank(message = "IP address is required.")
     @Pattern(regexp = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", message = "Invalid IP address format.")
 	private String ipaddress;
 	
-	private boolean status;
+	@NotNull(message = "Status is required")
+	private Boolean status;
 	
 	private boolean isdelete;
 	
@@ -288,10 +291,14 @@ public class Customer {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
 
-	 
-	 
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
 }

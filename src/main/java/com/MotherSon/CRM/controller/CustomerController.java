@@ -62,42 +62,50 @@ public class CustomerController {
 		return C.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
+//	@PostMapping("/create")
+//	public ResponseEntity<?> addCustomer(@Valid @RequestBody Customer customer, BindingResult result) {
+//		
+//		if (result.hasErrors()) {
+//            Map<String, String> errors = new HashMap<>();
+//            result.getFieldErrors().forEach(error -> 
+//                errors.put(error.getField(), error.getDefaultMessage()));
+//            return ResponseEntity.badRequest().body(errors);
+//        }
+//		
+//		
+//		if (customerService.existsByEmailId(customer.getEmailId())) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body("Customer with the emailId " + customer.getEmailId() + " already exists.");
+//        }
+//		
+//		
+//		if(customerService.existsByContactNo(customer.getContactNo())) {
+//			return ResponseEntity.status(HttpStatus.CONFLICT)
+//					.body("Customer with the contactNo" + customer.getContactNo() + " already exists");
+//		}
+//		
+//		
+//		if(customerService.existsByAdharNo(customer.getAdharNo())) {
+//			return ResponseEntity.status(HttpStatus.CONFLICT)
+//					.body("Customer with this Adhar Number" + customer.getAdharNo() + " already exists ");
+//		}
+//			
+//			if(customerService.existsByPassportId(customer.getPassportId())) {
+//				return ResponseEntity.status(HttpStatus.CONFLICT)
+//				.body("Customer with this Passport Id" + customer.getPassportId() + " already exists ");
+//			}
+//		
+//		
+//		Customer savedCustomer = customerService.addCustomer(customer);
+//		 return ResponseEntity.status(HttpStatus.CREATED).body("Customer is created:");
+//		
+//	}
+	
 	@PostMapping("/create")
-	public ResponseEntity<?> addCustomer(@Valid @RequestBody Customer customer, BindingResult result) {
-		
-		if (result.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            result.getFieldErrors().forEach(error -> 
-                errors.put(error.getField(), error.getDefaultMessage()));
-            return ResponseEntity.badRequest().body(errors);
-        }
-		
-		
-		if (customerService.existsByEmailId(customer.getEmailId())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Customer with the emailId " + customer.getEmailId() + " already exists.");
-        }
-		
-		
-		if(customerService.existsByContactNo(customer.getContactNo())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-					.body("Customer with the contactNo" + customer.getContactNo() + " already exists");
-		}
-		
-		
-		if(customerService.existsByAdharNo(customer.getAdharNo())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-					.body("Customer with this Adhar Number" + customer.getAdharNo() + " already exists ");
-		}
-			
-			if(customerService.existsByPassportId(customer.getPassportId())) {
-				return ResponseEntity.status(HttpStatus.CONFLICT)
-				.body("Customer with this Passport Id" + customer.getPassportId() + " already exists ");
-			}
-		
+	public Customer addCustomer(@RequestBody Customer customer) {
 		
 		Customer savedCustomer = customerService.addCustomer(customer);
-		 return ResponseEntity.status(HttpStatus.CREATED).body("Customer is created:");
+		 return savedCustomer;
 		
 	}
 
