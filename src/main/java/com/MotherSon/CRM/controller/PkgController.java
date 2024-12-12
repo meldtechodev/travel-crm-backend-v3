@@ -102,7 +102,7 @@ public class PkgController {
 			 public Pkg savePkg( @ModelAttribute Pkg pkg,
 				        
 		             @RequestParam("image") MultipartFile[] files, 
-		             @RequestParam("destinationCoveredId") String destinationCoveredId, 
+		             
 		             @RequestParam("pkthem") String pkthem,
 		             @RequestParam("inclusionid") String inclusionid,
 		             @RequestParam("exclusionid") String exclusionid) throws IOException {
@@ -147,16 +147,7 @@ public class PkgController {
 		       // pkg.setDestinationCoveredId(destinationCoveredId);
 
 		        // Validate each destinationCoveredId against the Destination table
-		        for (Long destinationId : pkg.getDestinationCoveredIds()) {
-		            if (!destinationRepository.existsById(destinationId)) {
-		                throw new IllegalArgumentException("Destination ID " + destinationId + " does not exist.");
-		            }
-		            else
-		            {
-		            	pkg.setDestinationCoveredId(destinationCoveredId);
-		            }
-		        }
-		        
+		     
 		        for(Long inclusionidi : pkg.getinclusionids())
 		        {
 		        	if(!inclusionrepository.existsById(inclusionidi))

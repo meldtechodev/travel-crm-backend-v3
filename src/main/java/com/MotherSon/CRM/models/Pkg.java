@@ -149,10 +149,19 @@ import jakarta.validation.constraints.NotBlank;
 			
 			private LocalDateTime modified_date;
 			
-			 @Column(name = "destination_covered_id", nullable = false)
+			 @Column(name = "destination_covered_id")
 			    private String destinationCoveredId;
 			 
-			 @Column(name="pkThemid",nullable=false)
+			 
+			 public String getDestinationCoveredId() {
+				return destinationCoveredId;
+			}
+
+			public void setDestinationCoveredId(String destinationCoveredId) {
+				this.destinationCoveredId = destinationCoveredId;
+			}
+
+			@Column(name="pkThemid",nullable=false)
 			 private String pkthem;
 			 
 			 @Column(name="inclusionids",nullable=false)
@@ -198,14 +207,7 @@ import jakarta.validation.constraints.NotBlank;
 				this.pkthem = pkthem;
 			}
 
-			public String getDestinationCoveredId() {
-				return destinationCoveredId;
-			}
-
-			public void setDestinationCoveredId(String destinationCoveredId) {
-				this.destinationCoveredId = destinationCoveredId;
-			}
-			
+		
 			public void inclusionids(List<Long> inclusionids) {
 		        this.inclusionid = inclusionids.stream()
 		                .map(String::valueOf)
@@ -231,20 +233,6 @@ import jakarta.validation.constraints.NotBlank;
 		                .map(Long::valueOf)
 		                .collect(Collectors.toList());
 		    }
-
-		    public void setDestinationCoveredIds(List<Long> destinationIds) {
-		        this.destinationCoveredId = destinationIds.stream()
-		                .map(String::valueOf)
-		                .collect(Collectors.joining(","));
-		    }
-
-		    public List<Long> getDestinationCoveredIds() {
-		        return List.of(destinationCoveredId.split(","))
-		                .stream()
-		                .map(Long::valueOf)
-		                .collect(Collectors.toList());
-		    }
-
 
 			@PrePersist
 			protected void onCreate() {
