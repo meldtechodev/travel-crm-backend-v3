@@ -1,6 +1,10 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -77,6 +82,12 @@ public class Customer {
 	private Boolean status;
 	
 	private boolean isdelete;
+	
+	
+//	@JsonIgnore
+//	@ManyToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+//	
+//    private List<Query> query = new ArrayList<>();
 	
 	
 	
@@ -301,4 +312,5 @@ public class Customer {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
+
 }
