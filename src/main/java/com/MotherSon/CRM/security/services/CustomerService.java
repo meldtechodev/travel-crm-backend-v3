@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.models.Customer;
+import com.MotherSon.CRM.models.CustomerResponse;
 import com.MotherSon.CRM.repository.CustomerRepository;
 
 @Service
@@ -67,4 +70,79 @@ public Page<Customer> getCustomer(int page, int size, String sortDirection){
 	public Optional<Customer> getCustomerById(Long id) {
 		return customerRepository.findById(id);
 	}
-	}
+	
+	
+
+	
+	
+	
+	
+	public ResponseEntity<?> saveCustomer(Customer customer) {
+
+        // Check if the emailId is already taken
+        if (customerRepository.existsByEmailId(customer.getEmailId())) {
+            // Fetch the existing customer with the same emailId
+            Customer existingCustomer = customerRepository.findByEmailId(customer.getEmailId());
+
+            // Return the response with conflict status and include the existing customer data
+            return new ResponseEntity<>(
+                    new CustomerResponse("Email ID already exists.", existingCustomer), 
+                    HttpStatus.CONFLICT);
+        }
+
+        // Check if the contactNo is already taken
+        if (customerRepository.existsByContactNo(customer.getContactNo())) {
+            return new ResponseEntity<>("Contact Number already exists.", HttpStatus.CONFLICT);
+        }
+
+        // Check if the adharNo is provided and already taken
+        if (customer.getAdharNo() != null && !customer.getAdharNo().isEmpty() && customerRepository.existsByAdharNo(customer.getAdharNo())) {
+            return new ResponseEntity<>("Aadhar Number already exists.", HttpStatus.CONFLICT);
+        }
+
+        // Check if the passportId is provided and already taken
+        if (customer.getPassportId() != null && !customer.getPassportId().isEmpty() && customerRepository.existsByPassportId(customer.getPassportId())) {
+            return new ResponseEntity<>("Passport ID already exists.", HttpStatus.CONFLICT);
+        }
+
+        // Save the new customer if no conflicts are found
+        Customer savedCustomer = customerRepository.save(customer);
+        return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED); // Return created customer object
+    }
+	
+}
+	
+
+
+	
+//	public ResponseEntity<?> saveCustomer(Customer customer) {
+//
+//        // Check if contactNo is provided
+//        if (customer.getContactNo() == null || customer.getContactNo().isEmpty()) {
+//            return new ResponseEntity<>("contactNo is required", HttpStatus.BAD_REQUEST);
+//        }
+//
+//        // Check if the emailId is already taken
+//        if (customerRepository.existsByEmailId(customer.getEmailId())) {
+//            return new ResponseEntity<>("Email ID already exists.", HttpStatus.CONFLICT);
+//        }
+//
+//        // Check if the contactNo is already taken
+//        if (customerRepository.existsByContactNo(customer.getContactNo())) {
+//            return new ResponseEntity<>("Contact Number already exists.", HttpStatus.CONFLICT);
+//        }
+//
+//        // Check if the adharNo is provided and already taken
+//        if (customer.getAdharNo() != null && !customer.getAdharNo().isEmpty() && customerRepository.existsByAdharNo(customer.getAdharNo())) {
+//            return new ResponseEntity<>("Aadhar Number already exists.", HttpStatus.CONFLICT);
+//        }
+//
+//        // Check if the passportId is provided and already taken
+//        if (customer.getPassportId() != null && !customer.getPassportId().isEmpty() && customerRepository.existsByPassportId(customer.getPassportId())) {
+//            return new ResponseEntity<>("Passport ID already exists.", HttpStatus.CONFLICT);
+//        }
+//
+//        // If no conflicts, save the customer and return the saved customer with 201 status
+//        Customer savedCustomer = customerRepository.save(customer);
+//        return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED); // Return created customer object
+//    }}

@@ -8,16 +8,26 @@ import com.MotherSon.CRM.models.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	
+//	boolean existsByEmailId(String emailId);
+//	
+//	
+//	boolean existsByContactNo(String contactNo);
+//	
+//	
+//	boolean existsByAdharNo(String adharNo);
+//	
+//	
+//	boolean existsByPassportId(String passportId);
+//	
+	
+	
 	boolean existsByEmailId(String emailId);
-	
-	
-	boolean existsByContactNo(String contactNo);
-	
-	
-	boolean existsByAdharNo(String adharNo);
-	
-	
-	boolean existsByPassportId(String passportId);
-   
+    boolean existsByContactNo(String contactNo);
+    boolean existsByAdharNo(String adharNo);
+    boolean existsByPassportId(String passportId);
+    
+    
+    //Customer findByEmailId(String emailId);
+	Customer findByEmailId(String emailId);
 
 }
