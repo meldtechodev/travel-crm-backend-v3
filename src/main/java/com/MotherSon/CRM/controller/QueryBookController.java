@@ -58,7 +58,7 @@ public class QueryBookController {
     public Object getAllQueries(@RequestParam(required = false) Long customerId) {
         // Call the service method to fetch queries based on the customerId or all queries
         return querybookService.getQueries(customerId);
-    }
+        }
 	
 	
 	
@@ -69,11 +69,11 @@ public class QueryBookController {
 //		
 //	}
 	
-	@GetMapping("/getquerybycustomerid/{customerId}")
-    public Object getQueriesByCustomerId(@PathVariable Long customerId) {
-        // Call the service method to fetch queries by customerId
-        return querybookService.getQueriesByCustomerId(customerId);
-        }
+//	@GetMapping("/getquerybycustomerid/{customerId}")
+//    public Object getQueriesByCustomerId(@PathVariable Long customerId) {
+//        // Call the service method to fetch queries by customerId
+//        return querybookService.getQueriesByCustomerId(customerId);
+//        }
 	
 	
 	@GetMapping("/getby/{id}")
