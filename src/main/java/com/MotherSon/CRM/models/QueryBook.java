@@ -1,6 +1,8 @@
 package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,6 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -24,10 +28,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 
 @Table(name = "query_master")
-public class Query {
+public class QueryBook {
 	
 	
 	@Id
@@ -51,58 +55,74 @@ public class Query {
 	
 	//@Min(value = 1, message = "Days must be at least 1")
 	// @Column(name = "days", nullable = true)
-	 private Integer days;
+	 private int days;
 	
 	// @Min(value = 1, message = "Nights must be at least 1")
 	//@Column(name = "nights", nullable = true)
-	 private Integer nights;
+	 private int nights;
 	
 	 
 	 @Min(value = 1, message = "Total Travellers must be at least 1")
 	 @Max(value = 500, message = "Total Travellers cannot exceed 500")
-	 @Column(name = "total_Travellers", nullable = true)
-	 private Integer totalTravellers;
+	// @Column(name = "total_Travellers", nullable = true)
+	 private int totalTravellers;
 	
 	 
 	 @Min(value = 0, message = "Adults cannot be negative")
-	 @Column(name = "adults", nullable = true)
-	 private Integer adults;
+	 //@Column(name = "adults", nullable = true)
+	 private int adults;
 	
 	 @Min(value = 0, message = "Kids cannot be negative")
-	 @Column(name = "kids", nullable = true)
-	 private Integer kids;
+	 //@Column(name = "kids", nullable = true)
+	 private int kids;
 	
 	 @Min(value = 0, message = "Infants cannot be negative")
-	 @Column(name = "infants", nullable = true)
-	 private Integer infants;
+	// @Column(name = "infants", nullable = true)
+	 private int infants;
 	
-	@ManyToOne(fetch =FetchType.EAGER)
-	@JoinColumn(name = "pkg_id")
-	//@JsonIgnore
-	//@JsonBackReference
-	private Pkg pkg;
+//	@ManyToOne(fetch =FetchType.EAGER)
+//	@JoinColumn(name = "pkg_id")
+//	//@JsonIgnore
+//	//@JsonBackReference
+//	private Pkg pkg;
+	 
+	 
+	 @Column(name="packId")
+		private Long packid;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	private Destination did;
+	@JoinColumn(name = "did")
+	private Destination destination;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Destination fromcityid;
 	
-	public Destination getDid() {
-		return did;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "custId")
+	private Customer customer;
+	
+	
+//	@ManyToMany(fetch = FetchType.EAGER)
+//	@JoinTable(
+//	    name = "query_customer", 
+//	    joinColumns = @JoinColumn(name = "query_id"), 
+//	    inverseJoinColumns = @JoinColumn(name = "customer_id")
+//	)
+//
+//	
+//	private List<Customer> customer = new ArrayList<>();
+
+
+	public Destination getDestination() {
+		return destination;
 	}
 
-	public void setDid(Destination did) {
-		this.did = did;
+	public void setDestination(Destination destination) {
+		this.destination = destination;
 	}
 
-	public Destination getFromcityid() {
-		return fromcityid;
-	}
 
-	public void setFromcityid(Destination fromcityid) {
-		this.fromcityid = fromcityid;
-	}
 
 	@NotBlank(message = "Salutation is required")
 	@Column(name = "salutation" , nullable = false)
@@ -150,7 +170,7 @@ public class Query {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
-	private User userId;
+	private User userid;
 	
 	private boolean emailStatus;
 	
@@ -158,7 +178,7 @@ public class Query {
 		
 	private LocalDateTime lastUpdated_Date;
 	
-private String ipAddress;
+    private String ipAddress;
 	
  
 	
@@ -224,57 +244,15 @@ private String ipAddress;
 
 	
 
-	public void setDays(Integer days) {
-		this.days = days;
-	}
+	
 
-	public Integer getNights() {
-		return nights;
-	}
-
-	public void setNights(Integer nights) {
-		this.nights = nights;
-	}
-
-	public Integer getTotalTravellers() {
-		return totalTravellers;
-	}
-
-	public void setTotalTravellers(Integer totalTravellers) {
-		this.totalTravellers = totalTravellers;
-	}
-
-	public Integer getAdults() {
-		return adults;
-	}
-
-	public void setAdults(Integer adults) {
-		this.adults = adults;
-	}
-
-	public Integer getKids() {
-		return kids;
-	}
-
-	public void setKids(Integer kids) {
-		this.kids = kids;
-	}
-
-	public Integer getInfants() {
-		return infants;
-	}
-
-	public void setInfants(Integer infants) {
-		this.infants = infants;
-	}
-
-	public Pkg getPkg() {
-		return pkg;
-	}
-
-	public void setPkg(Pkg pkg) {
-		this.pkg = pkg;
-	}
+//	public Pkg getPkg() {
+//		return pkg;
+//	}
+//
+//	public void setPkg(Pkg pkg) {
+//		this.pkg = pkg;
+//	}
 
 	public String getSalutation() {
 		return salutation;
@@ -380,13 +358,7 @@ private String ipAddress;
 		this.queryCreatedFrom = queryCreatedFrom;
 	}
 
-//	public Long getQueryAssigned() {
-//		return queryAssigned;
-//	}
-//
-//	public void setQueryAssigned(Long queryAssigned) {
-//		this.queryAssigned = queryAssigned;
-//	}
+
 	
 	
 	
@@ -396,22 +368,27 @@ private String ipAddress;
 		return emailStatus;
 	}
 
-	public User getUserId() {
-		return userId;
-	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
-	}
 
 	public void setEmailStatus(boolean emailStatus) {
 		this.emailStatus = emailStatus;
 	}
 
+
+	
+	
 	
 
 	public String getLeadStatus() {
 		return leadStatus;
+	}
+
+	public User getUserid() {
+		return userid;
+	}
+
+	public void setUserid(User userid) {
+		this.userid = userid;
 	}
 
 	public void setLeadStatus(String leadStatus) {
@@ -426,6 +403,18 @@ private String ipAddress;
 		this.lastUpdated_Date = lastUpdated_Date;
 	}
 
+	
+
+	public Destination getFromcityid() {
+		return fromcityid;
+	}
+
+	public void setFromcityid(Destination fromcityid) {
+		this.fromcityid = fromcityid;
+	}
+
+	
+
 	public int getDays() {
 		return days;
 	}
@@ -433,10 +422,62 @@ private String ipAddress;
 	public void setDays(int days) {
 		this.days = days;
 	}
-	
 
-	
-	
-	
+	public int getNights() {
+		return nights;
+	}
+
+	public void setNights(int nights) {
+		this.nights = nights;
+	}
+
+	public int getTotalTravellers() {
+		return totalTravellers;
+	}
+
+	public void setTotalTravellers(int totalTravellers) {
+		this.totalTravellers = totalTravellers;
+	}
+
+	public int getAdults() {
+		return adults;
+	}
+
+	public void setAdults(int adults) {
+		this.adults = adults;
+	}
+
+	public int getKids() {
+		return kids;
+	}
+
+	public void setKids(int kids) {
+		this.kids = kids;
+	}
+
+	public int getInfants() {
+		return infants;
+	}
+
+	public void setInfants(int infants) {
+		this.infants = infants;
+	}
+
+	public Long getPackid() {
+		return packid;
+	}
+
+	public void setPackid(Long packid) {
+		this.packid = packid;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
 	
 }

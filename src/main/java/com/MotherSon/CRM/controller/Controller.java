@@ -80,10 +80,16 @@ public class Controller {
 	@Autowired
 	private CountryService countryService;
 
-//	@GetMapping("/getall")
-//	public ResponseEntity<List<Country>> getAllCountries() {
+	@GetMapping("/getallcountry")
+	public ResponseEntity<List<Country>> getAllCountys() {
+		List<Country> countries = countryService.getAllCountries();
+        return new ResponseEntity<>(countries, HttpStatus.OK);
+	}
+	
+//	@GetMapping("/getallcountry")
+//	public ResponseEntity<List<Country>> getAllS() {
 //		List<Country> countries = countryService.getAllCountries();
-//		return new ResponseEntity<>(countries, HttpStatus.OK);
+//        return new ResponseEntity<>(countries, HttpStatus.OK);
 //	}
 	
 	

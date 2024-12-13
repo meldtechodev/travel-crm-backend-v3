@@ -2,6 +2,7 @@ package com.MotherSon.CRM.security.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //import javax.persistence.EntityNotFoundException;
 
@@ -23,9 +24,15 @@ public class CountryService {
 	@Autowired
     private CountryRepository countryRepository;
 
-//    public List<Country> getAllCountries() {
-//    	return countryRepository.findAll();
-//    }
+	public List<Country> getAllCountries() {
+        // Fetch all countries
+        List<Country> countries = countryRepository.findAll();
+        
+        // Filter countries where isDelete is false (not deleted)
+        return countries.stream()
+                        .filter(country -> !country.isIsdelete())
+                        .collect(Collectors.toList());
+        }
 	
 	
 	public Page<Country> getCountry(int page, int size, String sortDirection){

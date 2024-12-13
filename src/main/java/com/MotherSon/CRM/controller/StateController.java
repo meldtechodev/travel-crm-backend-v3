@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.MotherSon.CRM.dto.CountryStateResponse;
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.models.State;
 import com.MotherSon.CRM.repository.StateRepository;
@@ -82,10 +83,15 @@ public class StateController {
 	                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	    }
 	    
+//	    @GetMapping("/getbycountryid/{cid}")
+//	    public List<State> getStateByCountryId(@PathVariable Long cid){
+//	        return stateService.getStateByCountryId(cid);
+//	    }
 	    @GetMapping("/getbycountryid/{cid}")
-	    public List<State> getStateByCountryId(@PathVariable Long cid){
+	    public CountryStateResponse  getStateByCountryId(@PathVariable Long cid){
 	        return stateService.getStateByCountryId(cid);
 	    }
+ 
 
 //	    @GetMapping("/masterKey/{masterKey}")
 //	    public ResponseEntity<State> getStateByMasterKey(@PathVariable String masterKey) {

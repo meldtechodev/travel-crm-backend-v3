@@ -16,10 +16,14 @@ public interface StateRepository extends JpaRepository<State,Long>
 	
 //	Optional<State> findByMasterKey(String masterKey);
 
-	List<State> findByCountryId(Long country_id);
+//	List<State> findByCountryId(Long country_id);
 	
      boolean existsByStateName(String stateName);
 	//State findByMasterkey(String masterkey);
+     
+     List<State> findByCountryId(Long country_id);
+	 long countByCountryId(Long country_id);
+ 
 	
 }
 

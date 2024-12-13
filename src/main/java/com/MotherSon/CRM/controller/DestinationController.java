@@ -151,12 +151,12 @@ public class DestinationController {
 	}
 
 
-//	@GetMapping("/getall")
-//	public ResponseEntity<List<Destination>> getAlldestination() {
-//		List<Destination> destinationdt = destinationservice.getAllDestination();
-//		return ResponseEntity.ok(destinationdt);
-//
-//	}
+	@GetMapping("/getallDestination")
+	public ResponseEntity<List<Destination>> getAlldestination() {
+		List<Destination> destinationdt = destinationservice.getAllDestination();
+		return ResponseEntity.ok(destinationdt);
+
+	}
 	
 	
 	@GetMapping("/getall")

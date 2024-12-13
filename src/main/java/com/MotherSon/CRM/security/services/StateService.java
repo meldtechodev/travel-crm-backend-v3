@@ -2,6 +2,7 @@ package com.MotherSon.CRM.security.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.MotherSon.CRM.dto.CountryStateResponse;
 import com.MotherSon.CRM.models.State;
 import com.MotherSon.CRM.repository.StateRepository;
 //import com.ms.jwt.repository.state.StateRepository;
@@ -23,6 +25,16 @@ public class StateService {
 	    public List<State> getAllStates() {
 	        return stateRepository.findAll();
 	    }
+	    
+	    public List<State> getAllCountries() {
+	        // Fetch all countries
+	        List<State> countries = stateRepository.findAll();
+	        
+	        // Filter countries where isDelete is false (not deleted)
+	        return countries.stream()
+	                        .filter(country -> !country.isIsdelete())  // Keep countries where isDelete is false
+	                        .collect(Collectors.toList());
+	        }
 	  
 	  
 	  
@@ -36,6 +48,9 @@ public class StateService {
 		  PageRequest pageable = PageRequest.of(page, size, sort);
 		  return stateRepository.findAll(pageable);
 	  }
+	  
+
+
 	  
 	  
 	  
@@ -107,7 +122,13 @@ public class StateService {
 	        stateRepository.deleteById(id);
 	    }
 
-		public List<State> getStateByCountryId(Long cid) {
-			return stateRepository.findByCountryId(cid);
+//		public List<State> getStateByCountryId(Long cid) {
+//			return stateRepository.findByCountryId(cid);
+//		}
+		  public CountryStateResponse  getStateByCountryId(Long cid) {
+		        List<State> state=stateRepository.findByCountryId(cid);
+		        long totalStates = stateRepository.countByCountryId(cid);
+		   return new CountryStateResponse(state, totalStates);
+		    
 		}
 }

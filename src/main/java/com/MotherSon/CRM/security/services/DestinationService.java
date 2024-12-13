@@ -2,6 +2,7 @@ package com.MotherSon.CRM.security.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,10 +37,16 @@ public class DestinationService<Country> {
 		return destinationrepository.existsByDestinationName(destinationName);
 	}
 	
-//	public List<Destination> getAllDestination(){
-//		return destinationrepository.findAll();
-//		
-//	}
+	public List<Destination> getAllDestination(){
+		List<Destination> countries = destinationrepository.findAll();
+        
+        // Filter countries where isDelete is false (not deleted)
+        return countries.stream()
+                        .filter(country -> !country.isIsdelete())  // Keep countries where isDelete is false
+                        .collect(Collectors.toList());
+		
+	}
+
 	
 	
 	
