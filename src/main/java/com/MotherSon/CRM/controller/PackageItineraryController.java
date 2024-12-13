@@ -46,14 +46,22 @@ import jakarta.validation.Valid;
 //		}
 		
 		
+//		@GetMapping("/getAll")
+//		public Page<PackageItinerary> getPackageItinerary(
+//				@RequestParam(value = "page" , defaultValue = "0") int page,
+//				@RequestParam(value = "size" , defaultValue = "10") int size,
+//				@RequestParam(value = "sortDirection" , defaultValue = "asc") String sortDirection
+//				){
+//			return packageItineraryService.getPackageItinerary(page, size, sortDirection);
+//		}
+		
 		@GetMapping("/getAll")
-		public Page<PackageItinerary> getPackageItinerary(
-				@RequestParam(value = "page" , defaultValue = "0") int page,
-				@RequestParam(value = "size" , defaultValue = "10") int size,
-				@RequestParam(value = "sortDirection" , defaultValue = "asc") String sortDirection
-				){
-			return packageItineraryService.getPackageItinerary(page, size, sortDirection);
-		}
+	    public List<PackageItinerary> getAllPackageItineraries(
+	            @RequestParam(required = false) Long packageId,
+	            @RequestParam(required = false) Long packageItineraryId) {
+	        return packageItineraryService.getAllPackageItineraries(packageId, packageItineraryId);
+	    }
+
 		
 		
 		@GetMapping("/getById/{id}")

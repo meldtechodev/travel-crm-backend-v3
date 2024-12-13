@@ -2,6 +2,7 @@ package com.MotherSon.CRM.security.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,9 +37,20 @@ private PkgRepository pkgRepository;
 //		}
 //		
 		
-//		public List<Pkg> getAllPkg() {
-//			return pkgRepository.findAll();
-//		}
+		public List<Pkg> getAllPkg(Long id) {
+	        // Fetch all packages from the database
+	        List<Pkg> allPkgs = pkgRepository.findAll();
+
+	        // If id is provided, filter by id, otherwise return all packages
+	        if (id != null) {
+	            return allPkgs.stream()
+	                    .filter(pkg -> pkg.getId().equals(id))
+	                    .collect(Collectors.toList());
+	        } else {
+	            return allPkgs;  // No filter, return all packages
+	        }
+	    }
+
 		
 		
 		public Page<Pkg> getPkg(int page , int size , String sortDirection){

@@ -116,6 +116,11 @@ import jakarta.validation.constraints.NotBlank;
 			@Column(name = "nights", nullable = false)
 			private Integer nights;
 			
+			private Long s_id;
+			
+			private Long c_id;
+ 
+			
 			//@NotBlank(message = "is_fixed_departure is required")
 			@Column(name = "is_fixed_departure", nullable = false)
 			private boolean is_fixed_departure;
@@ -421,6 +426,23 @@ import jakarta.validation.constraints.NotBlank;
 				this.nights = nights;
 			}
 
+			public Long getS_id() {
+				return s_id;
+			}
+
+			public void setS_id(Long s_id) {
+				this.s_id = s_id;
+			}
+
+			public Long getC_id() {
+				return c_id;
+			}
+
+			public void setC_id(Long c_id) {
+				this.c_id = c_id;
+			}
+
+			
 			
 
 			

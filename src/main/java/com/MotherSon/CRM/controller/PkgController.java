@@ -77,10 +77,11 @@ public class PkgController {
 	    }
 		
 		
-//		@GetMapping("/getAll")
-//		public List<Pkg> getAllPkg(){
-//			return pkgService.getAllPkg();
-//		}
+		@GetMapping("/getAllPkg")
+	    public List<Pkg> getAllPkg(@RequestParam(required = false) Long id) {
+	        return pkgService.getAllPkg(id);
+	    }
+
 		
 		
 		@GetMapping("/getAll")
