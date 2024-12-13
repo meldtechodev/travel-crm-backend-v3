@@ -49,10 +49,16 @@ public class QueryBookController {
 	
 	
 	
+//	@GetMapping("/getall")
+//	public List<QueryBook> getAllQuery(){
+//		return querybookService.getAllQuery();
+//	}
+	
 	@GetMapping("/getall")
-	public List<QueryBook> getAllQuery(){
-		return querybookService.getAllQuery();
-	}
+    public Object getAllQueries(@RequestParam(required = false) Long customerId) {
+        // Call the service method to fetch queries based on the customerId or all queries
+        return querybookService.getQueries(customerId);
+    }
 	
 	
 	

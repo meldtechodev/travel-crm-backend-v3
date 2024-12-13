@@ -142,17 +142,19 @@ public class QueryBookService {
     }
 	
 	
-	public Object getQueriesByCustomerId(Long customerId) {
-        List<QueryBook> queries = querybookRepository.findByCustomerId(customerId);
-
-        if (queries.isEmpty()) {
-          
-            //return "No Record Found: " + customerId;
-            return "No Record Found: ";
-        }
-        
-        return queries;
-        }
+	public Object getQueries(Long customerId) {
+        if (customerId != null) {
+            // If customerId is provided, fetch queries for that customer
+            List<QueryBook> queries = querybookRepository.findByCustomerId(customerId);
+            if (queries.isEmpty()) {
+                return "Customer not found with customerId: " + customerId;
+            }
+            return queries;
+        } else {
+            // If customerId is not provided, fetch all queries
+            return querybookRepository.findAll();
+            }
+	}
 	
 	
 	
