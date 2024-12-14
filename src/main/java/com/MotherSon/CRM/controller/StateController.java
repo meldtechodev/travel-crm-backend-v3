@@ -69,7 +69,6 @@ public class StateController {
 			  @RequestParam(value = "size" , defaultValue = "10" ) int size,
 			  @RequestParam(value = "sortDirection" , defaultValue = "asc" ) String sortDirection
 			  ){
-		  
 		  return stateService.getState(page , size , sortDirection);
 	  }
 	  

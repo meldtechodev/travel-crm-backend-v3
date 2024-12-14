@@ -19,8 +19,6 @@ public class PackageitineraryDetailsService {
 	
 	
 	
-	
-	
 	public PackageitineraryDetails addPackageitineraryDetails(PackageitineraryDetails packageitinerarydetails) {
 		return packageitinerarydetailsRepository.save(packageitinerarydetails);
 	}
