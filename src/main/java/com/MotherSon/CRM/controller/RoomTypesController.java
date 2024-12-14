@@ -50,6 +50,13 @@ import jakarta.validation.Valid;
 //			return roomtypesService.getAllRoomTypes();
 //		}
 		
+		@GetMapping("/getall")
+	    public Object getAllRoomTypes(@RequestParam(required = false) Long hotelId,
+	    		                       @RequestParam(required = false) Long roomTypeId) {
+	        return roomtypesService.getRoomTypes(hotelId, roomTypeId);
+	    }
+ 
+		
 		
 		@GetMapping("/getAll")
 		public Page<RoomTypes> getRoomTypes(

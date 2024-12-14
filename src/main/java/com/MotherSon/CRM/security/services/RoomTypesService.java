@@ -24,6 +24,31 @@ import com.MotherSon.CRM.repository.RoomTypesRepository;
 //			return roomtypesRepository.findAll();
 //		}
 		
+public Object getRoomTypes(Long hotelId, Long roomTypeId) {
+			
+			
+			if (roomTypeId != null) {
+		        Optional<RoomTypes> roomType = roomtypesRepository.findById(roomTypeId);
+		        if (roomType.isPresent()) {
+		            return roomType.get(); // Return the room type
+		        } else {
+		            return "Room type not found with id: " + roomTypeId;
+		        }
+		    }
+			
+			else if(hotelId != null) {
+				List<RoomTypes> roomtype = roomtypesRepository.findByHotelId(hotelId);
+				if(roomtype.isEmpty()) {
+					return "Record Not Found";
+				}
+				return roomtype;
+			}
+			else
+			{
+				return roomtypesRepository.findAll();
+			}
+		}
+ 
 		
 		public Page<RoomTypes> getRoomTypes(int page , int size , String sortDirection){
 			Sort sort = Sort.by(Sort.Order.asc("bedSize"));
