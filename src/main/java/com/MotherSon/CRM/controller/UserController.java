@@ -50,10 +50,10 @@ public class UserController {
         return userService.registerUser(signupRequestDTO);
     }
     
-//    @PostMapping("/signupsuperadmin")
-//    public String signupsuperadimncon(@RequestBody SignupRequestSuper signupRequestsuper) {
-//        return userService.registersuperadmin(signupRequestsuper);
-//    }
+    @PostMapping("/signupsuperadmin")
+    public String signupsuperadimncon(@RequestBody SignupRequestSuper signupRequestsuper) {
+        return userService.registersuperadmin(signupRequestsuper);
+    }
     
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request) {

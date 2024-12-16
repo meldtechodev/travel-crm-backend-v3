@@ -40,12 +40,12 @@ public class DesignationModulesController {
 	private ModulesService modulesService;
 	
 	
-//	@GetMapping("/getall")
-//	public List<DesignationModules> getAllDesignationModules()
-//	{
-//		List<DesignationModules> dPer = designationModulesService.getAllDesignationModules();
-//		return dPer;
-//	}
+	@GetMapping("/getallDesigMod")
+	public List<DesignationModules> getAllDesignationModules()
+	{
+		List<DesignationModules> dPer = designationModulesService.getAllDesignationModules();
+		return dPer;
+	}
 	
 	@Autowired
     public DesignationModulesController(DesignationModulesService designationModulesService) {

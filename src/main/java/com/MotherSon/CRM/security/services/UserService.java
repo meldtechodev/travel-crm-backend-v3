@@ -16,6 +16,10 @@ import com.MotherSon.CRM.dto.LoginRequest;
 import com.MotherSon.CRM.dto.LoginResponse;
 import com.MotherSon.CRM.dto.SignupRequestDTO;
 import com.MotherSon.CRM.dto.SignupRequestSuper;
+import com.MotherSon.CRM.models.Company;
+import com.MotherSon.CRM.models.Departments;
+import com.MotherSon.CRM.models.Designations;
+import com.MotherSon.CRM.models.Role;
 import com.MotherSon.CRM.models.User;
 import com.MotherSon.CRM.repository.UserRepository;
 import com.MotherSon.CRM.utils.JwtUtil;
@@ -69,33 +73,53 @@ public class UserService implements UserDetailsService  {
         return "User registered successfully!";
     }
     
-//    public String registersuperadmin(SignupRequestSuper signupRequestsuper) {
-//        // Check if email already exists
-//        if (userRepository.existsByEmail(signupRequestsuper.getEmail())) {
-//            return "Email already exists!";
-//        }
-//
-//        // Map DTO to User entity using ModelMapper
-//        User user = modelMapper.map(signupRequestsuper, User.class);
-//
-//        // Encrypt the password
-//        String encodedPassword = passwordEncoder.encode(user.getPassword());
-//        user.setPassword(encodedPassword);
-//
-//        // Set additional fields
-//        user.setCreatedDate(LocalDateTime.now());
-//        user.setStatus(true);  // Assume the user is active by default
-//        user.setCreatedBy("Narender");
-//        user.setModifiedBy("Narender");
-//      //  user.setDepartmentId(user.getDepartmentId());
-//        user.setIsdelete(false);
-//        
-//
-//        // Save user to the database
-//        userRepository.save(user);
-//
-//        return "Super Admin Registered Successfully!";
-//    }
+    public String registersuperadmin(SignupRequestSuper signupRequestsuper) {
+        // Check if email already exists
+        if (userRepository.existsByEmail(signupRequestsuper.getEmail())) {
+            return "Email is already in use.";
+        }
+ 
+        // Map DTO to User entity using ModelMapper
+        User user = modelMapper.map(signupRequestsuper, User.class);
+ 
+        // Encrypt the password
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+ 
+        // Set additional fields
+        user.setCreatedDate(LocalDateTime.now());
+        user.setStatus(true);  // Assume the user is active by default
+        user.setCreatedBy("Narender");
+        user.setModifiedBy("Narender");
+        // Set hardcoded company object
+        Company company = new Company();
+        company.setId(1L); // Hardcoded ID
+        user.setCompany(company);
+ 
+        // Set hardcoded department object
+        Departments department = new Departments();
+        department.setId(1L); // Hardcoded ID
+        user.setDepartment(department);
+        
+        Designations designation=new Designations();
+        designation.setId(1L);
+        user.setDesignation(designation);
+        // Set hardcoded role object (optional, if needed)
+        Role role = new Role();
+        role.setId(1L); // Hardcoded ID
+        user.setRole(role);
+        
+      //  user.setDepartmentId(user.getDepartmentId());
+        user.setIsdelete(false);
+        
+ 
+        // Save user to the database
+        userRepository.save(user);
+ 
+        return "super admin registered successfully!";
+    }
+    
+ 
     
     public LoginResponse login(LoginRequest request) {
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());

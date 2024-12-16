@@ -2,10 +2,6 @@ package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonGetter;
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,139 +17,175 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "designation_modules_master")
 public class DesignationModules {
+	
+	
+	
+	@Id
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "created_By")
-    private String createdBy;
 
-    @Column(name = "modified_By")
-    private String modifiedBy;
+	private Long id;
 
-    private String ipaddress;
+	@Column(name = "created_By")
 
-    private boolean status;
+	private String createdBy;
 
-    private boolean isdelete;
+	@Column(name = "modified_By")
 
-    @Column(name = "created_Date")
-    private LocalDateTime createdDate;
+	private String modifiedBy;
 
-    @Column(name = "modified_Date")
-    private LocalDateTime modifiedDate;
+	private String ipaddress;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "designations_id")
-    @JsonIgnore // Ignoring this field for serialization
-    private Designations designations;
+	private boolean status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "modules_id")
-    @JsonIgnore // Ignoring this field for serialization
-    private Modules modules;
+	private boolean isdelete;
 
-    @PrePersist
-    protected void onCreate() {
-        createdDate = LocalDateTime.now();
-        modifiedDate = LocalDateTime.now();
-    }
+	@Column(name = "created_Date")
 
-    @PreUpdate
-    protected void onUpdate() {
-        modifiedDate = LocalDateTime.now();
-    }
+	private LocalDateTime createdDate;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "modified_Date")
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private LocalDateTime modifiedDate;
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+	@ManyToOne(fetch = FetchType.EAGER)
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+	@JoinColumn(name = "designations_id")
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+	private Designations designations;
 
-    public String getIpaddress() {
-        return ipaddress;
-    }
 
-    public void setIpaddress(String ipaddress) {
-        this.ipaddress = ipaddress;
-    }
+	@ManyToOne(fetch = FetchType.EAGER)
 
-    public boolean isStatus() {
-        return status;
-    }
+	@JoinColumn(name = "modules_id")
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+	private Modules modules;
 
-    public boolean isIsdelete() {
-        return isdelete;
-    }
 
-    public void setIsdelete(boolean isdelete) {
-        this.isdelete = isdelete;
-    }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
+	@PrePersist
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
+	protected void onCreate() {
 
-    public LocalDateTime getModifiedDate() {
-        return modifiedDate;
-    }
+		createdDate = LocalDateTime.now();
 
-    public void setModifiedDate(LocalDateTime modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
+		modifiedDate = LocalDateTime.now();
 
-    public Designations getDesignations() {
-        return designations;
-    }
+	}
 
-    public void setDesignations(Designations designations) {
-        this.designations = designations;
-    }
 
-    public Modules getModules() {
-        return modules;
-    }
+	@PreUpdate
 
-    public void setModules(Modules modules) {
-        this.modules = modules;
-    }
+	protected void onUpdate() {
 
-    @JsonGetter("designations_id")
-    public Long getDesignationsId() {
-        return designations != null ? designations.getId() : null;
-    }
+		modifiedDate = LocalDateTime.now();
 
-    @JsonGetter("modules_id")
-    public Long getModulesId() {
-        return modules != null ? modules.getId() : null;
-    }
-    
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+
+	public String getIpaddress() {
+		return ipaddress;
+	}
+
+
+	public void setIpaddress(String ipaddress) {
+		this.ipaddress = ipaddress;
+	}
+
+
+	public boolean isStatus() {
+		return status;
+	}
+
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+
+	public boolean isIsdelete() {
+		return isdelete;
+	}
+
+
+	public void setIsdelete(boolean isdelete) {
+		this.isdelete = isdelete;
+	}
+
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+
+	public LocalDateTime getModifiedDate() {
+		return modifiedDate;
+	}
+
+
+	public void setModifiedDate(LocalDateTime modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+
+	public Designations getDesignations() {
+		return designations;
+	}
+
+
+	public void setDesignations(Designations designations) {
+		this.designations = designations;
+	}
+
+
+	public Modules getModules() {
+		return modules;
+	}
+
+
+	public void setModules(Modules modules) {
+		this.modules = modules;
+	}
+	
+	
+	
+	
+
 }
