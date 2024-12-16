@@ -22,12 +22,32 @@ public class DesignationModulesService {
 	
 	
 	
-	public List<DesignationModules>  getAllDesignationModules()
-	{
-		List<DesignationModules> allPerm = designationModulesRepository.findAll();
-		return allPerm;
-	}
+//	public List<DesignationModules>  getAllDesignationModules()
+//	{
+//		List<DesignationModules> allPerm = designationModulesRepository.findAll();
+//		return allPerm;
+//	}
 
+
+    @Autowired
+    public DesignationModulesService(DesignationModulesRepository designationModulesRepository) {
+        this.designationModulesRepository = designationModulesRepository;
+    }
+
+    // Fetch all DesignationModules records
+    public List<DesignationModules> getAllDesignationModules() {
+        return designationModulesRepository.findAll();
+    }
+
+    // Fetch a single DesignationModule by ID
+    public Optional<DesignationModules> getDesignationModuleById(Long id) {
+        return designationModulesRepository.findById(id);
+    }
+
+    // Fetch DesignationModules records by designation_id
+    public List<DesignationModules> getDesignationModulesByDesignationId(Long designation_id) {
+        return designationModulesRepository.findByDesignationId(designation_id);
+    }
 
 	
 	public Optional<DesignationModules> getDesignationModulesById(Long id)

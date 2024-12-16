@@ -40,12 +40,46 @@ public class DesignationModulesController {
 	private ModulesService modulesService;
 	
 	
-	@GetMapping("/getall")
-	public List<DesignationModules> getAllDesignationModules()
-	{
-		List<DesignationModules> dPer = designationModulesService.getAllDesignationModules();
-		return dPer;
-	}
+//	@GetMapping("/getall")
+//	public List<DesignationModules> getAllDesignationModules()
+//	{
+//		List<DesignationModules> dPer = designationModulesService.getAllDesignationModules();
+//		return dPer;
+//	}
+	
+	@Autowired
+    public DesignationModulesController(DesignationModulesService designationModulesService) {
+        this.designationModulesService = designationModulesService;
+    }
+
+    // GET all records or a single record by ID
+    @GetMapping({"/getall", "/getall/{id}"}) // Optional ID path
+    public ResponseEntity<?> getDesignationModules(@PathVariable(required = false) Long id) {
+        if (id != null) {
+            // Fetch record by ID
+            Optional<DesignationModules> designationModule = designationModulesService.getDesignationModuleById(id);
+            if (designationModule.isPresent()) {
+                return ResponseEntity.ok(designationModule.get());
+            } else {
+                return ResponseEntity.status(404).body("No record found with ID: " + id);
+            }
+        } else {
+            // Fetch all records
+            List<DesignationModules> modulesList = designationModulesService.getAllDesignationModules();
+            return ResponseEntity.ok(modulesList);
+        }
+    }
+
+    // GET all records filtered by designation_id
+    @GetMapping("/getall/designation/{designation_id}")
+    public ResponseEntity<?> getDesignationModulesByDesignationId(@PathVariable Long designation_id) {
+        List<DesignationModules> modulesList = designationModulesService.getDesignationModulesByDesignationId(designation_id);
+        if (!modulesList.isEmpty()) {
+            return ResponseEntity.ok(modulesList);
+        } else {
+            return ResponseEntity.status(404).body("No records found for designation_id: " + designation_id);
+        }
+    }
 	
 	
 	@GetMapping("/getbyid/{id}")
