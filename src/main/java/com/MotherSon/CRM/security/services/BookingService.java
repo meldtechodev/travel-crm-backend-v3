@@ -39,6 +39,15 @@ public class BookingService {
 				                  .collect(Collectors.toList());
 	}
 	
+	public long getTotalBookings() {
+        return bookingRepository.countTotalBookings();
+    }
+
+    // Get the total number of active bookings where status = true
+    public long getActiveBookings() {
+        return bookingRepository.countActiveBookings();
+    }
+	
 	
 	
 	

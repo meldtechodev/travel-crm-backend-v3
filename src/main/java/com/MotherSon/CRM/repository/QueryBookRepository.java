@@ -28,8 +28,21 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
 	
 	List<QueryBook> findByCustomerId(Long customerId);
 	
-	
+	@Query("SELECT COUNT(DISTINCT b.userid) FROM QueryBook b")
+    long countTotalUsers();
+
+    // Query to count active users (based on active users in QueryBook)
+    @Query("SELECT COUNT(DISTINCT b.userid) FROM QueryBook b WHERE b.userid.status = true")
+    long countActiveUsers();
+
 	List<QueryBook> findAll();
+
+	@Query("SELECT COUNT(b) FROM QueryBook b")
+    long countTotalQueryBook();
+
+    // Query to count active bookings where status = true (active bookings)
+    @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.leadStatus = true")
+    long countActiveQueryBook();
 
 	
 	

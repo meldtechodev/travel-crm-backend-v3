@@ -226,12 +226,47 @@ public class Controller {
 		return timestamp + "_" + uniqueID + extension;
 	}
 
+//	@PutMapping("/updatebyid/{id}")
+//	public Country updateCountry(@PathVariable Long id, @ModelAttribute Country country,
+//			@RequestParam(value = "image", required = false) MultipartFile[] files) throws IOException {
+//		// First, fetch the existing country
+//		Country existingCountry = countryService.getCountryById(id);
+//
+//		// Delete old images from the file system
+//		if (existingCountry.getCimage() != null) {
+//			for (String oldImageUrl : existingCountry.getCimage()) {
+//				Path oldImagePath = Paths.get(uploadDirectory, oldImageUrl.substring(oldImageUrl.lastIndexOf("/") + 1));
+//				Files.deleteIfExists(oldImagePath);
+//			}
+//		}
+//
+//		List<String> imageUrls = new ArrayList<>();
+//
+//		if (files != null) {
+//			for (MultipartFile file : files) {
+//				if (!isValidImage(file)) {
+//					throw new IllegalArgumentException("File must be a JPEG or PNG image.");
+//				}
+//
+//				String uniqueFilename = generateUniqueFilename(file.getOriginalFilename());
+//				Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
+//				Files.write(fileNameAndPath, file.getBytes());
+//
+//				String imageUrl = "/uploads/" + uniqueFilename;
+//				imageUrls.add(imageUrl);
+//			}
+//		}
+//
+//		country.setCimage(imageUrls);
+//		return countryService.updateCountryById(id, country);
+//	}
+	
 	@PutMapping("/updatebyid/{id}")
 	public Country updateCountry(@PathVariable Long id, @ModelAttribute Country country,
 			@RequestParam(value = "image", required = false) MultipartFile[] files) throws IOException {
 		// First, fetch the existing country
 		Country existingCountry = countryService.getCountryById(id);
-
+ 
 		// Delete old images from the file system
 		if (existingCountry.getCimage() != null) {
 			for (String oldImageUrl : existingCountry.getCimage()) {
@@ -239,36 +274,47 @@ public class Controller {
 				Files.deleteIfExists(oldImagePath);
 			}
 		}
-
+ 
 		List<String> imageUrls = new ArrayList<>();
-
+ 
 		if (files != null) {
 			for (MultipartFile file : files) {
 				if (!isValidImage(file)) {
 					throw new IllegalArgumentException("File must be a JPEG or PNG image.");
 				}
-
+ 
 				String uniqueFilename = generateUniqueFilename(file.getOriginalFilename());
 				Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
 				Files.write(fileNameAndPath, file.getBytes());
-
+ 
 				String imageUrl = "/uploads/" + uniqueFilename;
 				imageUrls.add(imageUrl);
 			}
 		}
-
+ 
 		country.setCimage(imageUrls);
 		return countryService.updateCountryById(id, country);
 	}
-
+ 
 	private boolean isValidImage1(MultipartFile file) {
 		String contentType = file.getContentType();
 		return contentType != null && (contentType.equals("image/jpeg") || contentType.equals("image/png"));
 	}
-
+ 
 	private String generateUniqueFilename1(String originalFilename) {
 		return System.currentTimeMillis() + "_" + originalFilename; // Unique filename based on current time
 	}
+ 
+ 
+
+//	private boolean isValidImage1(MultipartFile file) {
+//		String contentType = file.getContentType();
+//		return contentType != null && (contentType.equals("image/jpeg") || contentType.equals("image/png"));
+//	}
+//
+//	private String generateUniqueFilename1(String originalFilename) {
+//		return System.currentTimeMillis() + "_" + originalFilename; // Unique filename based on current time
+//	}
 
 	@DeleteMapping("/deleteby/{id}")
 	public ResponseEntity<Void> deleteCountry(@PathVariable Long id) {

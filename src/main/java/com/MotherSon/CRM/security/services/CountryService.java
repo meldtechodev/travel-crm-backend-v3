@@ -69,6 +69,24 @@ public class CountryService {
         return countryRepository.save(country);
     }
 
+//    public Country updateCountryById(Long id, Country countryDetails) {
+//        Country existingCountry = countryRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Country not found"));
+// 
+//        existingCountry.setCountryName(countryDetails.getCountryName());
+//        existingCountry.setCode(countryDetails.getCode());
+//        existingCountry.setCimage(countryDetails.getCimage());
+//        existingCountry.setIpAddress(countryDetails.getIpAddress());
+//        existingCountry.setStatus(countryDetails.isStatus());
+//        existingCountry.setCreateddate(countryDetails.getCreateddate());
+//        existingCountry.setModifieddate(countryDetails.getModifieddate());
+//        existingCountry.setCreatedby(countryDetails.getCreatedby());
+//        existingCountry.setModifiedby(countryDetails.getModifiedby());
+//        existingCountry.setIsdelete(countryDetails.isIsdelete());
+//        
+//        return countryRepository.save(existingCountry);
+//    }
+    
     public Country updateCountryById(Long id, Country countryDetails) {
         Country existingCountry = countryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Country not found"));
@@ -92,6 +110,14 @@ public class CountryService {
         return countryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Country not found"));
     }
+ 
+ 
+ 
+	
+//	public Country getCountryById(Long id) {
+//        return countryRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Country not found"));
+//    }
 
 
 

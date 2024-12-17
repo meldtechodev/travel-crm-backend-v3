@@ -41,6 +41,17 @@ public class CustomerService {
 	public Customer findById(long id) {
 		return null;
 	}
+	
+public long getTotalCustomer() {
+		
+		return customerRepository.countTotalCustomer();
+	}
+	
+	public long getActiveCustomer() {
+		
+		return customerRepository.countActiveCustomer();
+	}
+ 
 
 	
 //	public List<Customer> getAllCustomer() {
