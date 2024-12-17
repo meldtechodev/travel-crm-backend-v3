@@ -39,10 +39,10 @@ public class ActivitiesController {
 	}
 	
 	
-//	@GetMapping("/getAll")
-//	public List<Activities> getAllActivities(){
-//		return activitiesService.getAllActivities();
-//	}
+	@GetMapping("/getAllActivities")
+	public List<Activities> getAllActivities(){
+		return activitiesService.getAllActivities();
+	}
 	
 	
 	

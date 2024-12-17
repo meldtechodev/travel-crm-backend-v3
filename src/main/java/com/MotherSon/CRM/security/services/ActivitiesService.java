@@ -52,4 +52,9 @@ public Page<Activities> getActivities(int page, int size, String sortDirection){
 		return activitiesRepository.save(ai);
 	}
 
+
+	public List<Activities> getAllActivities() {
+		return activitiesRepository.findAll();
+	}
+
 }

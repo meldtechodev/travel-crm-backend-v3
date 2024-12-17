@@ -58,6 +58,11 @@ public class SightseeingService {
 		return null;
 		
 	}
+
+
+	public List<Sightseeing> getAllSightseeing() {
+		return sightseeingRepository.findAll();
+	}
 	
 	
 }

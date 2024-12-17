@@ -40,10 +40,10 @@ public class SightseeingController {
 	}
 	
 	
-//	@GetMapping("/getAll")
-//	public List<Sightseeing> getAllSightseeing(){
-//		return sightseeingService.getAllSightseeing();
-//	}
+	@GetMapping("/getAllSightseeing")
+	public List<Sightseeing> getAllSightseeing(){
+		return sightseeingService.getAllSightseeing();
+	}
 	
 	
 	
