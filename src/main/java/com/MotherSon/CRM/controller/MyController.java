@@ -151,7 +151,7 @@ import jakarta.validation.Valid;
 
 
 
-	@PutMapping("/updatebyid/{id}")
+	@PutMapping("/update/{id}")
 	public Hotel updateHotel(@PathVariable Long id,
 	                              @ModelAttribute Hotel hotel,
 	                              @RequestParam(value = "image", required = false) MultipartFile[] files) throws IOException {
@@ -165,37 +165,37 @@ import jakarta.validation.Valid;
 	            Files.deleteIfExists(oldImagePath);
 	        }
 	    }
-
+ 
 	    List<String> imageUrls = new ArrayList<>();
-
+ 
 	    if (files != null) {
 	        for (MultipartFile file : files) {
 	            if (!isValidImage(file)) {
 	                throw new IllegalArgumentException("File must be a JPEG or PNG image.");
 	            }
-
+ 
 	            String uniqueFilename = generateUniqueFilename(file.getOriginalFilename());
 	            Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
 	            Files.write(fileNameAndPath, file.getBytes());
-
+ 
 	            String imageUrl = "/uploads/" + uniqueFilename;
 	            imageUrls.add(imageUrl);
 	        }
 	    }
-
+ 
 	    hotel.setHimage(imageUrls);
 	    return hotelService.updateHotelById(id, hotel);
 	}
-
+ 
 	private boolean isValidImage1(MultipartFile file) {
 	    String contentType = file.getContentType();
 	    return contentType != null && (contentType.equals("image/jpeg") || contentType.equals("image/png"));
 	}
-
+ 
 	private String generateUniqueFilename1(String originalFilename) {
 	    return System.currentTimeMillis() + "_" + originalFilename; // Unique filename based on current time
 	}
-
+ 
 		
 
 	//@PutMapping("/updateHotel/{id}")

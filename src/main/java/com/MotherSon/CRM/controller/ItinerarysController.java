@@ -22,6 +22,8 @@ import com.MotherSon.CRM.models.Itinerarys;
 import com.MotherSon.CRM.repository.HotelServiceImpl;
 import com.MotherSon.CRM.security.services.ItinerarysService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("Motherson/crm/v1/itinerarys")
@@ -102,36 +104,48 @@ public class ItinerarysController {
 	
 	
 	
-	@PutMapping("/updateby{id}")
-	public ResponseEntity<Itinerarys> updateItinerarys(@PathVariable long id , @RequestBody Itinerarys itinerarys ){
-		if(itinerarys != null)
-		{
-			Itinerarys it = new Itinerarys();
-			it.setId(id);
-			////it.setDaynumber(itinerarys.getDaynumber());
-			//it.setCityname(itinerarys.getCityname());
-			it.setDaytitle(itinerarys.getDaytitle());
-			it.setProgram(itinerarys.getProgram());
-			it.setMeals(itinerarys.getMeals());
-			//it.setTransportid(itinerarys.getTransportid());
-			it.setCreatedby(itinerarys.getCreatedby());
-			it.setModifiedby(itinerarys.getModifiedby());
-			it.setIpaddress(itinerarys.getIpaddress());
-			it.setStatus(itinerarys.isStatus());
-			it.setIsdelete(itinerarys.isIsdelete());
-			it.setCreateddate(itinerarys.getCreateddate());
-			it.setModifieddate(itinerarys.getModifieddate());
+//	@PutMapping("/updateby{id}")
+//	public ResponseEntity<Itinerarys> updateItinerarys(@PathVariable long id , @RequestBody Itinerarys itinerarys ){
+//		if(itinerarys != null)
+//		{
+//			Itinerarys it = new Itinerarys();
+//			it.setId(id);
+//			////it.setDaynumber(itinerarys.getDaynumber());
+//			//it.setCityname(itinerarys.getCityname());
+//			it.setDaytitle(itinerarys.getDaytitle());
+//			it.setProgram(itinerarys.getProgram());
+//			it.setMeals(itinerarys.getMeals());
+//			//it.setTransportid(itinerarys.getTransportid());
+//			it.setCreatedby(itinerarys.getCreatedby());
+//			it.setModifiedby(itinerarys.getModifiedby());
+//			it.setIpaddress(itinerarys.getIpaddress());
+//			it.setStatus(itinerarys.isStatus());
+//			it.setIsdelete(itinerarys.isIsdelete());
+//			it.setCreateddate(itinerarys.getCreateddate());
+//			it.setModifieddate(itinerarys.getModifieddate());
+//		
+//			
+//			itinerarysService.updateItinerarys(it);
+//			return ResponseEntity.ok(it);
+//			
+//		}
+//		else
+//		{
+//			return ResponseEntity.notFound().build();
+//			
+//		}}
 		
-			
-			itinerarysService.updateItinerarys(it);
-			return ResponseEntity.ok(it);
-			
-		}
-		else
-		{
-			return ResponseEntity.notFound().build();
-			
-		}}
+		@PutMapping("/updateby/{id}")
+	    public ResponseEntity<Itinerarys> updateItinerarys(@PathVariable Long id, @RequestBody @Valid Itinerarys itinerarys) {
+	        Itinerarys updatedItinerary = itinerarysService.updateItinerarys(id, itinerarys);
+
+	        if (updatedItinerary != null) {
+	            return ResponseEntity.ok(updatedItinerary);
+	        } else {
+	            return ResponseEntity.notFound().build();  //
+	        }
+	    }
+
 	
 	@DeleteMapping("/deleteby/{id}")
 	public ResponseEntity<Itinerarys> deleteItinerarys(@PathVariable Long id){

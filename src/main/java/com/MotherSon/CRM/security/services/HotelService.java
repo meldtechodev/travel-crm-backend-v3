@@ -25,10 +25,37 @@ import com.MotherSon.CRM.repository.HotelServiceImpl;
 	        return hotelServiceImpl.existsByhname(hname);
 	    }
 		
+//		public Hotel updateHotelById(Long id, Hotel hotelDetails) {
+//	        Hotel existingHotel = hotelServiceImpl.findById(id)
+//	                .orElseThrow(() -> new RuntimeException("Hotl not found"));
+//
+//	        existingHotel.setHname(hotelDetails.getHname());
+//	        existingHotel.setHdescription(hotelDetails.getHdescription());
+//	        existingHotel.setStar_ratings(hotelDetails.getStar_ratings());
+//	        existingHotel.setHimage(hotelDetails.getHimage());
+//	        existingHotel.setHcontactname(hotelDetails.getHcontactname());
+//	        existingHotel.setHcontactnumber(hotelDetails.getHcontactnumber());
+//	        existingHotel.setHcontactemail(hotelDetails.getHcontactemail());
+//	        existingHotel.setHaddress(hotelDetails.getHaddress());
+//	        existingHotel.setHpincode(hotelDetails.getHpincode());
+//	        existingHotel.setCreated_date(hotelDetails.getCreated_date());
+//	        existingHotel.setModified_date(hotelDetails.getModified_date());
+//	        existingHotel.setCreated_by(hotelDetails.getCreated_by());
+//	        existingHotel.setModified_by(hotelDetails.getModified_by());
+//	        existingHotel.setIpaddress(hotelDetails.getIpaddress());
+//	        existingHotel.setStatus(hotelDetails.isStatus());
+//	        existingHotel.setIsdelete(hotelDetails.isIsdelete());
+//	        
+//	       
+//	        
+//	        return hotelServiceImpl.save(existingHotel);
+//	    }
+
+
 		public Hotel updateHotelById(Long id, Hotel hotelDetails) {
 	        Hotel existingHotel = hotelServiceImpl.findById(id)
 	                .orElseThrow(() -> new RuntimeException("Hotl not found"));
-
+ 
 	        existingHotel.setHname(hotelDetails.getHname());
 	        existingHotel.setHdescription(hotelDetails.getHdescription());
 	        existingHotel.setStar_ratings(hotelDetails.getStar_ratings());
@@ -50,8 +77,7 @@ import com.MotherSon.CRM.repository.HotelServiceImpl;
 	        
 	        return hotelServiceImpl.save(existingHotel);
 	    }
-
-		
+  
 		public Hotel getHotelById(Long id) {
 	        return hotelServiceImpl.findById(id)
 	                .orElseThrow(() -> new RuntimeException("Destination not found"));

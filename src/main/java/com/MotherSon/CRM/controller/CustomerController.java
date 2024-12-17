@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.models.Customer;
+import com.MotherSon.CRM.repository.CustomerRepository;
 import com.MotherSon.CRM.security.services.CustomerService;
 
 import jakarta.validation.Valid;
@@ -38,6 +39,15 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+	
+	
+	@GetMapping("getallCustomer")
+	public ResponseEntity<?> getAllCustomerList(){
+		return ResponseEntity.ok(customerRepository.findAll());
+	}
 	
 	
 	@GetMapping("/getall")
