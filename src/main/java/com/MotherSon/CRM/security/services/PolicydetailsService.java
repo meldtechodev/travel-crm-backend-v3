@@ -22,12 +22,12 @@ public class PolicydetailsService {
 		return savepolicydetails;
 		
 	}
-//	public List<PolicyDetails> getallpolicydetailsser()
-//	{
-//		  List<PolicyDetails> getpolicydetai=policydetailsrepository.findAll();
-//		   return getpolicydetai;
-//		
-//	}
+	public List<PolicyDetails> getallpolicydetailsser()
+	{
+		  List<PolicyDetails> getpolicydetai=policydetailsrepository.findAll();
+		   return getpolicydetai;
+		
+	}
 	
 	
 	
@@ -41,4 +41,5 @@ public class PolicydetailsService {
 		PageRequest  pageable = PageRequest.of(page, size, sort);
 		return policydetailsrepository.findAll(pageable);
 		}
+
 }

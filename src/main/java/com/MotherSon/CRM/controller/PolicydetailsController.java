@@ -33,13 +33,13 @@ public class PolicydetailsController {
 		
 	}
 	 
-//	@GetMapping("/getall")
-//	public List< PolicyDetails> getallpolicydetails()
-//	{
-//		 List<PolicyDetails> getpolicydetailscon=policydetaiservice.getallpolicydetailsser();
-//		return getpolicydetailscon;
-//		
-//	}
+	@GetMapping("/getallpkgploicy")
+	public List< PolicyDetails> getallpolicydetails()
+	{
+		 List<PolicyDetails> getpolicydetailscon=policydetaiservice.getallpolicydetailsser();
+		return getpolicydetailscon;
+		
+	}
 	
 	@GetMapping("/getall")
 		public Page<PolicyDetails> getPolicyDetails(
