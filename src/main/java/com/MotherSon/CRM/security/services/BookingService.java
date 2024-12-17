@@ -38,19 +38,7 @@ public class BookingService {
 				                  .filter(booking -> !booking.isIsdelete())
 				                  .collect(Collectors.toList());
 	}
-	
-	public long getTotalBookings() {
-        return bookingRepository.countTotalBookings();
-    }
-
-    // Get the total number of active bookings where status = true
-    public long getActiveBookings() {
-        return bookingRepository.countActiveBookings();
-    }
-	
-	
-	
-	
+		
 	
 	
 	public Booking addBooking(Booking booking) {

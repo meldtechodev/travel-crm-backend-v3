@@ -41,16 +41,6 @@ public class CustomerService {
 	public Customer findById(long id) {
 		return null;
 	}
-	
-public long getTotalCustomer() {
-		
-		return customerRepository.countTotalCustomer();
-	}
-	
-	public long getActiveCustomer() {
-		
-		return customerRepository.countActiveCustomer();
-	}
  
 
 	
@@ -93,9 +83,38 @@ public Page<Customer> getCustomer(int page, int size, String sortDirection){
         // Check if the emailId is already taken
 		
 		
-        if (customerRepository.existsByEmailId(customer.getEmailId())) {
-            return new ResponseEntity<>("EmailId  already exists.", HttpStatus.CONFLICT);
-        }
+//        if (customerRepository.existsByEmailId(customer.getEmailId())) {
+//            return new ResponseEntity<>("EmailId  already exists.", HttpStatus.CONFLICT);
+//        }
+		
+		   
+	      if (customerRepository.existsByContactNo(customer.getContactNo())) {
+	      // Fetch the existing customer with the same emailId
+	      Customer existingCustomer = customerRepository.findByContactNo(customer.getContactNo());
+	 
+	 
+	      return new ResponseEntity<>(
+	              new CustomerResponse("Customer already exists.", existingCustomer),
+	              HttpStatus.CONFLICT);
+	  }
+	        
+	 
+	        
+	        if (customer.getAdharNo() != null && !customer.getAdharNo().isEmpty() && customerRepository.existsByAdharNo(customer.getAdharNo())) {
+	            return new ResponseEntity<>("Aadhar Number already exists.", HttpStatus.OK);
+	        }
+	 
+	       
+	        if (customer.getPassportId() != null && !customer.getPassportId().isEmpty() && customerRepository.existsByPassportId(customer.getPassportId())) {
+	            return new ResponseEntity<>("Passport ID already exists.", HttpStatus.OK);
+	        }
+	 
+	        
+	        Customer savedCustomer = customerRepository.save(customer);
+	        return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED); // Return created customer object
+	    }
+		
+	 
             
         
 		
@@ -119,30 +138,30 @@ public Page<Customer> getCustomer(int page, int size, String sortDirection){
         
         
         
-      if (customerRepository.existsByContactNo(customer.getContactNo())) {
-      // Fetch the existing customer with the same emailId
-      Customer existingCustomer = customerRepository.findByContactNo(customer.getContactNo());
+//      if (customerRepository.existsByContactNo(customer.getContactNo())) {
+//      // Fetch the existing customer with the same emailId
+//      Customer existingCustomer = customerRepository.findByContactNo(customer.getContactNo());
+//
+//      // Return the response with conflict status and include the existing customer data
+//      return new ResponseEntity<>(
+//              new CustomerResponse("Customer already exists.", existingCustomer), HttpStatus.CONFLICT);
+//  }
+//        
+//
+//        // Check if the adharNo is provided and already taken
+//        if (customer.getAdharNo() != null && !customer.getAdharNo().isEmpty() && customerRepository.existsByAdharNo(customer.getAdharNo())) {
+//            return new ResponseEntity<>("Aadhar Number already exists.", HttpStatus.CONFLICT);
+//        }
+//
+//        // Check if the passportId is provided and already taken
+//        if (customer.getPassportId() != null && !customer.getPassportId().isEmpty() && customerRepository.existsByPassportId(customer.getPassportId())) {
+//            return new ResponseEntity<>("Passport ID already exists.", HttpStatus.CONFLICT);
+//        }
 
-      // Return the response with conflict status and include the existing customer data
-      return new ResponseEntity<>(
-              new CustomerResponse("Customer already exists.", existingCustomer), HttpStatus.CONFLICT);
-  }
-        
-
-        // Check if the adharNo is provided and already taken
-        if (customer.getAdharNo() != null && !customer.getAdharNo().isEmpty() && customerRepository.existsByAdharNo(customer.getAdharNo())) {
-            return new ResponseEntity<>("Aadhar Number already exists.", HttpStatus.CONFLICT);
-        }
-
-        // Check if the passportId is provided and already taken
-        if (customer.getPassportId() != null && !customer.getPassportId().isEmpty() && customerRepository.existsByPassportId(customer.getPassportId())) {
-            return new ResponseEntity<>("Passport ID already exists.", HttpStatus.CONFLICT);
-        }
-
-        // Save the new customer if no conflicts are found
-        Customer savedCustomer = customerRepository.save(customer);
-        return new ResponseEntity<>(savedCustomer, HttpStatus.CONFLICT); // Return created customer object
-	}
+//        // Save the new customer if no conflicts are found
+//        Customer savedCustomer = customerRepository.save(customer);
+//        return new ResponseEntity<>(savedCustomer, HttpStatus.CONFLICT); // Return created customer object
+//	}
 	
 }
 	

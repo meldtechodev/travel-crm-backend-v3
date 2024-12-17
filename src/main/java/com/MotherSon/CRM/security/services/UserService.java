@@ -118,16 +118,7 @@ public class UserService implements UserDetailsService  {
  
         return "super admin registered successfully!";
     }
-    
-    public long getTotalUser() {
-        return userRepository.countTotalUser();
-    }
- 
-    // Get the total number of active bookings where status = true
-    public long getActiveUser() {
-        return userRepository.countActiveUser();
-    }
- 
+     
     
  
     

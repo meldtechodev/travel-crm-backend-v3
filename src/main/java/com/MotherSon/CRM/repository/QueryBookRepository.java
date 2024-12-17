@@ -37,12 +37,12 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
 
 	List<QueryBook> findAll();
 
-	@Query("SELECT COUNT(b) FROM QueryBook b")
-    long countTotalQueryBook();
-
-    // Query to count active bookings where status = true (active bookings)
-    @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.leadStatus = true")
-    long countActiveQueryBook();
+//	@Query("SELECT COUNT(b) FROM QueryBook b")
+//    long countTotalQueryBook();
+//
+//    // Query to count active bookings where status = true (active bookings)
+//    @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.leadStatus = true")
+//    long countActiveQueryBook();
 
 	
 	
