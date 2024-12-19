@@ -82,6 +82,15 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
              "FROM QueryBook q WHERE q.userid.id = :userId " +
              "GROUP BY q.destination.id ORDER BY queryCount DESC")
       List<Object[]> findTopQueriesByDestinationAndUserId(Long userId);
+      
+      
+      @Query("SELECT COUNT(b) FROM QueryBook b")
+      long countTotalQueryBook();
+ 
+      // Query to count active bookings where status = true (active bookings)
+      @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.leadStatus = true")
+      long countActiveQueryBook();
+ 
 }
       
 //      @Query("SELECT COUNT(b) FROM QueryBook b")
@@ -91,4 +100,6 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
 //      @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.status = true")
 //      long countActiveQueryBook();
 //  }
+
+
 //

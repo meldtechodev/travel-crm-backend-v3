@@ -199,6 +199,16 @@ public class QueryBookService {
         return querybookRepository.findTopQueriesByDestinationAndUserId(userId);
     }
 	
+	public long getTotalQueryBook() {
+        return querybookRepository.countTotalQueryBook();
+    }
+ 
+    // Get the total number of active bookings where status = true
+    public long getActiveQueryBook() {
+        return querybookRepository.countActiveQueryBook();
+    }
+ 
+	
 	
 }
 	

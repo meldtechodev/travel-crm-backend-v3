@@ -188,6 +188,16 @@ public class UserService implements UserDetailsService  {
         return "User updated successfully";
     }
 	
+	public long getTotalUser() {
+        return userRepository.countTotalUser();
+    }
+ 
+    // Get the total number of active bookings where status = true
+    public long getActiveUser() {
+        return userRepository.countActiveUser();
+    }
+ 
+	
 	}
     
     

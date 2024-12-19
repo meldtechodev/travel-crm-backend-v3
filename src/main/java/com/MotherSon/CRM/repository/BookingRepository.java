@@ -28,4 +28,12 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
 	List<Booking> findByBookingStatusAndBookingByuserId_UserId(String string, Long userId);
 	
+	@Query("SELECT COUNT(b) FROM Booking b")
+    long countTotalBookings();
+ 
+    // Query to count active bookings where status = true (active bookings)
+    @Query("SELECT COUNT(b) FROM Booking b WHERE b.status = true")
+    long countActiveBookings();
+ 
+	
 }

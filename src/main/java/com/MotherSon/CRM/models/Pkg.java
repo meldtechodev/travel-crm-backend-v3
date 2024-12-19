@@ -441,14 +441,6 @@ import jakarta.validation.constraints.NotBlank;
 			public void setC_id(Long c_id) {
 				this.c_id = c_id;
 			}
-
-			
-			
-
-			
-			
-			
-			
 			
 			
 		}

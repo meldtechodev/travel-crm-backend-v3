@@ -111,6 +111,17 @@ public class BookingService {
 	            .limit(limit)  // Use the limit provided by the user
 	            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
+	
+	public long getTotalBookings() {
+        return bookingRepository.countTotalBookings();
+    }
+
+    // Get the total number of active bookings where status = true
+    public long getActiveBookings() {
+        return bookingRepository.countActiveBookings();
+    }
+
+
 
 
 }

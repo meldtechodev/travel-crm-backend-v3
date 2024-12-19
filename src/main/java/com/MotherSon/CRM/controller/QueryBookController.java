@@ -168,7 +168,7 @@ public class QueryBookController {
 			qu.setQueryCreatedFrom(query.getQueryCreatedFrom());
 			//qu.setQueryAssigned(query.getQueryAssigned());
 			qu.setEmailStatus(query.isEmailStatus());
-			qu.setLeadStatus(query.getLeadStatus());
+			qu.setLeadStatus(query.isLeadStatus());
 			qu.setLastUpdated_Date(query.getLastUpdated_Date());
 			qu.setIpAddress(query.getIpAddress());
 			 

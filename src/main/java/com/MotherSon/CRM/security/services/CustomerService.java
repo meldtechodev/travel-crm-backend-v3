@@ -65,6 +65,17 @@ public Page<Customer> getCustomer(int page, int size, String sortDirection){
 			
 			
 		}
+public long getTotalCustomer() {
+	
+	return customerRepository.countTotalCustomer();
+}
+
+public long getActiveCustomer() {
+	
+	return customerRepository.countActiveCustomer();
+}
+
+
 	
 	
 
