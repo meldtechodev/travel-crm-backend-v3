@@ -31,7 +31,7 @@ public class Policy {
 	
 	 
 	@NotBlank(message="policy description is required")
-	 @Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String policyDescription;
 	
 	

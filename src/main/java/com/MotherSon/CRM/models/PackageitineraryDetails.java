@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -173,22 +174,17 @@ public class PackageitineraryDetails {
 	@Column(name = "modified_by" , nullable = false)
 	private String modifiedby;
 	
-	@OneToOne
+//	@ManyToOne
+//	@JoinColumn(name = "roomtypesid")
+//	private RoomTypes roomtypes;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "roomtypesid")
+	@JsonBackReference
 	private RoomTypes roomtypes;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+ 
 	
 
-	
 	private LocalDateTime createdDate;
 	
 	//@Column(name = "modified_Date", nullable = false)
@@ -287,6 +283,8 @@ public class PackageitineraryDetails {
 	public void setModifiedDate(LocalDateTime modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+	
+	
 
 
 	public RoomTypes getRoomtypes() {
@@ -297,7 +295,6 @@ public class PackageitineraryDetails {
 	public void setRoomtypes(RoomTypes roomtypes) {
 		this.roomtypes = roomtypes;
 	}
-
 
 
 	public String getActivitiesid() {

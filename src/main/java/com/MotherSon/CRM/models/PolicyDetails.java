@@ -2,6 +2,7 @@ package com.MotherSon.CRM.models;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,13 +16,15 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="pacakge_policy_details")
+@Table(name="package_policy_details")
 public class PolicyDetails {
      
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String policytitle;
+	
+	@Column(columnDefinition = "TEXT")
 	private String policydescription;
 	private String createdby;
 

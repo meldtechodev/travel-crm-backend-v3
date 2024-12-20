@@ -55,6 +55,13 @@ import jakarta.validation.constraints.NotBlank;
 //		@JsonBackReference
 		private Rooms rooms;
 		
+		@OneToMany(mappedBy = "roomtypes",cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+		@JsonManagedReference
+		private Set<PackageitineraryDetails> packageitineraryDetails;
+		
+		
+ 
+		
 		
 //		@OneToMany(mappedBy = "roomtypes", cascade = CascadeType.ALL)
 ////		// @JsonIgnore
@@ -66,6 +73,13 @@ import jakarta.validation.constraints.NotBlank;
 		
 
 	   
+		public Set<PackageitineraryDetails> getPackageitineraryDetails() {
+			return packageitineraryDetails;
+		}
+
+		public void setPackageitineraryDetails(Set<PackageitineraryDetails> packageitineraryDetails) {
+			this.packageitineraryDetails = packageitineraryDetails;
+		}
 		@NotBlank(message="bedsize is required")
 		 @Column(name="bed_size")
 	    private String bedSize;

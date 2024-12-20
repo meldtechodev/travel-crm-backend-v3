@@ -92,7 +92,7 @@ public class Itinerarys {
 	private String daytitle;
 	
 	@NotBlank(message = "Program is required")
-	@Column(name = "program" , nullable = false)
+	@Column(name = "program", nullable = false, columnDefinition = "TEXT")
 	private String program;
 	
 	@NotBlank(message = "Meals is required")
