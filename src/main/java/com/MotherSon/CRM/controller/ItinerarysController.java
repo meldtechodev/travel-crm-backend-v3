@@ -45,10 +45,10 @@ public class ItinerarysController {
 	
 	
 	
-//	@GetMapping("/getAll")
-//	public List<Itinerarys> getAllItinerarys(){
-//		return itinerarysService.getAllItinerarys();
-//	}
+	@GetMapping("/getallItineary")
+	public List<Itinerarys> getAllItinerarys(){
+		return itinerarysService.getAllItinerarys();
+	}
 	
 	
 	@GetMapping("/getAll")

@@ -31,9 +31,9 @@ public class ItinerarysService {
 	
 	
 	
-//	public List<Itinerarys> getAllItinerarys() {
-//		return itinerarysRepository.findAll();
-//	}
+	public List<Itinerarys> getAllItinerarys() {
+		return itinerarysRepository.findAll();
+	}
 	
 	
 	public Page<Itinerarys> getItinerarys(int page , int size , String sortDirection){
@@ -97,7 +97,6 @@ public class ItinerarysService {
 	
 	public Itinerarys findById(long id) {
 		return null;
-	}
-	
+	}	
 
 }
