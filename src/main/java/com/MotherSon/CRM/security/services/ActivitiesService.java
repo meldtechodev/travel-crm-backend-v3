@@ -57,4 +57,9 @@ public Page<Activities> getActivities(int page, int size, String sortDirection){
 		return activitiesRepository.findAll();
 	}
 
+
+	public Activities getActivitiesbyName(String title) {
+		return activitiesRepository.findByTitle(title);
+	}
+
 }

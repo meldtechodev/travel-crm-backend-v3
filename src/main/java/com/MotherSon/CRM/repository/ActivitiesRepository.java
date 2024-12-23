@@ -8,4 +8,6 @@ import com.MotherSon.CRM.models.Activities;
 @Repository
 public interface ActivitiesRepository extends JpaRepository<Activities, Long> {
 
+	Activities findByTitle(String title);
+
 }

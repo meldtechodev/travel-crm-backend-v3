@@ -38,6 +38,12 @@ public class ActivitiesController {
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
+	@GetMapping("/findbyname/{title}")
+	public Activities getActivitiesById(@PathVariable String title){
+		Activities activities = activitiesService.getActivitiesbyName(title);
+		return activities;
+	}
+	
 	
 	@GetMapping("/getAllActivities")
 	public List<Activities> getAllActivities(){
