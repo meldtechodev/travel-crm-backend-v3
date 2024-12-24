@@ -27,8 +27,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
-@JsonIgnoreProperties(value = { "roomtypes" 
-})
+@JsonIgnoreProperties(value = { "roomtypes","hotelprice"})
 @Entity
 	@Table(name = "hotel_master")
 	public class Hotel {

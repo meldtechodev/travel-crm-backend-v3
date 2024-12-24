@@ -28,9 +28,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.validation.BindingResult;
+
+import com.MotherSon.CRM.models.HotelPrice;
 import com.MotherSon.CRM.models.RoomTypes;
 import com.MotherSon.CRM.models.Rooms;
 import com.MotherSon.CRM.security.services.RoomTypesService;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.validation.Valid;
 
@@ -38,6 +41,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("Motherson/crm/v1/roomtypes")
 @CrossOrigin(origins = "*", maxAge = 3600)
+//@JsonIgnoreProperties({HotelPrice})
 	public class RoomTypesController {
 		
 		
