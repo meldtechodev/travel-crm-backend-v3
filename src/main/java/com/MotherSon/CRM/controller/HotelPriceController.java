@@ -51,49 +51,49 @@ import com.MotherSon.CRM.security.services.HotelPriceService;
 			
 		}
 		
-		@GetMapping("/getbyid/{id}")
-		public ResponseEntity<Response<HotelPriceDTO>> getHotelPriceById(@PathVariable Long id) {
-		    // Call the service to fetch the HotelPriceDTO
-		    Optional<HotelPriceDTO> hotelPriceDTO = hotelpriceService.getHotelPriceById(id);
-
-		    // Return the appropriate response
-		    return hotelPriceDTO.map(dto -> {
-		        Response<HotelPriceDTO> response = new Response<>(
-		            "success",
-		            "Fetched hotel price details successfully",
-		            dto
-		        );
-		        return ResponseEntity.ok(response);
-		    }).orElseGet(() -> {
-		        Response<HotelPriceDTO> response = new Response<>(
-		            "failure",
-		            "Hotel price details not found",
-		            null
-		        );
-		        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-		    });
-		}
+//		@GetMapping("/getbyid/{id}")
+//		public ResponseEntity<Response<HotelPriceDTO>> getHotelPriceById(@PathVariable Long id) {
+//		    // Call the service to fetch the HotelPriceDTO
+//		    Optional<HotelPriceDTO> hotelPriceDTO = hotelpriceService.getHotelPriceById(id);
+//
+//		    // Return the appropriate response
+//		    return hotelPriceDTO.map(dto -> {
+//		        Response<HotelPriceDTO> response = new Response<>(
+//		            "success",
+//		            "Fetched hotel price details successfully",
+//		            dto
+//		        );
+//		        return ResponseEntity.ok(response);
+//		    }).orElseGet(() -> {
+//		        Response<HotelPriceDTO> response = new Response<>(
+//		            "failure",
+//		            "Hotel price details not found",
+//		            null
+//		        );
+//		        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+//		    });
+//		}
 		
-		@GetMapping("/getbyhotelid/{hotelId}")
-		 public ResponseEntity<Response<HotelPriceDTO>> getHotelPriceByHotelId(@PathVariable Long hotelId) {
-		        Optional<HotelPriceDTO> hotelPriceDTO = hotelpriceService.getHotelPriceByHotelId(hotelId);
-
-		        return hotelPriceDTO.map(dto -> {
-		            Response<HotelPriceDTO> response = new Response<>(
-		                "success",
-		                "Fetched hotel price details successfully",
-		                dto
-		            );
-		            return ResponseEntity.ok(response);
-		        }).orElseGet(() -> {
-		            Response<HotelPriceDTO> response = new Response<>(
-		                "failure",
-		                "Hotel price details not found",
-		                null
-		            );
-		            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-		        });
-		    }
+//		@GetMapping("/getbyhotelid/{hotelId}")
+//		 public ResponseEntity<Response<HotelPriceDTO>> getHotelPriceByHotelId(@PathVariable Long hotelId) {
+//		        Optional<HotelPriceDTO> hotelPriceDTO = hotelpriceService.getHotelPriceByHotelId(hotelId);
+//
+//		        return hotelPriceDTO.map(dto -> {
+//		            Response<HotelPriceDTO> response = new Response<>(
+//		                "success",
+//		                "Fetched hotel price details successfully",
+//		                dto
+//		            );
+//		            return ResponseEntity.ok(response);
+//		        }).orElseGet(() -> {
+//		            Response<HotelPriceDTO> response = new Response<>(
+//		                "failure",
+//		                "Hotel price details not found",
+//		                null
+//		            );
+//		            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+//		        });
+//		    }
 
  
 		@DeleteMapping("/deletebyid/{id}")

@@ -47,6 +47,12 @@ import jakarta.validation.constraints.Size;
 		//@JsonBackReference
 		private State state;
 		
+		@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+		// @JsonIgnore
+		@JsonManagedReference
+		private Set<HotelPrice> hotelprice;
+ 
+		
 //		@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 ////		// @JsonIgnore
 //		@JsonManagedReference
@@ -64,6 +70,17 @@ import jakarta.validation.constraints.Size;
 //
 
 
+
+
+
+		public Set<HotelPrice> getHotelprice() {
+			return hotelprice;
+		}
+
+
+		public void setHotelprice(Set<HotelPrice> hotelprice) {
+			this.hotelprice = hotelprice;
+		}
 
 
 

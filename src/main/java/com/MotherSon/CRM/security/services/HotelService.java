@@ -2,10 +2,15 @@ package com.MotherSon.CRM.security.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.MotherSon.CRM.dto.HotelDTO;
+import com.MotherSon.CRM.dto.HotelPriceDTO;
+import com.MotherSon.CRM.dto.Response;
+import com.MotherSon.CRM.dto.RoomTypesDTO;
 import com.MotherSon.CRM.models.Hotel;
 import com.MotherSon.CRM.repository.HotelServiceImpl;
 
@@ -131,6 +136,86 @@ import com.MotherSon.CRM.repository.HotelServiceImpl;
 		public Optional<Hotel> getHotelsById(Long id) {
 	        return hotelServiceImpl.findById(id);
 	    }
+
+				public Response<Object> getHotel(Long stateId, Long countryId, Long destinationId, Long hotelId) {
+		    if (hotelId != null) {
+		        Optional<Hotel> hotelOptional = hotelServiceImpl.findById(hotelId);
+		        if (hotelOptional.isPresent()) {
+		            HotelDTO hotelDTO = convertToHotelDTO(hotelOptional.get());
+		            return new Response<>("Successful", "Getting hotel successfully", hotelDTO);
+		        } else {
+		            return new Response<>("Failure", "No hotel found with hotelId: " + hotelId, null);
+		        }
+		    } else {
+		        List<Hotel> hotels = hotelServiceImpl.findAll().stream()
+		            .filter(hotel -> !hotel.isIsdelete()) // Exclude deleted hotels
+		            .collect(Collectors.toList());
+
+		        if (hotels.isEmpty()) {
+		            return new Response<>("Failure", "No hotels found", null);
+		        }
+
+		        List<HotelDTO> hotelDTOList = hotels.stream().map(this::convertToHotelDTO).collect(Collectors.toList());
+		        return new Response<>("Successful", "Getting all hotels successfully", hotelDTOList);
+		    }
+		}
+
+		private HotelDTO convertToHotelDTO(Hotel hotel) {
+		    // Map RoomTypes to RoomTypesDTO
+		    List<RoomTypesDTO> roomTypeDTOs = hotel.getRoomtypes().stream()
+		        .map(roomType -> new RoomTypesDTO(
+		            roomType.getId(),
+		            roomType.getRooms() != null ? roomType.getRooms().getRoomname() : null,
+		            roomType.getBedSize()
+		        ))
+		        .collect(Collectors.toList());
+
+		    // Map HotelPrices to HotelPriceDTO
+		    List<HotelPriceDTO> hotelPriceDTOs = hotel.getHotelprice().stream()
+		        .map(hotelPrice -> new HotelPriceDTO(
+		            hotelPrice.getId(),
+		            hotel.getId(),
+		            hotel.getHname(),
+		            hotelPrice.getRoomtypes() != null ? hotelPrice.getRoomtypes().getId() : null,
+		            hotelPrice.getRoomtypes() != null ? hotelPrice.getRoomtypes().getRooms().getRoomname() : null,
+		            hotelPrice.getSeason() != null ? hotelPrice.getSeason().getId() : null,
+		            hotelPrice.getSeason() != null ? hotelPrice.getSeason().getSeasonName() : null,
+		            hotelPrice.getOff_season_price(),
+		            hotelPrice.getExtra_bed_price(),
+		            hotelPrice.getDirect_booking_price(),
+		            hotelPrice.getThird_party_price()
+		        ))
+		        .collect(Collectors.toList());
+
+		    // Return HotelDTO with room types and hotel prices included
+		    return new HotelDTO(
+		        hotel.getHname(),
+		        hotel.getHdescription(),
+		        hotel.getStar_ratings(),
+		        hotel.getHimage(),
+		        hotel.getHcontactname(),
+		        hotel.getHcontactnumber(),
+		        hotel.getHcontactemail(),
+		        hotel.getHaddress(),
+		        hotel.getHpincode(),
+		        hotel.getCreated_date(),
+		        hotel.getModified_date(),
+		        hotel.getCreated_by(),
+		        hotel.getModified_by(),
+		        hotel.getIpaddress(),
+		        hotel.isStatus(),
+		        hotel.isIsdelete(),
+		        hotel.getDestination() != null ? hotel.getDestination().getId() : null,
+		        hotel.getDestination() != null ? hotel.getDestination().getDestinationName() : null,
+		        hotel.getState() != null ? hotel.getState().getId() : null,
+		        hotel.getState() != null ? hotel.getState().getStateName() : null,
+		        hotel.getCountry() != null ? hotel.getCountry().getId() : null,
+		        hotel.getCountry() != null ? hotel.getCountry().getCountryName() : null,
+		        hotel.getId(),
+		        roomTypeDTOs,
+		        hotelPriceDTOs
+		    );
+		}
 		
 		
 		
