@@ -127,6 +127,19 @@ public class QueryBookController {
 	}
 	
 	
+	@GetMapping("/top-five-packages")
+	public ResponseEntity<Map<String, Integer>> getTopFivePackages() {
+	    Map<String, Integer> topPackages = querybookService.getTopFivePackages();
+	    return ResponseEntity.ok(topPackages);
+	}
+ 
+	
+	@GetMapping("/lead-sources")
+    public Map<String, Integer> getLeadSourceCounts() {
+        return querybookService.getSortedLeadSourceCounts();
+    }
+	
+ 
 	
 	
 	
@@ -182,13 +195,6 @@ public class QueryBookController {
 	}
 	}
 	
-	
-	
-	
-
-	
-	
-	
 	// Count
 	
 	@GetMapping("/user/{userId}/count")
@@ -236,10 +242,6 @@ public class QueryBookController {
 //    }
 	
 	
-	@GetMapping("/lead-sources")
-    public Map<String, Integer> getLeadSourceCounts() {
-        return querybookService.getSortedLeadSourceCounts();
-    }
 	
 	
 	

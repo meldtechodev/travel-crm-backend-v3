@@ -76,6 +76,24 @@ public class QueryBookService {
 //        return querybookRepository.findById(id)
 //                .orElseThrow(() -> new QueryNotFoundException("Query not found with ID: " + id));
 //    }
+	
+	public Map<String, Integer> getTopFivePackages() {
+	    List<Object[]> topPackages = querybookRepository.findTopFivePackages();
+ 
+	    Map<String, Integer> packageCountMap = new LinkedHashMap<>();
+	    
+	    // Limit to top 5 (though it's already sorted by the query)
+	    for (int i = 0; i < Math.min(topPackages.size(), 5); i++) {
+	        Object[] result = topPackages.get(i);
+	        Long packId = (Long) result[0];
+	        Integer count = ((Long) result[1]).intValue();  // Convert count to Integer
+ 
+	        packageCountMap.put("packId " + packId, count);
+	    }
+ 
+	    return packageCountMap;
+	}
+ 
 
 	
 	public List<QueryBook> getAllQuery(){

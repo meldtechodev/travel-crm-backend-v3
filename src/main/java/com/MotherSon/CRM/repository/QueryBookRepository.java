@@ -90,16 +90,10 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
       // Query to count active bookings where status = true (active bookings)
       @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.leadStatus = true")
       long countActiveQueryBook();
+      
+      @Query("SELECT q.packid, COUNT(q.packid) FROM QueryBook q " +
+   	       "GROUP BY q.packid ORDER BY COUNT(q.packid) DESC")
+   	List<Object[]> findTopFivePackages();
+    
  
 }
-      
-//      @Query("SELECT COUNT(b) FROM QueryBook b")
-//      long countTotalQueryBook();
-//
-//      // Query to count active bookings where status = true (active bookings)
-//      @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.status = true")
-//      long countActiveQueryBook();
-//  }
-
-
-//
