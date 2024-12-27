@@ -3,8 +3,10 @@ package com.MotherSon.CRM.controller;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -105,4 +107,11 @@ public class UserController {
             return "Unable to fetch IP Address";
         }
     }
+	
+	@GetMapping("/dashbord/{userId}")
+    public ResponseEntity<Map<String, Long>> getUserStats(@PathVariable Long userId) {
+        Map<String, Long> stats = userService.getAllStats(userId);
+        return ResponseEntity.ok(stats);
+    }
+ 
 }

@@ -24,6 +24,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Query to count active bookings where status = true (active bookings)
     @Query("SELECT COUNT(b) FROM User b WHERE b.status = true")
     long countActiveUser();
+    
+long countByIsdeleteFalse();  // Count users where isdelete is false (active users)
+    
+    long countByStatusTrueAndIsdeleteFalse();  // Count active users (status = true and isdelete = false)
+ 
+ 
 	
 }
  

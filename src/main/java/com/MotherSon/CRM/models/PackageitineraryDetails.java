@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,13 +26,11 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "packageitinerary_Details")
-//@JsonIgnoreProperties(value = { "mealPackages", "activities" },allowSetters=true)
 public class PackageitineraryDetails {
 	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private Long id;
 	
 	@NotBlank(message = "IpAddress is required")
@@ -180,7 +179,7 @@ public class PackageitineraryDetails {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "roomtypesid")
-	@JsonBackReference
+	@JsonManagedReference
 	private RoomTypes roomtypes;
  
 	

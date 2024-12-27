@@ -94,6 +94,16 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
       @Query("SELECT q.packid, COUNT(q.packid) FROM QueryBook q " +
    	       "GROUP BY q.packid ORDER BY COUNT(q.packid) DESC")
    	List<Object[]> findTopFivePackages();
+   	
+   	long countByUseridUserId(Long userId);
+    
+    
+   	long countByUseridUserIdAndLeadStatusTrue(Long userId);
+   	 
+   	 
+   	 
+   	Long countByLeadStatusTrue();
+   	 
     
  
 }

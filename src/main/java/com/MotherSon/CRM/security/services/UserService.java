@@ -1,7 +1,9 @@
 package com.MotherSon.CRM.security.services;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -21,6 +23,9 @@ import com.MotherSon.CRM.models.Departments;
 import com.MotherSon.CRM.models.Designations;
 import com.MotherSon.CRM.models.Role;
 import com.MotherSon.CRM.models.User;
+import com.MotherSon.CRM.repository.BookingRepository;
+import com.MotherSon.CRM.repository.CustomerRepository;
+import com.MotherSon.CRM.repository.QueryBookRepository;
 import com.MotherSon.CRM.repository.UserRepository;
 import com.MotherSon.CRM.utils.JwtUtil;
 
@@ -32,6 +37,15 @@ public class UserService implements UserDetailsService  {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private QueryBookRepository queryBookRepository;
+    
+    @Autowired
+    private CustomerRepository customerRepository;
+    
+    @Autowired
+    private BookingRepository bookingRepository;
+ 
     
     
     
@@ -196,9 +210,39 @@ public class UserService implements UserDetailsService  {
     public long getActiveUser() {
         return userRepository.countActiveUser();
     }
+
+    public Map<String, Long> getAllStats(Long userId) {
+        
+        Map<String, Long> stats = new LinkedHashMap<>();
+ 
+        // For Super Admin (userId = 1) - Aggregated Stats for All Users
+        if (userId == 1) {
+            stats.put("totalBookings", bookingRepository.count());
+            stats.put("activeBookings", bookingRepository.countByStatusTrue());
+            stats.put("totalQueryBooks", queryBookRepository.count());
+            stats.put("activeQueryBooks", queryBookRepository.countByLeadStatusTrue());
+            stats.put("totalCustomers", customerRepository.count());
+            stats.put("activeCustomers", customerRepository.countByStatusTrue());
+            stats.put("totalUsers", userRepository.countByIsdeleteFalse());
+            stats.put("activeUsers", userRepository.countByStatusTrueAndIsdeleteFalse());
+        } else {
+            // For Regular User (userId != 1) - Stats Specific to the Logged-in User
+            stats.put("totalBookings", bookingRepository.countByBookingByuserId_UserId(userId));
+            stats.put("activeBookings", bookingRepository.countByBookingByuserId_UserIdAndStatusTrue(userId));
+            stats.put("totalQueryBooks", queryBookRepository.countByUseridUserId(userId));
+            stats.put("activeQueryBooks", queryBookRepository.countByUseridUserIdAndLeadStatusTrue(userId));
+            stats.put("totalCustomers", customerRepository.countByUser_UserId(userId));
+            stats.put("activeCustomers", customerRepository.countByUser_UserIdAndStatusTrue(userId));
+            stats.put("totalUsers", 1L); // Only the logged-in user
+            stats.put("activeUsers", 1L); // Assuming logged-in user is active
+        }
+ 
+        return stats;
+    }
+}
+ 
  
 	
-	}
     
     
     
