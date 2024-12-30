@@ -44,7 +44,6 @@ public class HotelPrice {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "hotel_id")
 	// @JsonBackReference
-	
 	private Hotel hotel;
 	
 	

@@ -37,7 +37,7 @@ import com.MotherSon.CRM.security.services.HotelService;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RestController
 	@RequestMapping("Motherson/crm/v1/hotel")
 	public class MyController {

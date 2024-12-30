@@ -37,9 +37,6 @@ import jakarta.validation.constraints.NotBlank;
 			@Column(name = "pkName", nullable = false)
 			private String pkName;
 			
-			 
-			
-
 			
 			@Column(name= "fromCityId")
 			private Long fromCityId;
@@ -48,7 +45,6 @@ import jakarta.validation.constraints.NotBlank;
 			private Long toCityId;
 			
 			@Column(name="SupplierId")
-
 			private Long SupplierId;
 
 		
@@ -300,17 +296,6 @@ import jakarta.validation.constraints.NotBlank;
 				this.pkSpecifications = pkSpecifications;
 			}
 
-			
-
-			
-
-			
-
-			
-
-			
-
-			
 
 			public List<String> getPimage() {
 				return pimage;

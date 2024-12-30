@@ -99,6 +99,17 @@ public class Itinerarys {
 	            .collect(Collectors.toList());
 	}
 	
+	private List<String> itineries_image;
+	
+	
+	public List<String> getItineries_image() {
+		return itineries_image;
+	}
+ 
+	public void setItineries_image(List<String> itineries_image) {
+		this.itineries_image = itineries_image;
+	}
+ 
 	
 	@Column(name="hotelOptionid")
 	private String hoteloptionid;

@@ -95,15 +95,15 @@ public class PkgController {
 		
 		
 		
-		private String timestamp;
+private String timestamp;
 		
 		public static String uploadDirectory=System.getProperty("user.dir") + "/src/main/upload/images";
 			
 			@PostMapping("/create")
 			 public Pkg savePkg( @ModelAttribute Pkg pkg,
 				        
-		             @RequestParam("image") MultipartFile[] files, 
-		             
+		             @RequestParam("image") MultipartFile[] files,
+		             @RequestParam("destinationCoveredId") String destinationCoveredId,
 		             @RequestParam("pkthem") String pkthem,
 		             @RequestParam("inclusionid") String inclusionid,
 		             @RequestParam("exclusionid") String exclusionid) throws IOException {
@@ -116,13 +116,13 @@ public class PkgController {
 		        
 		        // Fetch fromCity and toCity as Destination entities from the database
 		        // Validate fromCityId
-		        if (pkg.getFromCityId() == null || !destinationRepository.existsById(pkg.getFromCityId())) {
-		            throw new IllegalArgumentException("From City ID does not exist.");
-		        }
-		        else
-		        {
-		        	pkg.setFromCityId(pkg.getFromCityId());
-		        }
+//		        if (pkg.getFromCityId() == null || !destinationRepository.existsById(pkg.getFromCityId())) {
+//		            throw new IllegalArgumentException("From City ID does not exist.");
+//		        }
+//		        else
+//		        {
+//		        	pkg.setFromCityId(pkg.getFromCityId());
+//		        }
               
 		        if(pkg.getSupplierId()== null || !vendorrepository.existsById(pkg.getSupplierId()))
 		        {
@@ -133,22 +133,31 @@ public class PkgController {
 		        	pkg.setSupplierId(pkg.getSupplierId());
 		        }
 		        // Validate toCityId
-		        if (pkg.getToCityId() == null || !destinationRepository.existsById(pkg.getToCityId())) {
-		            throw new IllegalArgumentException("To City ID does not exist.");
-		        }
-		        else {
-		        
-		        // Set fromCity and toCity in Package
-		        
-		       pkg.setToCityId(pkg.getToCityId());
-
-		        }
+//		        if (pkg.getToCityId() == null || !destinationRepository.existsById(pkg.getToCityId())) {
+//		            throw new IllegalArgumentException("To City ID does not exist.");
+//		        }
+//		        else {
+//		        
+//		        // Set fromCity and toCity in Package
+//		        
+//		       pkg.setToCityId(pkg.getToCityId());
+//
+//		        }
 		        
 		        // Set the destinationCoveredId in pkg
 		       // pkg.setDestinationCoveredId(destinationCoveredId);
-
+ 
 		        // Validate each destinationCoveredId against the Destination table
-		     
+//		        for (Long destinationId : pkg.getDestinationCoveredIds()) {
+//		            if (!destinationRepository.existsById(destinationId)) {
+//		                throw new IllegalArgumentException("Destination ID " + destinationId + " does not exist.");
+//		            }
+//		            else
+//		            {
+//		            	pkg.setDestinationCoveredId(destinationCoveredId);
+//		            }
+//		        }
+		        
 		        for(Long inclusionidi : pkg.getinclusionids())
 		        {
 		        	if(!inclusionrepository.existsById(inclusionidi))
@@ -184,7 +193,7 @@ public class PkgController {
 		            }
 		           
 		        }
-			 
+			
 		      //  pkg.setPkthem(pkthem);
 		        
 				List<String> imageUrls = new ArrayList<>();
@@ -204,13 +213,13 @@ public class PkgController {
 		if (!isValidImage(file)) {
 		throw new IllegalArgumentException("File must be a JPEG or PNG image.");
 		}
-
+ 
 		
 		// Generate a unique file name
 		String uniqueFilename = generateUniqueFilename(file.getOriginalFilename());
 		Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
 		Files.write(fileNameAndPath, file.getBytes());
-		String imageUrl = "/image/" +  uniqueFilename;; 
+		String imageUrl = "/image/" +  uniqueFilename;;
 		imageUrls.add(imageUrl);
 			}
 				
@@ -221,7 +230,7 @@ public class PkgController {
 		//return new ResponseEntity<>("pkg is created",HttpStatus.CREATED);
 		return this.pkgService.addPkg(pkg);
 		}
-
+ 
 		
 			
 		private boolean isValidImage(MultipartFile file) {
@@ -229,9 +238,9 @@ public class PkgController {
 		String contentType = file.getContentType();
 		return contentType != null && (contentType.equals("image/jpeg") || contentType.equals("image/png"));
 		}
-
+ 
 			
-
+ 
 		private String generateUniqueFilename(String originalFilename) {
 		    // Extract the file extension
 		    String extension = "";
@@ -241,15 +250,14 @@ public class PkgController {
 		    
 		    // Set the current time stamp
 		  String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH-mm-ss"));
-
+ 
 		    // Generate a UUID
 		    String uniqueID = UUID.randomUUID().toString();
-
+ 
 		    
 		    // Create a unique filename
 		    return timestamp + "_" + uniqueID + extension;
-		}
-		
+		}		
 
 		@PutMapping("/update/{id}")
 		public Pkg updateHotel(@PathVariable Long id,

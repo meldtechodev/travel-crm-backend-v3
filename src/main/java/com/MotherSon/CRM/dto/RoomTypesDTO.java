@@ -29,9 +29,5 @@ public class RoomTypesDTO {
 		}
 		public void setBedSize(String bedSize) {
 			this.bedSize = bedSize;
-		}
-	    
-		
-	   
-	    
+		}	    
 }

@@ -15,4 +15,4 @@ import com.MotherSon.CRM.models.Hotel;
 //		List<Hotel> findByDestinationIdAndStar_ratings(Long ddestinationid);
 	boolean existsByhname(String hname);  
 
-	}
+}
