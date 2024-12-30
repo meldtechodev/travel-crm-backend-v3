@@ -212,19 +212,19 @@ public class QueryBookService {
 	
 	
 	
-	public List<Object[]> getTopQueryCountByUserId(Long userId) {
-        // Fetch the list of queries ordered by query count for the user
-        return querybookRepository.findTopQueriesByDestinationAndUserId(userId);
-    }
-	
-	public long getTotalQueryBook() {
-        return querybookRepository.countTotalQueryBook();
-    }
+//	public List<Object[]> getTopQueryCountByUserId(Long userId) {
+//        // Fetch the list of queries ordered by query count for the user
+//        return querybookRepository.findTopQueriesByDestinationAndUserId(userId);
+//    }
+//	
+//	public long getTotalQueryBook() {
+//        return querybookRepository.countTotalQueryBook();
+//    }
  
     // Get the total number of active bookings where status = true
-    public long getActiveQueryBook() {
-        return querybookRepository.countActiveQueryBook();
-    }
+//    public long getActiveQueryBook() {
+//        return querybookRepository.countActiveQueryBook();
+//    }
  
 	
 	

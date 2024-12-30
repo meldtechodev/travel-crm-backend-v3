@@ -56,7 +56,7 @@ import jakarta.validation.constraints.NotBlank;
 		private Rooms rooms;
 		
 		@OneToMany(mappedBy = "roomtypes",cascade=CascadeType.ALL,fetch = FetchType.LAZY)
-		@JsonBackReference
+		@JsonManagedReference
 		private Set<PackageitineraryDetails> packageitineraryDetails;
 		
 		

@@ -1,6 +1,7 @@
 package com.MotherSon.CRM.security.services;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,33 +212,115 @@ public class UserService implements UserDetailsService  {
         return userRepository.countActiveUser();
     }
 
-    public Map<String, Long> getAllStats(Long userId) {
-        
-        Map<String, Long> stats = new LinkedHashMap<>();
+//    public Map<String, Long> getAllStats(Long userId) {
+//        
+//        Map<String, Long> stats = new LinkedHashMap<>();
+// 
+//        // For Super Admin (userId = 1) - Aggregated Stats for All Users
+//        if (userId == 1) {
+//            stats.put("totalBookings", bookingRepository.count());
+//            stats.put("activeBookings", bookingRepository.countByStatusTrue());
+//            stats.put("totalQueryBooks", queryBookRepository.count());
+//            stats.put("activeQueryBooks", queryBookRepository.countByLeadStatusTrue());
+//            stats.put("totalCustomers", customerRepository.count());
+//            stats.put("activeCustomers", customerRepository.countByStatusTrue());
+//            stats.put("totalUsers", userRepository.countByIsdeleteFalse());
+//            stats.put("activeUsers", userRepository.countByStatusTrueAndIsdeleteFalse());
+//        } else {
+//            // For Regular User (userId != 1) - Stats Specific to the Logged-in User
+//            stats.put("totalBookings", bookingRepository.countByBookingByuserId_UserId(userId));
+//            stats.put("activeBookings", bookingRepository.countByBookingByuserId_UserIdAndStatusTrue(userId));
+//            stats.put("totalQueryBooks", queryBookRepository.countByUseridUserId(userId));
+//            stats.put("activeQueryBooks", queryBookRepository.countByUseridUserIdAndLeadStatusTrue(userId));
+//            stats.put("totalCustomers", customerRepository.countByUser_UserId(userId));
+//            stats.put("activeCustomers", customerRepository.countByUser_UserIdAndStatusTrue(userId));
+//            stats.put("totalUsers", 1L); // Only the logged-in user
+//            stats.put("activeUsers", 1L); // Assuming logged-in user is active
+//        }
+// 
+//        return stats;
+//    }
+    
+    
+    public Map<String, Object> getStats(Long userId, Long superAdminId) {
+        Map<String, Object> stats = new LinkedHashMap<>();
  
-        // For Super Admin (userId = 1) - Aggregated Stats for All Users
-        if (userId == 1) {
-            stats.put("totalBookings", bookingRepository.count());
-            stats.put("activeBookings", bookingRepository.countByStatusTrue());
-            stats.put("totalQueryBooks", queryBookRepository.count());
-            stats.put("activeQueryBooks", queryBookRepository.countByLeadStatusTrue());
-            stats.put("totalCustomers", customerRepository.count());
-            stats.put("activeCustomers", customerRepository.countByStatusTrue());
-            stats.put("totalUsers", userRepository.countByIsdeleteFalse());
-            stats.put("activeUsers", userRepository.countByStatusTrueAndIsdeleteFalse());
-        } else {
-            // For Regular User (userId != 1) - Stats Specific to the Logged-in User
-            stats.put("totalBookings", bookingRepository.countByBookingByuserId_UserId(userId));
-            stats.put("activeBookings", bookingRepository.countByBookingByuserId_UserIdAndStatusTrue(userId));
-            stats.put("totalQueryBooks", queryBookRepository.countByUseridUserId(userId));
-            stats.put("activeQueryBooks", queryBookRepository.countByUseridUserIdAndLeadStatusTrue(userId));
-            stats.put("totalCustomers", customerRepository.countByUser_UserId(userId));
-            stats.put("activeCustomers", customerRepository.countByUser_UserIdAndStatusTrue(userId));
-            stats.put("totalUsers", 1L); // Only the logged-in user
-            stats.put("activeUsers", 1L); // Assuming logged-in user is active
+        // If superAdminId is provided, get the superAdmin stats
+        if (superAdminId != null) {
+            stats.putAll(getSuperAdminStats());  // Directly add superAdmin stats to the map
+        }
+        
+        else if (userId != null) {
+            stats.putAll(getUserStats(userId));  // Directly add user stats to the map
         }
  
         return stats;
+    }
+ 
+    // Fetch stats specific to the superAdmin
+    private Map<String, Object> getSuperAdminStats() {
+        Map<String, Object> stats = new LinkedHashMap<>();
+ 
+        stats.put("totalBookings", bookingRepository.count());
+        stats.put("activeBookings", bookingRepository.countByBookingStatus("confirmed"));
+        stats.put("totalQuery", queryBookRepository.count());
+        stats.put("activeQuery", queryBookRepository.countByLeadStatusTrue());
+        stats.put("totalCustomers", customerRepository.count());
+        stats.put("activeCustomers", customerRepository.countByStatusTrue());
+        stats.put("totalLeads", queryBookRepository.countByLeadSourceIsNotNull());
+ 
+        // Fetch lead source counts for superAdmin
+        Map<String, Integer> leadSourceCounts = getLeadSourceCountsForSuperAdmin();
+        stats.putAll(leadSourceCounts);  // Add lead source counts to the stats
+ 
+        return stats;
+    }
+ 
+    // Fetch lead source counts for superAdmin
+    private Map<String, Integer> getLeadSourceCountsForSuperAdmin() {
+        List<Object[]> result = queryBookRepository.findLeadSourceCounts();
+ 
+        Map<String, Integer> leadSourceCountMap = new HashMap<>();
+        for (Object[] row : result) {
+            String leadSource = (String) row[0];
+            Long count = (Long) row[1];
+            leadSourceCountMap.put(leadSource, count.intValue());
+        }
+ 
+        return leadSourceCountMap;
+    }
+ 
+    // Fetch stats specific to the user
+    private Map<String, Object> getUserStats(Long userId) {
+        Map<String, Object> stats = new LinkedHashMap<>();
+ 
+        stats.put("totalBookings", bookingRepository.countByBookingByuserId_UserId(userId));
+        stats.put("activeBookings", bookingRepository.countByBookingByuserId_UserIdAndBookingStatus(userId, "confirmed"));
+        stats.put("totalQuery", queryBookRepository.countByUseridUserId(userId));
+        stats.put("activeQuery", queryBookRepository.countByUseridUserIdAndLeadStatusTrue(userId));
+        stats.put("totalCustomers", customerRepository.countByUser_UserId(userId));
+        stats.put("activeCustomers", customerRepository.countByUser_UserIdAndStatusTrue(userId));
+        stats.put("totalLeads", queryBookRepository.countByUseridUserIdAndLeadSourceIsNotNull(userId));
+ 
+        // Fetch lead source counts for the user
+        Map<String, Integer> leadSourceCounts = getLeadSourceCountsForUser(userId);
+        stats.putAll(leadSourceCounts);  // Add lead source counts to the stats
+ 
+        return stats;
+    }
+ 
+    // Fetch lead source counts for the user
+    private Map<String, Integer> getLeadSourceCountsForUser(Long userId) {
+        List<Object[]> result = queryBookRepository.findLeadSourceCountsForUser(userId);
+ 
+        Map<String, Integer> leadSourceCountMap = new HashMap<>();
+        for (Object[] row : result) {
+            String leadSource = (String) row[0];
+            Long count = (Long) row[1];
+            leadSourceCountMap.put(leadSource, count.intValue());
+        }
+ 
+        return leadSourceCountMap;
     }
 }
  

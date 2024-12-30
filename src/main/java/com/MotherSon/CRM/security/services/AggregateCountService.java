@@ -21,27 +21,27 @@ public class AggregateCountService {
         this.bookingService = bookingService;
     }
 
-    public AggregateCountDTO getAggregateCounts() {
-        AggregateCountDTO countDTO = new AggregateCountDTO();
-
-        // Set values for querybook counts
-        countDTO.setTotalQueryBook(querybookService.getTotalQueryBook());
-        countDTO.setActiveQueryBook(querybookService.getActiveQueryBook());
-
-        // Set values for user counts
-        countDTO.setTotalUser(userService.getTotalUser());
-        countDTO.setActiveUser(userService.getActiveUser());
-
-        // Set values for customer counts
-        countDTO.setTotalCustomer(customerService.getTotalCustomer());
-        countDTO.setActiveCustomer(customerService.getActiveCustomer());
-
-        // Set values for booking counts
-        countDTO.setTotalBookings(bookingService.getTotalBookings());
-        countDTO.setActiveBookings(bookingService.getActiveBookings());
-
-        return countDTO;
-    }
+//    public AggregateCountDTO getAggregateCounts() {
+//        AggregateCountDTO countDTO = new AggregateCountDTO();
+//
+//        // Set values for querybook counts
+//        countDTO.setTotalQueryBook(querybookService.getTotalQueryBook());
+//        countDTO.setActiveQueryBook(querybookService.getActiveQueryBook());
+//
+//        // Set values for user counts
+//        countDTO.setTotalUser(userService.getTotalUser());
+//        countDTO.setActiveUser(userService.getActiveUser());
+//
+//        // Set values for customer counts
+//        countDTO.setTotalCustomer(customerService.getTotalCustomer());
+//        countDTO.setActiveCustomer(customerService.getActiveCustomer());
+//
+//        // Set values for booking counts
+//        countDTO.setTotalBookings(bookingService.getTotalBookings());
+//        countDTO.setActiveBookings(bookingService.getActiveBookings());
+//
+//        return countDTO;
+//    }
 }
 
 

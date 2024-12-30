@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MotherSon.CRM.dto.LoginRequest;
@@ -108,10 +109,18 @@ public class UserController {
         }
     }
 	
-	@GetMapping("/dashbord/{userId}")
-    public ResponseEntity<Map<String, Long>> getUserStats(@PathVariable Long userId) {
-        Map<String, Long> stats = userService.getAllStats(userId);
+	@GetMapping("/dashboard")
+    public ResponseEntity<Map<String, Object>> getDashboardStats(
+            @RequestParam(required = false) Long superAdminId,  
+            @RequestParam(required = false) Long userId) {      
+ 
+        
+        if (superAdminId == null && userId == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Either superAdminId or userId must be provided"));
+        }
+ 
+        
+        Map<String, Object> stats = userService.getStats(userId, superAdminId);
         return ResponseEntity.ok(stats);
     }
- 
 }

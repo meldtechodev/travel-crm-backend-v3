@@ -22,11 +22,11 @@ public class AggregateCountController {
         this.aggregateCountService = aggregateCountService;
     }
 
-    @GetMapping("/active/count")
-    public ResponseEntity<AggregateCountDTO> getAggregateCounts() {
-        AggregateCountDTO aggregateCountDTO = aggregateCountService.getAggregateCounts();
-        return ResponseEntity.ok(aggregateCountDTO);
-    }
+//    @GetMapping("/active/count")
+//    public ResponseEntity<AggregateCountDTO> getAggregateCounts() {
+//        AggregateCountDTO aggregateCountDTO = aggregateCountService.getAggregateCounts();
+//        return ResponseEntity.ok(aggregateCountDTO);
+//    }
 }
 
 

@@ -99,6 +99,7 @@ public class Itinerarys {
 	            .collect(Collectors.toList());
 	}
 	
+	@Column(nullable = true)
 	private List<String> itineries_image;
 	
 	

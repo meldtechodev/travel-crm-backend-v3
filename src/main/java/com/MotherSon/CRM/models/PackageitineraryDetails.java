@@ -179,7 +179,7 @@ public class PackageitineraryDetails {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "roomtypesid")
-	@JsonManagedReference
+	@JsonBackReference
 	private RoomTypes roomtypes;
  
 	

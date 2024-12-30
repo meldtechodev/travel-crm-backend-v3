@@ -19,91 +19,37 @@ import com.MotherSon.CRM.models.User;
 
 @Repository
 public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
-	
-//	boolean existsByEmailId(String emailId);
-//
-//	//boolean existsEmailId(String emailId); 
-//	
-//	boolean existsByContactNo(String contactNo);
-	
-	List<QueryBook> findByCustomerId(Long customerId);
-	
-	@Query("SELECT COUNT(DISTINCT b.userid) FROM QueryBook b")
-    long countTotalUsers();
-
-    // Query to count active users (based on active users in QueryBook)
-    @Query("SELECT COUNT(DISTINCT b.userid) FROM QueryBook b WHERE b.userid.status = true")
-    long countActiveUsers();
-
-	List<QueryBook> findAll();
-
-//	@Query("SELECT COUNT(b) FROM QueryBook b")
-//    long countTotalQueryBook();
-//
-//    // Query to count active bookings where status = true (active bookings)
-//    @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.leadStatus = true")
-//    long countActiveQueryBook();
-
-	
+	long count();
+	long countByLeadStatusTrue();
+	long countByLeadSourceIsNotNull();
+	long countByUseridUserId(Long userId);
+	long countByUseridUserIdAndLeadStatusTrue(Long userId);
+	 
+	 
+	 
+	 
+	 
+	long countByUseridUserIdAndLeadSourceIsNotNull(@Param("userId") Long userId);
+	 
+	@Query("SELECT qb.leadSource, COUNT(qb) FROM QueryBook qb GROUP BY qb.leadSource")
+	List<Object[]> findLeadSourceCounts();
+	 
+	@Query("SELECT qb.leadSource, COUNT(qb) FROM QueryBook qb WHERE qb.userid.userId = :userId GROUP BY qb.leadSource")
+	List<Object[]> findLeadSourceCountsForUser(@Param("userId") Long userId);
 	
 	@Query("SELECT q.destination.id, COUNT(q) FROM QueryBook q WHERE q.userid = :userId GROUP BY q.destination.id")
     List<Object[]> countQueryBooksByDestination(@Param("userId") User userId);
     
-    
-    //Top Destination
-    
-    
-    @Query("SELECT q.destination.id AS destinationId, COUNT(q) AS queryCount " +
+    @Query("SELECT q.packid, COUNT(q.packid) FROM QueryBook q " +
+ 	       "GROUP BY q.packid ORDER BY COUNT(q.packid) DESC")
+ 	List<Object[]> findTopFivePackages();
+ 	
+ 	@Query("SELECT q.destination.id AS destinationId, COUNT(q) AS queryCount " +
             "FROM QueryBook q " +
             "GROUP BY q.destination.id " +
             "ORDER BY queryCount DESC")
-     List<Object[]> findTopDestinationss(Pageable pageable);  // This code is correct
-     
-     
-     
-     // top destination by limit
-     
-     
-     @Query("SELECT q.destination.id AS destinationId, COUNT(q) AS queryCount " +
-             "FROM QueryBook q " +
-             "GROUP BY q.destination.id " +
-             "ORDER BY queryCount DESC")
-     List<Object[]> findTopDestinations(Pageable pageable);
-     
-     
-     
-     @Query("SELECT q.leadSource, COUNT(q) FROM QueryBook q GROUP BY q.leadSource")
-     List<Object[]> findLeadSourceCounts();
-     
-     
-     //Topdestination by user id
-     
-     @Query("SELECT q.destination.id AS destinationId, COUNT(q) AS queryCount " +
-             "FROM QueryBook q WHERE q.userid.id = :userId " +
-             "GROUP BY q.destination.id ORDER BY queryCount DESC")
-      List<Object[]> findTopQueriesByDestinationAndUserId(Long userId);
-      
-      
-      @Query("SELECT COUNT(b) FROM QueryBook b")
-      long countTotalQueryBook();
- 
-      // Query to count active bookings where status = true (active bookings)
-      @Query("SELECT COUNT(b) FROM QueryBook b WHERE b.leadStatus = true")
-      long countActiveQueryBook();
-      
-      @Query("SELECT q.packid, COUNT(q.packid) FROM QueryBook q " +
-   	       "GROUP BY q.packid ORDER BY COUNT(q.packid) DESC")
-   	List<Object[]> findTopFivePackages();
-   	
-   	long countByUseridUserId(Long userId);
+    List<Object[]> findTopDestinations(Pageable pageable);
     
-    
-   	long countByUseridUserIdAndLeadStatusTrue(Long userId);
-   	 
-   	 
-   	 
-   	Long countByLeadStatusTrue();
-   	 
-    
+    List<QueryBook> findByCustomerId(Long customerId);
  
 }

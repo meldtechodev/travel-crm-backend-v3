@@ -252,22 +252,22 @@ public class QueryBookController {
 	
 	// Motherson/crm/v1/query/top-query-count?userId=1&limit=2
 	
-	@GetMapping("/top-query-count")
-    public ResponseEntity<List<Object[]>> getTopQueryCount(
-            @RequestParam Long userId,  // Specify the userId for filtering
-            @RequestParam(required = false, defaultValue = "5") int limit) {  // Optional limit for top N results
-
-        // Fetch top queries for the given userId
-        List<Object[]> queryCounts = querybookService.getTopQueryCountByUserId(userId);
-
-        // Limit the results based on the user's input (limit)
-        if (queryCounts.size() > limit) {
-            queryCounts = queryCounts.subList(0, limit);  // Limit the size of the list
-        }
-
-        // Return the response
-        return ResponseEntity.ok(queryCounts);
-    }
+//	@GetMapping("/top-query-count")
+//    public ResponseEntity<List<Object[]>> getTopQueryCount(
+//            @RequestParam Long userId,  // Specify the userId for filtering
+//            @RequestParam(required = false, defaultValue = "5") int limit) {  // Optional limit for top N results
+//
+//        // Fetch top queries for the given userId
+//        List<Object[]> queryCounts = querybookService.getTopQueryCountByUserId(userId);
+//
+//        // Limit the results based on the user's input (limit)
+//        if (queryCounts.size() > limit) {
+//            queryCounts = queryCounts.subList(0, limit);  // Limit the size of the list
+//        }
+//
+//        // Return the response
+//        return ResponseEntity.ok(queryCounts);
+//    }
 	
 	
 	
