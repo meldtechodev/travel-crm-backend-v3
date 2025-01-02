@@ -346,14 +346,14 @@ public class UserService implements UserDetailsService  {
         Map<String, Object> stats = new LinkedHashMap<>();
  
         // Check if the role is SuperAdmin (role_name = "SuperAdmin")
-        if (role.getRoleName().equalsIgnoreCase("Super_Admin")) {
+        if (role.getRoleName().equalsIgnoreCase("Super Admin")) {
             // Fetch global stats for SuperAdmin
             stats.put("totalBookings", bookingRepository.count());
             stats.put("activeBookings", bookingRepository.countByBookingStatus("confirmed"));
             stats.put("totalQuery", queryBookRepository.count());
             stats.put("activeQuery", queryBookRepository.countByLeadStatusTrue());
-            stats.put("totalCustomers", customerRepository.count());
-            stats.put("activeCustomers", customerRepository.countByStatusTrue());
+            stats.put("totalCustomers", customerRepository.countTotalCustomer());
+            stats.put("activeCustomers", customerRepository.countActiveCustomer());
             stats.put("totalLeads", queryBookRepository.countByLeadSourceIsNotNull());
  
             // Fetch lead source counts for SuperAdmin

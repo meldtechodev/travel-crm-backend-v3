@@ -134,9 +134,6 @@ public class RoleInitializer {
             else {
                 System.out.println("Designation 'Admin Head' already exists.");
             }
- 
-            
-            
 	    };
 	}
 }
