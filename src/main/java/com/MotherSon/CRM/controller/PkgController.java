@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,14 +35,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.MotherSon.CRM.models.Destination;
 import com.MotherSon.CRM.models.Inclusion;
 import com.MotherSon.CRM.models.Pkg;
+import com.MotherSon.CRM.models.User;
 import com.MotherSon.CRM.repository.DestinationRepository;
 import com.MotherSon.CRM.repository.ExclusionRepository;
 import com.MotherSon.CRM.repository.InclusionRepository;
 import com.MotherSon.CRM.repository.PackageThemeRepository;
+import com.MotherSon.CRM.repository.UserRepository;
 import com.MotherSon.CRM.repository.VendorRepository;
 import com.MotherSon.CRM.security.services.DestinationService;
 import com.MotherSon.CRM.security.services.InclusionService;
 import com.MotherSon.CRM.security.services.PkgService;
+import com.MotherSon.CRM.security.services.QueryBookService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -53,20 +58,29 @@ public class PkgController {
 		
 		@Autowired
 		private PkgService pkgService;
+		
+		@Autowired
+		private UserRepository userRepository;
+		
 		@Autowired
 		private DestinationService destinationservice;
+		
 		@Autowired 
 		private DestinationRepository destinationRepository;
+		
 		@Autowired
 		private  PackageThemeRepository pkgthemrepository;
 		
 		@Autowired
 		private VendorRepository vendorrepository;
+		
 		@Autowired 
 		private InclusionRepository inclusionrepository;
 		
 		@Autowired
-	
+		private QueryBookService queryBookService;
+		
+		@Autowired
 		private ExclusionRepository exclusionrepositiry;
 		
 		@GetMapping("/getby/{id}")
@@ -95,7 +109,7 @@ public class PkgController {
 		
 		
 		
-private String timestamp;
+		private String timestamp;
 		
 		public static String uploadDirectory=System.getProperty("user.dir") + "/src/main/upload/images";
 			
@@ -303,6 +317,26 @@ private String timestamp;
 		private String generateUniqueFilename1(String originalFilename) {
 		    return System.currentTimeMillis() + "_" + originalFilename; // Unique filename based on current time
 		}
+		
+		
+		@GetMapping("/top-five-packages")
+	    public ResponseEntity<?> getTopFivePackages(@RequestParam Long userId) {
+	        Optional<User> userOpt = userRepository.findById(userId);
+	 
+	        if (userOpt.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body(Collections.singletonMap("error", "User not found"));
+	        }
+	 
+	        User user = userOpt.get();
+	 
+			// Fetch the top 5 packages from the service based on user role (Super Admin or Normal User)
+	        Map<String, Integer> topPackages = queryBookService.getTopFivePackages(user);
+	 
+	       
+	        return ResponseEntity.ok(topPackages);
+	    }
+	 
 
 
 
@@ -320,4 +354,8 @@ private String timestamp;
 			return ResponseEntity.notFound().build();
 		}
 		
-	}}
+	}
+	
+	
+	
+}

@@ -51,5 +51,20 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
     List<Object[]> findTopDestinations(Pageable pageable);
     
     List<QueryBook> findByCustomerId(Long customerId);
+    
+    
+    @Query("SELECT d.id, COUNT(q) FROM QueryBook q INNER JOIN q.destination d GROUP BY d.id ORDER BY COUNT(q) DESC")
+    List<Object[]> findTopTenDestinationForSuperAdmin();
+     
+    @Query("SELECT d.id, COUNT(d) FROM QueryBook q INNER JOIN q.destination d WHERE q.userid.userId = :userId GROUP BY d.id ORDER BY COUNT(d) DESC")
+    List<Object[]> findTopTenDestinationsForUser(@Param("userId") Long userId);
+     
+    @Query("SELECT qb.packid, COUNT(qb) FROM QueryBook qb GROUP BY qb.packid ORDER BY COUNT(qb) DESC")
+    List<Object[]> findTopFivePackagesForSuperAdmin();
+     
+    @Query("SELECT qb.packid, COUNT(qb) FROM QueryBook qb WHERE qb.userid.userId = :userId GROUP BY qb.packid ORDER BY COUNT(qb) DESC")
+    List<Object[]> findTopFivePackagesForUser(@Param("userId") Long userId);
+     
+     
  
 }

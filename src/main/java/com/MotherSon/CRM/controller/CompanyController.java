@@ -111,7 +111,7 @@ public class CompanyController {
 			Files.write(fileNameAndPath, file.getBytes());
  
 			
-			String imageUrl = "/image/" + uniqueFilename;
+			String imageUrl = "/image/countryimages/" + uniqueFilename;
 			;
 			imageUrls.add(imageUrl);
 		}

@@ -109,18 +109,27 @@ public class UserController {
         }
     }
 	
+//	@GetMapping("/dashboard")
+//    public ResponseEntity<Map<String, Object>> getDashboardStats(
+//            @RequestParam(required = false) Long superAdminId,  
+//            @RequestParam(required = false) Long userId) {      
+// 
+//        
+//        if (superAdminId == null && userId == null) {
+//            return ResponseEntity.badRequest().body(Map.of("error", "Either superAdminId or userId must be provided"));
+//        }
+// 
+//        
+//        Map<String, Object> stats = userService.getStats(userId, superAdminId);
+//        return ResponseEntity.ok(stats);
+//    }
+	
 	@GetMapping("/dashboard")
-    public ResponseEntity<Map<String, Object>> getDashboardStats(
-            @RequestParam(required = false) Long superAdminId,  
-            @RequestParam(required = false) Long userId) {      
- 
-        
-        if (superAdminId == null && userId == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Either superAdminId or userId must be provided"));
+    public ResponseEntity<Map<String, Object>> getDashboardStats(@RequestParam Long userId) {
+        Map<String, Object> response = userService.getDashboardStats(userId);
+        if (response.containsKey("error")) {
+            return ResponseEntity.status(404).body(response);
         }
- 
-        
-        Map<String, Object> stats = userService.getStats(userId, superAdminId);
-        return ResponseEntity.ok(stats);
+        return ResponseEntity.ok(response);
     }
 }

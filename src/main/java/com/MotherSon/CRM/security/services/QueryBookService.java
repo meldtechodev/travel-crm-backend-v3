@@ -205,7 +205,70 @@ public class QueryBookService {
         }
 
         return sortedLeadSourceMap;
-    }	
+    }
+
+	public Map<String, Integer> getTopTenDestination(User user) {
+	    Map<String, Integer> destinationCountMap = new LinkedHashMap<>();
+ 
+	    // If user is Super Admin
+	    if (user.getRole().getRoleName().equalsIgnoreCase("Super_Admin")) {
+	        List<Object[]> topDestination = querybookRepository.findTopTenDestinationForSuperAdmin();
+	        
+	        for (int i = 0; i < Math.min(topDestination.size(), 10); i++) {
+	            Object[] result = topDestination.get(i);
+	            Long destinationId = (Long) result[0];
+	            Integer count = ((Long) result[1]).intValue();
+	            destinationCountMap.put("DestinationId " + destinationId, count);
+	        }
+	    } else {
+	        // For normal user
+	        List<Object[]> topDestination = querybookRepository.findTopTenDestinationsForUser(user.getUserId());
+	        
+	        for (int i = 0; i < Math.min(topDestination.size(), 10); i++) {
+	            Object[] result = topDestination.get(i);
+	            Long destinationId = (Long) result[0];
+	            Integer count = ((Long) result[1]).intValue();
+	            destinationCountMap.put("DestinationId " + destinationId, count);
+	        }
+	    }
+ 
+	    return destinationCountMap;
+	}
+ 	
+	//Top Ten Packages By superAdmin And UserId
+	
+		public Map<String, Integer> getTopFivePackages(User user) {
+	        Map<String, Integer> packageCountMap = new LinkedHashMap<>();
+	 
+	      
+	        if (user.getRole().getRoleName().equalsIgnoreCase("Super_Admin")) {
+	            
+	            List<Object[]> topPackages = querybookRepository.findTopFivePackagesForSuperAdmin();
+	 
+	           
+	            for (int i = 0; i < Math.min(topPackages.size(), 5); i++) {
+	                Object[] result = topPackages.get(i);
+	                Long packageId = (Long) result[0]; // Package ID
+	                Integer count = ((Long) result[1]).intValue(); // Count of occurrences
+	                packageCountMap.put("Package " + packageId, count);
+	            }
+	        } else {
+	            
+	            List<Object[]> topPackages = querybookRepository.findTopFivePackagesForUser(user.getUserId());
+	 
+	           
+	            for (int i = 0; i < Math.min(topPackages.size(), 5); i++) {
+	                Object[] result = topPackages.get(i);
+	                Long packageId = (Long) result[0]; // Package ID
+	                Integer count = ((Long) result[1]).intValue(); // Count of occurrences
+	                packageCountMap.put("Package " + packageId, count);
+	            }
+	        }
+	 
+	        return packageCountMap;
+	    }
+	 
+	 
 	
 	
 	

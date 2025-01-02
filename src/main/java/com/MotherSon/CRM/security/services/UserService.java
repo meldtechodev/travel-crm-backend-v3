@@ -277,19 +277,19 @@ public class UserService implements UserDetailsService  {
     }
  
     // Fetch lead source counts for superAdmin
-    private Map<String, Integer> getLeadSourceCountsForSuperAdmin() {
-        List<Object[]> result = queryBookRepository.findLeadSourceCounts();
- 
-        Map<String, Integer> leadSourceCountMap = new HashMap<>();
-        for (Object[] row : result) {
-            String leadSource = (String) row[0];
-            Long count = (Long) row[1];
-            leadSourceCountMap.put(leadSource, count.intValue());
-        }
- 
-        return leadSourceCountMap;
-    }
- 
+//    private Map<String, Integer> getLeadSourceCountsForSuperAdmin() {
+//        List<Object[]> result = queryBookRepository.findLeadSourceCounts();
+// 
+//        Map<String, Integer> leadSourceCountMap = new HashMap<>();
+//        for (Object[] row : result) {
+//            String leadSource = (String) row[0];
+//            Long count = (Long) row[1];
+//            leadSourceCountMap.put(leadSource, count.intValue());
+//        }
+// 
+//        return leadSourceCountMap;
+//    }
+// 
     // Fetch stats specific to the user
     private Map<String, Object> getUserStats(Long userId) {
         Map<String, Object> stats = new LinkedHashMap<>();
@@ -310,10 +310,99 @@ public class UserService implements UserDetailsService  {
     }
  
     // Fetch lead source counts for the user
+//    private Map<String, Integer> getLeadSourceCountsForUser(Long userId) {
+//        List<Object[]> result = queryBookRepository.findLeadSourceCountsForUser(userId);
+// 
+//        Map<String, Integer> leadSourceCountMap = new HashMap<>();
+//        for (Object[] row : result) {
+//            String leadSource = (String) row[0];
+//            Long count = (Long) row[1];
+//            leadSourceCountMap.put(leadSource, count.intValue());
+//        }
+// 
+//        return leadSourceCountMap;
+//    }
+
+    public Map<String, Object> getDashboardStats(Long userId) {
+        Map<String, Object> response = new HashMap<>();
+ 
+        // Fetch the user by userId
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            response.put("error", "User not found");
+            return response;
+        }
+ 
+        User user = userOpt.get();
+        Role role = user.getRole();
+ 
+        
+        if (role == null) {
+            response.put("error", "Role not assigned to user");
+            return response;
+        }
+ 
+        
+        Map<String, Object> stats = new LinkedHashMap<>();
+ 
+        // Check if the role is SuperAdmin (role_name = "SuperAdmin")
+        if (role.getRoleName().equalsIgnoreCase("Super_Admin")) {
+            // Fetch global stats for SuperAdmin
+            stats.put("totalBookings", bookingRepository.count());
+            stats.put("activeBookings", bookingRepository.countByBookingStatus("confirmed"));
+            stats.put("totalQuery", queryBookRepository.count());
+            stats.put("activeQuery", queryBookRepository.countByLeadStatusTrue());
+            stats.put("totalCustomers", customerRepository.count());
+            stats.put("activeCustomers", customerRepository.countByStatusTrue());
+            stats.put("totalLeads", queryBookRepository.countByLeadSourceIsNotNull());
+ 
+            // Fetch lead source counts for SuperAdmin
+            Map<String, Integer> leadSourceCounts = getLeadSourceCountsForSuperAdmin();
+            stats.putAll(leadSourceCounts);  // Add lead source counts to the stats
+ 
+        } else {
+            
+        	stats.put("totalBookings", bookingRepository.countByBookingByuserId_UserId(userId));
+            stats.put("activeBookings", bookingRepository.countByBookingByuserId_UserIdAndBookingStatus(userId, "confirmed"));
+            stats.put("totalQuery", queryBookRepository.countByUseridUserId(userId));
+            stats.put("activeQuery", queryBookRepository.countByUseridUserIdAndLeadStatusTrue(userId));
+            stats.put("totalCustomers", customerRepository.countByUser_UserId(userId));
+            stats.put("activeCustomers", customerRepository.countByUser_UserIdAndStatusTrue(userId));
+            stats.put("totalLeads", queryBookRepository.countByUseridUserIdAndLeadSourceIsNotNull(userId));
+ 
+            // Fetch lead source counts for the specific user
+            Map<String, Integer> leadSourceCounts = getLeadSourceCountsForUser(userId);
+            stats.putAll(leadSourceCounts);  // Add lead source counts to the stats
+        }
+ 
+        return stats;
+    }
+ 
+    // Fetch lead source counts for SuperAdmin (all users)
+    private Map<String, Integer> getLeadSourceCountsForSuperAdmin() {
+        // Fetch lead source counts for all users (SuperAdmin)
+        List<Object[]> result = queryBookRepository.findLeadSourceCounts();
+ 
+        Map<String, Integer> leadSourceCountMap = new HashMap<>();
+ 
+        
+        for (Object[] row : result) {
+            String leadSource = (String) row[0];
+            Long count = (Long) row[1];
+            leadSourceCountMap.put(leadSource, count.intValue());
+        }
+ 
+        return leadSourceCountMap;
+    }
+ 
+    
     private Map<String, Integer> getLeadSourceCountsForUser(Long userId) {
+       
         List<Object[]> result = queryBookRepository.findLeadSourceCountsForUser(userId);
  
         Map<String, Integer> leadSourceCountMap = new HashMap<>();
+ 
+      
         for (Object[] row : result) {
             String leadSource = (String) row[0];
             Long count = (Long) row[1];

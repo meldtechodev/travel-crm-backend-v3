@@ -1,9 +1,11 @@
 package com.MotherSon.CRM.controller;
 
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 //import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,7 @@ import com.MotherSon.CRM.models.QueryBook;
 import com.MotherSon.CRM.models.User;
 //import com.MotherSon.CRM.models.Destination;
 import com.MotherSon.CRM.repository.PkgRepository;
+import com.MotherSon.CRM.repository.UserRepository;
 import com.MotherSon.CRM.security.services.QueryBookService;
 
 
@@ -46,6 +49,9 @@ public class QueryBookController {
 	
 	@Autowired
 	private PkgRepository pkgRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	
 	
@@ -209,6 +215,24 @@ public class QueryBookController {
 
 	// Perfect code
 	
+	@GetMapping("/topdestination")
+	public ResponseEntity<?> getTopTenDestination(@RequestParam Long userId) {
+	    Optional<User> userOpt = userRepository.findById(userId);
+ 
+	    if (userOpt.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body(Collections.singletonMap("error", "User not found"));
+	    }
+ 
+	    User user = userOpt.get();
+	    
+	    
+	    Map<String, Integer> topDestination = querybookService.getTopTenDestination(user);
+	    
+	    return ResponseEntity.ok(topDestination);
+	}
+ 
+	
 
 //	@GetMapping("/top-destinations")  // this code is correct
 //    public List<Object[]> getTopDestinations(@RequestParam(defaultValue = "5") int topCount) {
@@ -217,22 +241,22 @@ public class QueryBookController {
 
 	
 	
-	@GetMapping("/top-destinations")
-    public List<Map<String, Object>> getTopDestinations(@RequestParam(defaultValue = "5") int topCount) {
-        List<Object[]> result = querybookService.getTopDestinations(topCount);
-        
-        // Convert Object[] to a List of Maps
-        List<Map<String, Object>> response = result.stream()
-            .map(record -> {
-                Map<String, Object> map = new HashMap<>();
-                map.put("destinationId", record[0]); // destinationId
-                map.put("queryCount", record[1]);    // queryCount
-                return map;
-            })
-            .collect(Collectors.toList());
-        
-        return response;
-    }
+//	@GetMapping("/top-destinations")
+//    public List<Map<String, Object>> getTopDestinations(@RequestParam(defaultValue = "5") int topCount) {
+//        List<Object[]> result = querybookService.getTopDestinations(topCount);
+//        
+//        // Convert Object[] to a List of Maps
+//        List<Map<String, Object>> response = result.stream()
+//            .map(record -> {
+//                Map<String, Object> map = new HashMap<>();
+//                map.put("destinationId", record[0]); // destinationId
+//                map.put("queryCount", record[1]);    // queryCount
+//                return map;
+//            })
+//            .collect(Collectors.toList());
+//        
+//        return response;
+//    }
 
 	
 	
