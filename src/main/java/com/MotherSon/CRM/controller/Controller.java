@@ -14,8 +14,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -70,6 +72,7 @@ import com.MotherSon.CRM.models.Country;
 //import com.ms.jwt.service.country.CountryService;
 import com.MotherSon.CRM.security.services.CountryService;
 
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 
 @RestController
@@ -91,7 +94,24 @@ public class Controller {
 //		List<Country> countries = countryService.getAllCountries();
 //        return new ResponseEntity<>(countries, HttpStatus.OK);
 //	}
-	
+	@GetMapping("/image/{filename}")
+	public ResponseEntity<UrlResource> getImage(@PathVariable String filename) {
+	    try {
+	        Path imagePath = Paths.get(System.getProperty("user.dir") + "/image", filename);
+	        UrlResource resource = new UrlResource(imagePath.toUri());
+
+	        if (resource.exists() || resource.isReadable()) {
+	            return ResponseEntity.ok()
+	                    .contentType(MediaType.IMAGE_JPEG) // Adjust for PNG if needed
+	                    .body(resource);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	    }
+	}
+
 	
 	@GetMapping("/getall")
 	public Page<Country> getCountry(
@@ -101,6 +121,7 @@ public class Controller {
 			){
 		return countryService.getCountry(page, size, sortDirection);
 	}
+	
 
 	    @GetMapping("/getid/{id}")
 	    public ResponseEntity<Country> getCountrysById(@PathVariable Long id) {
@@ -112,7 +133,8 @@ public class Controller {
 //	   
 	private String timestamp;
 
-	public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/image/countryimages";
+	public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/image";
+	
 //	 @PreAuthorize("hasAuthority('Super_Admin')")
 	@PostMapping("/create")
 	public ResponseEntity<?> saveCountry(@Valid @ModelAttribute Country country,BindingResult result, @RequestParam("image") MultipartFile[] files )
@@ -130,72 +152,32 @@ public class Controller {
 	            return ResponseEntity.status(HttpStatus.CONFLICT)
 	                    .body("Country with the name " + country.getCountryName() + " already exists.");
 	        }
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
 		List<String> imageUrls = new ArrayList<>();
-
-		// String timestamp =
-		// LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy_HHmm"));
-		// String timestamp =
-		// LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmm"));
-		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");//
-		// for date
-
+		
 		Path uploadPath = Paths.get(uploadDirectory);
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
 		}
 
 		for (MultipartFile file : files) {
-
 			// Validate file type
 			if (!isValidImage(file)) {
 				throw new IllegalArgumentException("File must be a JPEG or PNG image.");
 			}
-
-			//// Get the upload date formatted
-			// String uploadDate = LocalDate.now().format(formatter);
-			// String originalFilename = file.getOriginalFilename();
-
-			// Generate a unique file name
-
-			// String uniqueFilename = generateUniqueFilename(uploadDate, originalFilename,
-			// timestamp);
+			
 			String uniqueFilename = generateUniqueFilename(file.getOriginalFilename());
-			// String uniqueFilename = uploadDate + "_" + originalFilename; // e.g.,
-			// "14-12-2024_image.jpg"
 			Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
 			Files.write(fileNameAndPath, file.getBytes());
 
-			// String originalFilename = file.getOriginalFilename();
-			// Path fileNameAndPath = Paths.get(uploadDirectory, originalFilename);
-			// Files.write(fileNameAndPath, file.getBytes());
 			String imageUrl = "/image/" + uniqueFilename;
 			;
 			imageUrls.add(imageUrl);
 		}
 
 		country.setCimage(imageUrls);
-//		 Country savedCountry = countryService.addCountry(country);
-//	        return ResponseEntity.status(HttpStatus.CREATED).body(savedCountry);
 		return ResponseEntity.ok(this.countryService.addCountry(country));
-		//return this.countryService.addCountry(country);
 	}
-
-	// private String generateUniqueFilename(String uploadDate, String
-	// originalFilename) {
-	// TODO Auto-generated method stub
-	// return null;
-	// }
-
-	// private boolean isValidImage(List<MultipartFile> file) {
 
 	private boolean isValidImage(MultipartFile file) {
 		// Get the file content type
@@ -211,18 +193,11 @@ public class Controller {
 		}
 
 		// Set the current time stamp
-
 		String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH-mm-ss"));
-		// DateTimeFormatter timestamp = DateTimeFormatter.ofPattern("HHmm");
-
+		
 		// Generate a UUID
 		String uniqueID = UUID.randomUUID().toString();
 
-		// Create a unique filename
-
-		// return timestamp + "_" + uniqueID + extension;
-		// return uploadDate + "_" + uniqueID + extension; // e.g.,
-		// "14-12-2024_123e4567-e89b-12d3-a456-426614174000.jpg"
 		return timestamp + "_" + uniqueID + extension;
 	}
 

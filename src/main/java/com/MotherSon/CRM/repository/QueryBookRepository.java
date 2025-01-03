@@ -64,6 +64,34 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
      
     @Query("SELECT qb.packid, COUNT(qb) FROM QueryBook qb WHERE qb.userid.userId = :userId GROUP BY qb.packid ORDER BY COUNT(qb) DESC")
     List<Object[]> findTopFivePackagesForUser(@Param("userId") Long userId);
+    
+    
+    
+    @Query("SELECT q.destination.destinationName, COUNT(q) " +
+            "FROM QueryBook q " +
+            "INNER JOIN q.destination d " +
+            "WHERE q.userid.id = :userId " +  // Filter by user ID
+            "GROUP BY q.destination.destinationName " +  // Group by destination name
+            "ORDER BY COUNT(q) DESC")  // Order by the count of occurrences
+    List<Object[]> findTopDestinationsByUser(@Param("userId") Long userId);
+     
+     
+    @Query("SELECT q.destination.destinationName, COUNT(q) " +
+    	       "FROM QueryBook q " +
+    	       "INNER JOIN q.destination d " +
+    	       "GROUP BY q.destination.destinationName " +
+    	       "ORDER BY COUNT(q) DESC")
+    	List<Object[]> findTopDestinationsForSuperAdmin();
+    	
+    	
+    	@Query("SELECT q.leadSource, COUNT(q.leadSource) FROM QueryBook q WHERE q.userid.userId = :userId GROUP BY q.leadSource")
+        List<Object[]> findLeadSourcesForUser(@Param("userId") Long userId);
+     
+        
+        @Query("SELECT q.leadSource, COUNT(q.leadSource) FROM QueryBook q GROUP BY q.leadSource")
+        List<Object[]> findLeadSourcesForSuperAdmin();
+     
+     
      
      
  

@@ -411,6 +411,112 @@ public class UserService implements UserDetailsService  {
  
         return leadSourceCountMap;
     }
+    
+    
+    public Map<String, Object> getTopPackagesAndDestinations(User user) {
+	    Map<String, Object> responseMap = new LinkedHashMap<>();
+ 
+	    
+	    Map<String, Integer> topPackages = getTopPackages(user);
+	    responseMap.put("topFivePackages", topPackages);
+ 
+	    
+	    Map<String, Integer> topDestinations = getTopDestinations(user);
+	    responseMap.put("topTenDestinations", topDestinations);
+ 
+	    return responseMap;
+	}
+ 
+	public Map<String, Integer> getLeadSources(User user) {
+	    Map<String, Integer> leadSourceMap = new LinkedHashMap<>();
+ 
+	    
+	    if (user.getRole().getRoleName().equalsIgnoreCase("Super Admin")) {
+	        
+	        List<Object[]> leadSources = queryBookRepository.findLeadSourcesForSuperAdmin();
+	        
+	        
+	        for (Object[] result : leadSources) {
+	            String leadSource = (String) result[0];  
+	            Integer count = ((Long) result[1]).intValue();
+	            leadSourceMap.put(leadSource, count);
+	        }
+	    } else {
+	        // Fetch lead sources specific to the user
+	        List<Object[]> leadSources = queryBookRepository.findLeadSourcesForUser(user.getUserId());
+ 
+	        
+	        for (Object[] result : leadSources) {
+	            String leadSource = (String) result[0];  
+	            Integer count = ((Long) result[1]).intValue();
+	            leadSourceMap.put(leadSource, count);
+	        }
+	    }
+ 
+	    return leadSourceMap;
+	}
+ 
+	private Map<String, Integer> getTopPackages(User user) {
+	    Map<String, Integer> packageCountMap = new LinkedHashMap<>();
+ 
+	    if (user.getRole().getRoleName().equalsIgnoreCase("Super_Admin")) {
+	      
+	        List<Object[]> topPackages = queryBookRepository.findTopFivePackagesForSuperAdmin();
+ 
+	      
+	        for (int i = 0; i < Math.min(topPackages.size(), 5); i++) {
+	            Object[] result = topPackages.get(i);
+	            Long packageId = (Long) result[0];  
+	            Integer count = ((Long) result[1]).intValue();
+	            packageCountMap.put("Package " + packageId, count);
+	        }
+	    } else {
+	       
+	        List<Object[]> topPackages = queryBookRepository.findTopFivePackagesForUser(user.getUserId());
+ 
+	        
+	        for (int i = 0; i < Math.min(topPackages.size(), 5); i++) {
+	            Object[] result = topPackages.get(i);
+	            Long packageId = (Long) result[0];  
+	            Integer count = ((Long) result[1]).intValue();
+	            packageCountMap.put("Package " + packageId, count);
+	        }
+	    }
+ 
+	    return packageCountMap;
+	}
+ 
+	private Map<String, Integer> getTopDestinations(User user) {
+	    Map<String, Integer> destinationCountMap = new LinkedHashMap<>();
+ 
+	    if (user.getRole().getRoleName().equalsIgnoreCase("Super_Admin")) {
+	       
+	        List<Object[]> topDestinations = queryBookRepository.findTopDestinationsForSuperAdmin();
+ 
+	        
+	        for (int i = 0; i < Math.min(topDestinations.size(), 10); i++) {
+	            Object[] result = topDestinations.get(i);
+	            String destinationName = (String) result[0];  // Destination name
+	            Integer count = ((Long) result[1]).intValue();
+	            destinationCountMap.put(destinationName, count);
+	        }
+	    } else {
+	        
+	        List<Object[]> topDestinations = queryBookRepository.findTopDestinationsByUser(user.getUserId());
+ 
+	        
+	        for (int i = 0; i < Math.min(topDestinations.size(), 10); i++) {
+	            Object[] result = topDestinations.get(i);
+	            String destinationName = (String) result[0];  
+	            Integer count = ((Long) result[1]).intValue();
+	            destinationCountMap.put(destinationName, count);
+	        }
+	    }
+ 
+	    return destinationCountMap;
+	}
+
+ 
 }
  
  
