@@ -40,10 +40,10 @@ import jakarta.validation.Valid;
 		private PkgRepository pkgrepository;
 		
 		
-//		@GetMapping("/getAll")
-//		public List<PackageItinerary> getAllPackageItinerary(){
-//			return packageItineraryService.getAllPackageItinerary();
-//		}
+		@GetMapping("/getAll")
+		public List<PackageItinerary> getAllPackageItinerary(){
+			return packageItineraryService.getAllPackageItinerary();
+		}
 		
 		
 //		@GetMapping("/getAll")
@@ -55,12 +55,12 @@ import jakarta.validation.Valid;
 //			return packageItineraryService.getPackageItinerary(page, size, sortDirection);
 //		}
 		
-		@GetMapping("/getAll")
-	    public List<PackageItinerary> getAllPackageItineraries(
-	            @RequestParam(required = false) Long packageId,
-	            @RequestParam(required = false) Long packageItineraryId) {
-	        return packageItineraryService.getAllPackageItineraries(packageId, packageItineraryId);
-	    }
+//		@GetMapping("/getAll")
+//	    public List<PackageItinerary> getAllPackageItineraries(
+//	            @RequestParam(required = false) Long packageId,
+//	            @RequestParam(required = false) Long packageItineraryId) {
+//	        return packageItineraryService.getAllPackageItineraries(packageId, packageItineraryId);
+//	    }
 
 		
 		
@@ -88,10 +88,10 @@ import jakarta.validation.Valid;
 		@PostMapping("/create")
 		public  PackageItinerary addPackageItinerary (  @RequestBody PackageItinerary packageItinerary) {
 			
-			if(packageItinerary.getPackid()==null || !pkgrepository.existsById(packageItinerary.getPackid())){
-				 throw new IllegalArgumentException("packid does not exist");
-			
-			}
+//			if(packageItinerary.getPackid()==null || !pkgrepository.existsById(packageItinerary.getPackid())){
+//				 throw new IllegalArgumentException("packid does not exist");
+//			
+//			}
 			PackageItinerary packagetitinersave = packageItineraryService.addPackageItinerary(packageItinerary);
 			   
 //			return new ResponseEntity<>("itinerary is created",HttpStatus.CREATED);

@@ -95,7 +95,6 @@ public class Country {
 	
 	
 	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	
 	@JsonManagedReference
 	private Set<State> states;
 

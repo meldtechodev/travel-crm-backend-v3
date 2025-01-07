@@ -144,8 +144,7 @@ public class UserController {
     public ResponseEntity<?> getTopPackagesAndDestinations(@RequestParam Long userId) {
         
         Optional<User> userOpt = userRepository.findById(userId);
- 
-        
+
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Collections.singletonMap("error", "User not found"));

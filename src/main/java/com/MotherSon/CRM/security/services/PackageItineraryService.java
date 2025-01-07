@@ -21,16 +21,16 @@ import com.MotherSon.CRM.repository.PackageItineraryRepository;
 		private PackageItineraryRepository packageItineraryRepository;
 		
 		
-		public List<PackageItinerary> getAllPackageItineraries(Long packageId, Long packageItineraryId) {
-	        // Fetch all itineraries from the database
-	        List<PackageItinerary> allItineraries = packageItineraryRepository.findAll();
-
-	        // Apply filtering logic
-	        return allItineraries.stream()
-	                .filter(itinerary -> (packageId == null || itinerary.getPackid().equals(packageId))) // Filter by packageId
-	                .filter(itinerary -> (packageItineraryId == null || itinerary.getId().equals(packageItineraryId))) // Filter by packageItineraryId
-	                .collect(Collectors.toList());
-	    }
+//		public List<PackageItinerary> getAllPackageItineraries(Long packageId, Long packageItineraryId) {
+//	        // Fetch all itineraries from the database
+//	        List<PackageItinerary> allItineraries = packageItineraryRepository.findAll();
+//
+//	        // Apply filtering logic
+//	        return allItineraries.stream()
+//	                .filter(itinerary -> (packageId == null || itinerary.getPackid().equals(packageId))) // Filter by packageId
+//	                .filter(itinerary -> (packageItineraryId == null || itinerary.getId().equals(packageItineraryId))) // Filter by packageItineraryId
+//	                .collect(Collectors.toList());
+//	    }
 
 		
 		
@@ -69,6 +69,12 @@ import com.MotherSon.CRM.repository.PackageItineraryRepository;
 
 		public PackageItinerary findById(long id) {
 			return null;
+		}
+
+
+
+		public List<PackageItinerary> getAllPackageItinerary() {
+			return packageItineraryRepository.findAll();
 		}
 		
 		

@@ -90,9 +90,5 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
         
         @Query("SELECT q.leadSource, COUNT(q.leadSource) FROM QueryBook q GROUP BY q.leadSource")
         List<Object[]> findLeadSourcesForSuperAdmin();
-     
-     
-     
-     
- 
+      
 }

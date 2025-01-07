@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -41,8 +42,7 @@ public class PackageitineraryDetails {
 	private boolean status;
 	
 	
-	private String category;
-	
+	private String category;	
 	
 	
 	public String getSightseeingid() {
@@ -179,7 +179,7 @@ public class PackageitineraryDetails {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "roomtypesid")
-	@JsonBackReference
+//	@JsonBackReference
 	private RoomTypes roomtypes;
  
 	

@@ -46,6 +46,8 @@ import jakarta.validation.constraints.NotBlank;
 			
 			@Column(name="SupplierId")
 			private Long SupplierId;
+			
+
 
 		
 

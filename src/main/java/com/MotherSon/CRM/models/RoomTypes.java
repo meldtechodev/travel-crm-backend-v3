@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -24,7 +25,8 @@ import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
-	@Table(name="room_types_master")
+@Table(name="room_types_master")
+@JsonIgnoreProperties({"packageitineraryDetails"})
 	public class RoomTypes {
 		
 		@Id
