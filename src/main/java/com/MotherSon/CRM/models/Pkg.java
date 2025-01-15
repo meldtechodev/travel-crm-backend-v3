@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -47,6 +49,11 @@ import jakarta.validation.constraints.NotBlank;
 			@Column(name="SupplierId")
 			private Long SupplierId;
 			
+			@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+			@JsonManagedReference
+			private Set<PolicyDetails> packit;
+			
+			
 
 
 		
@@ -65,6 +72,14 @@ import jakarta.validation.constraints.NotBlank;
 			//@NotBlank(message = "cityCoverdid is required")
 			
 			
+			public Set<PolicyDetails> getPackit() {
+				return packit;
+			}
+
+			public void setPackit(Set<PolicyDetails> packit) {
+				this.packit = packit;
+			}
+
 			public Long getSupplierId() {
 				return SupplierId;
 			}

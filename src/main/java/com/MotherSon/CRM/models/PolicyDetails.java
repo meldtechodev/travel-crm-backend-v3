@@ -51,13 +51,23 @@ public class PolicyDetails {
 
 	}
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="policyid")
 	private Policy policy;
 	
 	@ManyToOne
 	@JoinColumn(name="packItId")
-	private PackageItinerary packitid;
+	private Pkg packit;
+	
+	
+	public Pkg getPackitid() {
+		return packit;
+	}
+
+	public void setPackitid(Pkg packitid) {
+		this.packit = packitid;
+	}
+
 	public String getPolicytitle() {
 		return policytitle;
 	}
@@ -136,16 +146,7 @@ public class PolicyDetails {
 
 	public void setPolicy(Policy policy) {
 		this.policy = policy;
-	}
-
-	public PackageItinerary getPackitid() {
-		return packitid;
-	}
-
-	public void setPackitid(PackageItinerary packitid) {
-		this.packitid = packitid;
-	}
-	
+	}	
 	
 	
 	
