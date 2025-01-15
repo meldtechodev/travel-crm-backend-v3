@@ -49,9 +49,9 @@ import jakarta.validation.constraints.NotBlank;
 			@Column(name="SupplierId")
 			private Long SupplierId;
 			
-			@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-			@JsonManagedReference
-			private Set<PolicyDetails> packit;
+//			@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//			@JsonManagedReference
+//			private Set<PolicyDetails> packit;
 			
 			
 
@@ -72,13 +72,13 @@ import jakarta.validation.constraints.NotBlank;
 			//@NotBlank(message = "cityCoverdid is required")
 			
 			
-			public Set<PolicyDetails> getPackit() {
-				return packit;
-			}
-
-			public void setPackit(Set<PolicyDetails> packit) {
-				this.packit = packit;
-			}
+//			public Set<PolicyDetails> getPackit() {
+//				return packit;
+//			}
+//
+//			public void setPackit(Set<PolicyDetails> packit) {
+//				this.packit = packit;
+//			}
 
 			public Long getSupplierId() {
 				return SupplierId;
