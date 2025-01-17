@@ -3,6 +3,6 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/Meld-Techo-Travel-CRM-0.0.1-SNAPSHOT.jar Meld-Techo-Travel-CRM.jar
+COPY --from=build /target/TravelCRMV3-0.0.1-SNAPSHOT.jar TravelCRMV3.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar","Meld-Techo-Travel-CRM.jar"]
+ENTRYPOINT ["java", "-jar","TravelCRMV3.jar"]
