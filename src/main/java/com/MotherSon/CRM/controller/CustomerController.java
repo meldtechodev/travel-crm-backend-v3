@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.MotherSon.CRM.dto.ErrorResponse;
+import com.MotherSon.CRM.dto.Response;
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.models.Customer;
 import com.MotherSon.CRM.repository.CustomerRepository;
@@ -72,6 +74,22 @@ public class CustomerController {
 	public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
         return customerService.saveCustomer(customer);
     }
+	
+	@PostMapping("/findcustomer")
+	public ResponseEntity<?> checkCustomerExistence(@RequestBody Map<String, String> customerData) {
+	    try {
+	        String emailId = customerData.get("emailId");
+	        String contactNo = customerData.get("contactNo");
+	        
+	        // Call the service method to check customer existence
+	        return customerService.checkCustomerExistence(emailId, contactNo);
+	    } catch (Exception e) {
+	        ErrorResponse errorResponse = new ErrorResponse("FAILURE", "An unexpected error occurred: " + e.getMessage(), "500");
+	        Response<ErrorResponse> response = new Response<>("FAILURE", "Internal server error", errorResponse);
+	        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+ 
 	
 	
 	

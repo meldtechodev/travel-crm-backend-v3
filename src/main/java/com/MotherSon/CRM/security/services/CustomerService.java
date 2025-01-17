@@ -1,6 +1,8 @@
 package com.MotherSon.CRM.security.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,6 +176,45 @@ public long getActiveCustomer() {
 //        return new ResponseEntity<>(savedCustomer, HttpStatus.CONFLICT); // Return created customer object
 //	}
 	
+	
+	public ResponseEntity<?> checkCustomerExistence(String emailId, String contactNo) {
+	    // Check if email ID exists in the repository
+	    if (customerRepository.existsByEmailId(emailId)) {
+	        Map<String, Object> errorResponse = new HashMap<>();
+	        errorResponse.put("status", "FAILURE");
+	        errorResponse.put("message", "EmailId already exists.");
+	        errorResponse.put("errorCode", "409");
+ 
+	        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+	    }
+ 
+	    // Check if contact number exists in the repository
+	    if (customerRepository.existsByContactNo(contactNo)) {
+	        Customer existingCustomer = customerRepository.findByContactNo(contactNo);
+ 
+	        Map<String, Object> errorData = new HashMap<>();
+	        errorData.put("status", "FAILURE");
+	        errorData.put("message", "Customer already exists with this ContactNo.");
+	        errorData.put("errorCode", "409");
+	        errorData.put("customer", existingCustomer);
+ 
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("status", "FAILURE");
+	        response.put("message", "Validation error");
+	        response.put("data", errorData);
+ 
+	        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+	    }
+ 
+	    // If no customer exists with the given email or contact, return success response
+	    Map<String, Object> successResponse = new HashMap<>();
+	    successResponse.put("status", "SUCCESS");
+	    successResponse.put("message", "Customer email and contact are available.");
+ 
+	    return new ResponseEntity<>(successResponse, HttpStatus.OK);
+	}
+ 
+ 
 }
 	
 
