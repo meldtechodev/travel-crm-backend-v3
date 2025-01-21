@@ -13,16 +13,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.MotherSon.CRM.dto.CustomException;
 import com.MotherSon.CRM.models.Country;
 import com.MotherSon.CRM.models.Customer;
 import com.MotherSon.CRM.models.CustomerResponse;
+import com.MotherSon.CRM.models.User;
 import com.MotherSon.CRM.repository.CustomerRepository;
+import com.MotherSon.CRM.repository.UserRepository;
 
 @Service
 public class CustomerService {
 	
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	
 	public Customer addCustomer(Customer customer) {
@@ -85,6 +91,61 @@ public long getActiveCustomer() {
 		return customerRepository.findById(id);
 	}
 	
+	
+	// Create Service code
+		public ResponseEntity<?> createCustomer(Customer customer) {
+	 
+	        if (customerRepository.existsByEmailId(customer.getEmailId())) {
+	            throw new CustomException("EmailId already exists.", "400");
+	        }
+	        
+	        
+	        if (customer.getUser() == null || customer.getUser().getUserId() == null) {
+		        throw new CustomException("User ID cannot be null.", "User_ID_REQUIRED");
+		    }
+	 
+	        if (customerRepository.existsByContactNo(customer.getContactNo())) {
+	            Customer existingCustomer = customerRepository.findByContactNo(customer.getContactNo());
+	 
+	            // Create the custom response for validation error with the existing customer details
+	            Map<String, Object> errorData = new HashMap<>();
+	            errorData.put("status", "FAILURE");
+	            errorData.put("message", "Customer already exists with this ContactNo.");
+	            errorData.put("errorCode", "409");
+	            errorData.put("customer", existingCustomer);
+	 
+	            Map<String, Object> response = new HashMap<>();
+	            response.put("status", "FAILURE");
+	            response.put("message", "Validation error");
+	            response.put("data", errorData);
+	 
+	            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+	        }
+	 
+	        if (customer.getAdharNo() != null && !customer.getAdharNo().isEmpty() && customerRepository.existsByAdharNo(customer.getAdharNo())) {
+	            throw new CustomException("Aadhar Number already exists.", "AADHAR_EXISTS");
+	        }
+	 
+	       
+	        if (customer.getPassportId() != null && !customer.getPassportId().isEmpty() && customerRepository.existsByPassportId(customer.getPassportId())) {
+	            throw new CustomException("Passport ID already exists.", "PASSPORT_EXISTS");
+	        }
+	        
+	        
+	        User user = userRepository.findById(customer.getUser().getUserId())
+		            .orElseThrow(() -> new CustomException("User with ID " + customer.getUser().getUserId() + " does not exist.", "400"));
+		    customer.setUser(user);
+	 
+	        Customer savedCustomer = customerRepository.save(customer);
+	 
+	        Map<String, Object> successResponse = new HashMap<>();
+	        successResponse.put("status", "Successful");
+	        successResponse.put("message", "Created successfully");
+	        successResponse.put("customer", savedCustomer);
+	 
+	        return new ResponseEntity<>(successResponse, HttpStatus.CREATED); // HTTP 201 Created
+	    }
+	 
 	
 
 	

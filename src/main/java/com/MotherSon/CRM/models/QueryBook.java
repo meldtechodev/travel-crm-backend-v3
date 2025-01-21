@@ -174,7 +174,7 @@ public class QueryBook {
 	
 	private boolean emailStatus;
 	
-	private boolean leadStatus;
+	private String leadStatus;
 		
 	private LocalDateTime lastUpdated_Date;
 	
@@ -373,19 +373,14 @@ public class QueryBook {
 	public void setEmailStatus(boolean emailStatus) {
 		this.emailStatus = emailStatus;
 	}
-
-
-	
 	
 	
 
-	
-
-	public boolean isLeadStatus() {
+	public String getLeadStatus() {
 		return leadStatus;
 	}
 
-	public void setLeadStatus(boolean leadStatus) {
+	public void setLeadStatus(String leadStatus) {
 		this.leadStatus = leadStatus;
 	}
 

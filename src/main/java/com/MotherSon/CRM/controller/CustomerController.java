@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.MotherSon.CRM.dto.CustomException;
 import com.MotherSon.CRM.dto.ErrorResponse;
 import com.MotherSon.CRM.dto.Response;
 import com.MotherSon.CRM.models.Country;
@@ -70,10 +71,52 @@ public class CustomerController {
 
     
 
-	@PostMapping("/create")
-	public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
-        return customerService.saveCustomer(customer);
-    }
+//	@PostMapping("/create")
+//	public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
+//        return customerService.saveCustomer(customer);
+//    }
+	
+	// Create Code
+		 @PostMapping("/create")
+		    public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
+		        try {
+		            // Call the service method to create a customer
+		            return customerService.createCustomer(customer);
+	 
+		        } catch (CustomException e) {
+		            // Handle the custom exception and map it to ErrorResponse
+		            ErrorResponse errorResponse = new ErrorResponse(
+		                "FAILURE",
+		                e.getMessage(),
+		                e.getErrorCode()
+		            );
+	 
+		            Response<ErrorResponse> response = new Response<>(
+		                "FAILURE",
+		                "Validation error",
+		                errorResponse
+		            );
+	 
+		            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	 
+		        } catch (Exception e) {
+		            // Handle unexpected exceptions
+		            ErrorResponse errorResponse = new ErrorResponse(
+		                "FAILURE",
+		                "An unexpected error occurred: " + e.getMessage(),
+		                "500"
+		            );
+	 
+		            Response<ErrorResponse> response = new Response<>(
+		                "FAILURE",
+		                "Internal server error",
+		                errorResponse
+		            );
+	 
+		            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		        }
+		    }
+	 
 	
 	@PostMapping("/findcustomer")
 	public ResponseEntity<?> checkCustomerExistence(@RequestBody Map<String, String> customerData) {

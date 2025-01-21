@@ -26,9 +26,7 @@ import jakarta.validation.constraints.Pattern;
 @Entity
 @Table(name = "Customer_Master")
 public class Customer {
-	
-	
-	
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
