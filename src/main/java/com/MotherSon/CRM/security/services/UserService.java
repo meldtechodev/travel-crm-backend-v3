@@ -515,6 +515,82 @@ public class UserService implements UserDetailsService  {
  
 	    return destinationCountMap;
 	}
+	
+	public Map<String, Object> getTopStatesForUsers(Long userId) {
+        // Find the user by ID
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+ 
+        // Check if the user has the "Super_Admin" role
+        if (user.getRole().getRoleName().equalsIgnoreCase("Super Admin")) {
+            // Fetch and return the top states for users
+            return getTopStates();
+        }
+ 
+        // If the user is not a Super Admin, return null
+        return null;
+    }
+ 
+    private Map<String, Object> getTopStates() {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+ 
+        // Fetch the top states grouped by user, state, and country with counts
+        List<Object[]> results = queryBookRepository.getTopStatesForUsers();
+ 
+        // Process the results and build the map
+        for (Object[] result : results) {
+            String userName = (String) result[0];  // User's name from the query
+            String stateName = (String) result[1]; // State name from the query
+            String countryName = (String) result[2]; // Country name from the query
+            Long destinationCount = (Long) result[3]; // Count of destinations in that state and country
+ 
+            // Initialize the user map if not already created
+            resultMap.putIfAbsent(userName, new LinkedHashMap<String, Object>());
+ 
+            // Initialize the domestic and international maps if not already created for the user
+            Map<String, Object> categories = (Map<String, Object>) resultMap.get(userName);
+            if (categories == null) {
+                categories = new LinkedHashMap<>();
+                resultMap.put(userName, categories);
+            }
+ 
+            // Ensure "domestic" and "international" are correctly initialized as Map<String, Integer>
+            Map<String, Integer> domesticMap = (Map<String, Integer>) categories.get("domestic");
+            if (domesticMap == null) {
+                domesticMap = new LinkedHashMap<>();
+                categories.put("domestic", domesticMap);
+            }
+ 
+            Map<String, Integer> internationalMap = (Map<String, Integer>) categories.get("international");
+            if (internationalMap == null) {
+                internationalMap = new LinkedHashMap<>();
+                categories.put("international", internationalMap);
+            }
+ 
+            // If the country is India, it's domestic; otherwise, it's international
+            if ("India".equals(countryName)) {
+                // Add to the domestic map for the user (state-wise count)
+                domesticMap.put(stateName, destinationCount.intValue());
+            } else {
+                // Add to the international map for the user (country-wise count)
+                internationalMap.merge(countryName, destinationCount.intValue(), Integer::sum);
+            }
+        }
+ 
+        // Aggregating the count of "India" under international from the domestic states
+        resultMap.forEach((userName, categories) -> {
+            Map<String, Integer> domesticMap = (Map<String, Integer>) ((HashMap<String,Object>) categories).get("domestic");
+            int domesticCount = domesticMap.values().stream().mapToInt(Integer::intValue).sum();
+            
+            // Add the total count of India under international (if not already present)
+            Map<String, Integer> internationalMap = (Map<String, Integer>) ((HashMap<String,Object>) categories).get("international");
+            internationalMap.put("India", domesticCount);
+        });
+ 
+        return resultMap;
+    }
+ 
+ 
 
  
 }

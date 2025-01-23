@@ -216,8 +216,5 @@ import com.MotherSon.CRM.repository.HotelServiceImpl;
 		        hotelPriceDTOs
 		    );
 		}
-		
-		
-		
-		}
+}
 

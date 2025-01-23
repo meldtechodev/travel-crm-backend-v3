@@ -101,6 +101,12 @@ public class QueryBookService {
 		return querygetco;
 	}
 	
+	
+	public List<QueryBook> getQueriesByType(String queryType) {
+        return querybookRepository.findByQueryType(queryType);
+    }
+ 
+	
  
 	
 	

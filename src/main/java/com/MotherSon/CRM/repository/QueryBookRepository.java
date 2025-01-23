@@ -90,5 +90,19 @@ public interface QueryBookRepository extends JpaRepository<QueryBook, Long> {
         
         @Query("SELECT q.leadSource, COUNT(q.leadSource) FROM QueryBook q GROUP BY q.leadSource")
         List<Object[]> findLeadSourcesForSuperAdmin();
+        
+        
+        @Query("SELECT u.name, s.stateName, c.countryName, COUNT(q) " +
+ 	           "FROM QueryBook q " +
+ 	           "JOIN q.userid u " +  // Join with User entity
+ 	           "JOIN q.destination d " + // Join with Destination entity
+ 	           "JOIN d.state s " +    // Join with State entity
+ 	           "JOIN s.country c " +  // Join with Country entity
+ 	           "WHERE q.isdelete = false " +  // Optionally filter out deleted entries
+ 	           "GROUP BY u.userId, s.id, c.id " +  // Group by userId, stateId, and countryId
+ 	           "ORDER BY u.userId ASC, COUNT(q) DESC")  // Order by userId and count in descending order
+ 	    List<Object[]> getTopStatesForUsers();
+  
+ 		List<QueryBook> findByQueryType(String queryType);
       
 }

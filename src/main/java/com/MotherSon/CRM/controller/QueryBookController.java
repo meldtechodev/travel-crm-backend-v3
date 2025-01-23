@@ -304,6 +304,12 @@ public class QueryBookController {
 //        // Return the counts as a simple string
 //        return "TotalQueryBook " + totalQueryBook + " Active " + activeQueryBook;
 //    }
+	
+	@GetMapping("/filter")
+    public List<QueryBook> getQueriesByType(@RequestParam String queryType) {
+        return querybookService.getQueriesByType(queryType);
+    }
+ 
 
 
 	

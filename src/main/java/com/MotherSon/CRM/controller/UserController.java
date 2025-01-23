@@ -162,5 +162,19 @@ public class UserController {
         
         return ResponseEntity.ok(topPackagesAndDestinations);
     }
+	
+	@GetMapping("/top-states")
+    public ResponseEntity<Map<String, Object>> getTopStatesForUsers(@RequestParam Long userId) {
+        // Fetch the result from the service method based on user role
+        Map<String, Object> result = userService.getTopStatesForUsers(userId);
+ 
+        // If the result is null, it means the user is not a Super Admin, so we return null
+        if (result == null) {
+            return ResponseEntity.ok(null);
+        }
+ 
+        // Otherwise, return the top states as per the Super Admin or regular user
+        return ResponseEntity.ok(result);
+    }
  
 }

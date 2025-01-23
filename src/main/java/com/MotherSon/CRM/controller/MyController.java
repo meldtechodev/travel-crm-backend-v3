@@ -35,6 +35,7 @@ import com.MotherSon.CRM.dto.Response;
 import com.MotherSon.CRM.models.Hotel;
 import com.MotherSon.CRM.security.services.HotelService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 
 	@CrossOrigin(origins = "*", maxAge = 3600)
@@ -64,6 +65,12 @@ import jakarta.validation.Valid;
 	        return hotel.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
 	                      .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	    }
+		
+		@PostMapping("/quickadd")
+		public ResponseEntity<?> quickAddHotel(@RequestBody Hotel hotel) {
+		    return ResponseEntity.ok(this.hotelService.addHotel(hotel));
+		}
+ 
 		
         
 		

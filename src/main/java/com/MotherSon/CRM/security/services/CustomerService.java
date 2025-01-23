@@ -255,7 +255,7 @@ public long getActiveCustomer() {
  
 	        Map<String, Object> errorData = new HashMap<>();
 	        errorData.put("status", "FAILURE");
-	        errorData.put("message", "Customer already exists with this ContactNo.");
+	        errorData.put("message", "Customer already exists with this Contact number");
 	        errorData.put("errorCode", "409");
 	        errorData.put("customer", existingCustomer);
  

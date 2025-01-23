@@ -1,379 +1,399 @@
 package com.MotherSon.CRM.models;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-
-
-@JsonIgnoreProperties(value = { "roomtypes","hotelprice"})
-@Entity
-	@Table(name = "hotel_master")
-	public class Hotel {
-		
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private long id;
-		
-		@ManyToOne(fetch = FetchType.EAGER)
-		@JoinColumn(name = "c_id", nullable = false)
-		//@JsonBackReference
-		private Country country;
-		
-		@ManyToOne(fetch = FetchType.EAGER)
-		@JoinColumn(name = "s_id")
-		//@JsonBackReference
-		private State state;
-		
-		@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		// @JsonIgnore
-		@JsonManagedReference
-		private Set<HotelPrice> hotelprice;
  
-		
-//		@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-////		// @JsonIgnore
-//		@JsonManagedReference
-//		private Set<Hotel> hotelprice;
-//		
-//		
-//		public Set<Hotel> getHotelprice() {
-//			return hotelprice;
-//		}
-//
-//
-//		public void setHotelprice(Set<Hotel> hotelprice) {
-//			this.hotelprice = hotelprice;
-//		}
-//
-
-
-
-
-
-		public Set<HotelPrice> getHotelprice() {
-			return hotelprice;
-		}
-
-
-		public void setHotelprice(Set<HotelPrice> hotelprice) {
-			this.hotelprice = hotelprice;
-		}
-
-
-
-		@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		// @JsonIgnore
-		@JsonManagedReference
-		private Set<RoomTypes> roomtypes;
-		
-	
-
-
-		public Set<RoomTypes> getRoomtypes() {
-			return roomtypes;
-		}
-
-
-		public void setRoomtypes(Set<RoomTypes> roomtypes) {
-			this.roomtypes = roomtypes;
-		}
-      
-		
-		
-		@Size(min = 2, max = 70, message = " hotel name must be between 2 and 70 characters")
-		
-		@NotBlank(message = "Hotel name is required")
-		//@Column
-		private String hname;
-		
-        
-		@Size(min = 2, message = "hotel description minimum 2 characters")
-		@NotBlank(message = "hoteldescription is required name is required")
-		@Column(columnDefinition = "TEXT")
-		private String hdescription;
-		
-		 @NotBlank(message="hotel rating is required")
-		private String star_ratings;
-		
-		//@ElementCollection
-		private List<String> himage;
-		
-		@NotBlank(message = "hotel contact name is required ")
-		private String hcontactname;
-		
-		   @NotBlank(message = "Hotel contact number is required")
-		    @Pattern(regexp = "\\d+", message = "Hotel contact number must be numeric")
-		private String hcontactnumber;
-		
-		 @NotBlank(message = "Hotel contact email is required")
-		    @Email(message = "Invalid email format")
-		private String hcontactemail;
-		
-		 @NotBlank(message = "Hotel address is required")
-		private String haddress;
-		 
-		 @NotBlank(message = "Hotel pincode is required")
-		    
-		private String hpincode;
-		
-		private LocalDateTime created_date;
-		
-		private LocalDateTime modified_date;
-		
-		@PrePersist
-	    protected void onCreate() {
-	        created_date = LocalDateTime.now();
-	        modified_date = LocalDateTime.now();
-	        
-		}
-		
-		
-		@PreUpdate
-	    protected void onUpdate() {
-	        modified_date = LocalDateTime.now();
-	    }
-		
-		 @NotBlank(message = "Created by is required")
-		private String created_by;
-		
-		 @NotBlank(message = "modified_by by is required")
-		private String modified_by;
-		
-		private String ipaddress;
-		
-		private boolean status;
-		
-		private boolean isdelete;
-		
-		
-		
-		
-		
-	   @ManyToOne(fetch = FetchType.EAGER)
-	   @JoinColumn(name = "d_id")
-	  // @JsonBackReference
-	  private Destination destination;
+import java.time.LocalDateTime;
 
-	public Country getCountry() {
-		return country;
-	}
+import java.util.List;
 
+import java.util.Set;
+ 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-	public void setCountry(Country country) {
-		this.country = country;
-	}
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+ 
+import jakarta.persistence.CascadeType;
 
+import jakarta.persistence.Entity;
 
-	public State getState() {
-		return state;
-	}
+import jakarta.persistence.FetchType;
 
+import jakarta.persistence.GeneratedValue;
 
-	public void setState(State state) {
-		this.state = state;
-	}
+import jakarta.persistence.GenerationType;
 
+import jakarta.persistence.Id;
 
-	public long getId() {
-		return id;
-	}
+import jakarta.persistence.JoinColumn;
 
+import jakarta.persistence.ManyToOne;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+import jakarta.persistence.OneToMany;
 
+import jakarta.persistence.PrePersist;
 
+import jakarta.persistence.PreUpdate;
 
+import jakarta.persistence.Table;
+ 
+@JsonIgnoreProperties(value = { "roomtypes", "hotelprice" })
 
-	public String getHname() {
-		return hname;
-	}
+@Entity
 
+@Table(name = "hotel_master")
 
-	public void setHname(String hname) {
-		this.hname = hname;
-	}
+public class Hotel {
+ 
+    @Id
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-	public String getHdescription() {
-		return hdescription;
-	}
+    private long id;
+ 
+    private String hname;
+ 
+    @ManyToOne(fetch = FetchType.EAGER)
 
+    @JoinColumn(name = "c_id", nullable = true)  // Nullable
 
-	public void setHdescription(String hdescription) {
-		this.hdescription = hdescription;
-	}
+    private Country country;
+ 
+    @ManyToOne(fetch = FetchType.EAGER)
 
+    @JoinColumn(name = "s_id", nullable = true)  // Nullable
 
-	public String getStar_ratings() {
-		return star_ratings;
-	}
+    private State state;
+ 
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 
+    @JsonManagedReference
 
-	public void setStar_ratings(String star_ratings) {
-		this.star_ratings = star_ratings;
-	}
+    private Set<RoomTypes> roomtypes;
+ 
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 
+    @JsonManagedReference
 
-	public List<String> getHimage() {
-		return himage;
-	}
+    private Set<HotelPrice> hotelprice;
+ 
+    private String hdescription;
+ 
+    private String star_ratings;
+ 
+    private List<String> himage;
+ 
+    private String hcontactname;
+ 
+    private String hcontactnumber;
+ 
+    private String hcontactemail;
+ 
+    private String haddress;
+ 
+    private String hpincode;
+ 
+    private LocalDateTime created_date;
+ 
+    private LocalDateTime modified_date;
+ 
+    @PrePersist
 
+    protected void onCreate() {
 
-	public void setHimage(List<String> himage) {
-		this.himage = himage;
-	}
+        created_date = LocalDateTime.now();
 
+        modified_date = LocalDateTime.now();
 
-	public String getHcontactname() {
-		return hcontactname;
-	}
+    }
+ 
+    @PreUpdate
 
+    protected void onUpdate() {
 
-	public void setHcontactname(String hcontactname) {
-		this.hcontactname = hcontactname;
-	}
+        modified_date = LocalDateTime.now();
 
+    }
+ 
+    private String created_by;
+ 
+    private String modified_by;
+ 
+    private String ipaddress;
+ 
+    private boolean status;
+ 
+    private boolean isdelete;
+ 
+    @ManyToOne(fetch = FetchType.EAGER)
 
-	public String getHcontactnumber() {
-		return hcontactnumber;
-	}
+    @JoinColumn(name = "d_id", nullable = true)  // Nullable
 
+    private Destination destination;
+ 
+    // Getters and Setters
+ 
+    public long getId() {
 
-	public void setHcontactnumber(String hcontactnumber) {
-		this.hcontactnumber = hcontactnumber;
-	}
+        return id;
 
+    }
+ 
+    public void setId(long id) {
 
-	public String getHcontactemail() {
-		return hcontactemail;
-	}
+        this.id = id;
 
+    }
+ 
+    public String getHname() {
 
-	public void setHcontactemail(String hcontactemail) {
-		this.hcontactemail = hcontactemail;
-	}
+        return hname;
 
+    }
+ 
+    public void setHname(String hname) {
 
-	public String getHaddress() {
-		return haddress;
-	}
+        this.hname = hname;
 
+    }
+ 
+    public Country getCountry() {
 
-	public void setHaddress(String haddress) {
-		this.haddress = haddress;
-	}
+        return country;
 
+    }
+ 
+    public void setCountry(Country country) {
 
-	public String getHpincode() {
-		return hpincode;
-	}
+        this.country = country;
 
+    }
+ 
+    public State getState() {
 
-	public void setHpincode(String hpincode) {
-		this.hpincode = hpincode;
-	}
+        return state;
 
+    }
+ 
+    public void setState(State state) {
 
-	public LocalDateTime getCreated_date() {
-		return created_date;
-	}
+        this.state = state;
 
+    }
+ 
+    public Set<RoomTypes> getRoomtypes() {
 
-	public void setCreated_date(LocalDateTime created_date) {
-		this.created_date = created_date;
-	}
+        return roomtypes;
 
+    }
+ 
+    public void setRoomtypes(Set<RoomTypes> roomtypes) {
 
-	public LocalDateTime getModified_date() {
-		return modified_date;
-	}
+        this.roomtypes = roomtypes;
 
+    }
+ 
+    public Set<HotelPrice> getHotelprice() {
 
-	public void setModified_date(LocalDateTime modified_date) {
-		this.modified_date = modified_date;
-	}
+        return hotelprice;
 
+    }
+ 
+    public void setHotelprice(Set<HotelPrice> hotelprice) {
 
-	public String getCreated_by() {
-		return created_by;
-	}
+        this.hotelprice = hotelprice;
 
+    }
+ 
+    public String getHdescription() {
 
-	public void setCreated_by(String created_by) {
-		this.created_by = created_by;
-	}
+        return hdescription;
 
+    }
+ 
+    public void setHdescription(String hdescription) {
 
-	public String getModified_by() {
-		return modified_by;
-	}
+        this.hdescription = hdescription;
 
+    }
+ 
+    public String getStar_ratings() {
 
-	public void setModified_by(String modified_by) {
-		this.modified_by = modified_by;
-	}
+        return star_ratings;
 
+    }
+ 
+    public void setStar_ratings(String star_ratings) {
 
-	public String getIpaddress() {
-		return ipaddress;
-	}
+        this.star_ratings = star_ratings;
 
+    }
+ 
+    public List<String> getHimage() {
 
-	public void setIpaddress(String ipaddress) {
-		this.ipaddress = ipaddress;
-	}
+        return himage;
 
+    }
+ 
+    public void setHimage(List<String> himage) {
 
-	public boolean isStatus() {
-		return status;
-	}
+        this.himage = himage;
 
+    }
+ 
+    public String getHcontactname() {
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+        return hcontactname;
 
+    }
+ 
+    public void setHcontactname(String hcontactname) {
 
-	public boolean isIsdelete() {
-		return isdelete;
-	}
+        this.hcontactname = hcontactname;
 
+    }
+ 
+    public String getHcontactnumber() {
 
-	public void setIsdelete(boolean isdelete) {
-		this.isdelete = isdelete;
-	}
+        return hcontactnumber;
 
+    }
+ 
+    public void setHcontactnumber(String hcontactnumber) {
 
-	public Destination getDestination() {
-		return destination;
-	}
+        this.hcontactnumber = hcontactnumber;
 
+    }
+ 
+    public String getHcontactemail() {
 
-	public void setDestination(Destination destination) {
-		this.destination = destination;
-	}
+        return hcontactemail;
+
+    }
+ 
+    public void setHcontactemail(String hcontactemail) {
+
+        this.hcontactemail = hcontactemail;
+
+    }
+ 
+    public String getHaddress() {
+
+        return haddress;
+
+    }
+ 
+    public void setHaddress(String haddress) {
+
+        this.haddress = haddress;
+
+    }
+ 
+    public String getHpincode() {
+
+        return hpincode;
+
+    }
+ 
+    public void setHpincode(String hpincode) {
+
+        this.hpincode = hpincode;
+
+    }
+ 
+    public LocalDateTime getCreated_date() {
+
+        return created_date;
+
+    }
+ 
+    public void setCreated_date(LocalDateTime created_date) {
+
+        this.created_date = created_date;
+
+    }
+ 
+    public LocalDateTime getModified_date() {
+
+        return modified_date;
+
+    }
+ 
+    public void setModified_date(LocalDateTime modified_date) {
+
+        this.modified_date = modified_date;
+
+    }
+ 
+    public String getCreated_by() {
+
+        return created_by;
+
+    }
+ 
+    public void setCreated_by(String created_by) {
+
+        this.created_by = created_by;
+
+    }
+ 
+    public String getModified_by() {
+
+        return modified_by;
+
+    }
+ 
+    public void setModified_by(String modified_by) {
+
+        this.modified_by = modified_by;
+
+    }
+ 
+    public String getIpaddress() {
+
+        return ipaddress;
+
+    }
+ 
+    public void setIpaddress(String ipaddress) {
+
+        this.ipaddress = ipaddress;
+
+    }
+ 
+    public boolean isStatus() {
+
+        return status;
+
+    }
+ 
+    public void setStatus(boolean status) {
+
+        this.status = status;
+
+    }
+ 
+    public boolean isIsdelete() {
+
+        return isdelete;
+
+    }
+ 
+    public void setIsdelete(boolean isdelete) {
+
+        this.isdelete = isdelete;
+
+    }
+ 
+    public Destination getDestination() {
+
+        return destination;
+
+    }
+ 
+    public void setDestination(Destination destination) {
+
+        this.destination = destination;
+
+    }
+
 }
+
+ 

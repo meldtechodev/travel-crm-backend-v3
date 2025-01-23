@@ -94,5 +94,12 @@ public Object getRoomTypes(Long hotelId, Long roomTypeId) {
 		
 	}
 
+
+	public RoomTypes quickCreate(RoomTypes roomTypes) {
+        return roomtypesRepository.save(roomTypes);
+    }
+
+
+
 	}
 
