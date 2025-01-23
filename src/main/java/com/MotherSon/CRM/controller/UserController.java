@@ -176,5 +176,12 @@ public class UserController {
         // Otherwise, return the top states as per the Super Admin or regular user
         return ResponseEntity.ok(result);
     }
+	
+	@GetMapping("/supplierreports")
+    public Map<String, Map<String, Object>> getSupplierReports(@RequestParam Long userId) {
+        // Check if the user has Super Admin role and get package details
+        return userService.getSupplierReportsIfSuperAdmin(userId);
+    }
+ 
  
 }

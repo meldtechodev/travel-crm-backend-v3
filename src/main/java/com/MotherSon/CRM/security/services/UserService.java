@@ -2,10 +2,12 @@ package com.MotherSon.CRM.security.services;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import com.MotherSon.CRM.models.Role;
 import com.MotherSon.CRM.models.User;
 import com.MotherSon.CRM.repository.BookingRepository;
 import com.MotherSon.CRM.repository.CustomerRepository;
+import com.MotherSon.CRM.repository.PkgRepository;
 import com.MotherSon.CRM.repository.QueryBookRepository;
 import com.MotherSon.CRM.repository.UserRepository;
 import com.MotherSon.CRM.utils.JwtUtil;
@@ -46,6 +49,9 @@ public class UserService implements UserDetailsService  {
     
     @Autowired
     private BookingRepository bookingRepository;
+    
+    @Autowired
+    private PkgRepository pkgRepository;
  
     
     
@@ -589,6 +595,58 @@ public class UserService implements UserDetailsService  {
  
         return resultMap;
     }
+    
+    
+    public Map<String, Map<String, Object>> getSupplierReportsIfSuperAdmin(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getRole().getRoleName().equalsIgnoreCase("Super Admin")) {
+            return getPackageDetailsGroupedByVendor();
+        }
+
+        throw new RuntimeException("Access denied: User is not a Super Admin");
+    }
+    public Map<String, Map<String, Object>> getPackageDetailsGroupedByVendor() {
+        List<Object[]> results = pkgRepository.getPackageDetailsWithVendorAndDestination();
+
+        Map<String, Map<String, Object>> vendorPackageDetails = new HashMap<>();
+
+        for (Object[] result : results) {
+            String vendorName = (String) result[0];
+            String packageName = (String) result[1];
+            String destinationName = (String) result[2];
+            String packageType = (String) result[3];
+
+            
+            vendorPackageDetails.putIfAbsent(vendorName, new HashMap<>());
+            Map<String, Object> vendorData = vendorPackageDetails.get(vendorName);
+
+            
+            vendorData.putIfAbsent("total_package", 0);
+            vendorData.putIfAbsent("packages_name", new HashSet<String>());
+            vendorData.putIfAbsent("destinations", new HashSet<String>());
+            vendorData.putIfAbsent("package_type", new HashSet<String>());
+
+            vendorData.put("total_package", (int) vendorData.get("total_package") + 1);
+
+            Set<String> packages = (Set<String>) vendorData.get("packages_name");
+            packages.add(packageName);
+
+           
+            Set<String> destinations = (Set<String>) vendorData.get("destinations");
+            if (destinationName != null) {
+                destinations.add(destinationName);
+            }
+
+            
+            Set<String> packageTypes = (Set<String>) vendorData.get("package_type");
+            packageTypes.add(packageType);
+        }
+
+        return vendorPackageDetails;
+    }
+
  
  
 

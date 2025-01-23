@@ -35,43 +35,30 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
  
 @JsonIgnoreProperties(value = { "roomtypes", "hotelprice" })
-
 @Entity
-
 @Table(name = "hotel_master")
-
 public class Hotel {
  
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
  
     private String hname;
  
     @ManyToOne(fetch = FetchType.EAGER)
-
     @JoinColumn(name = "c_id", nullable = true)  // Nullable
-
     private Country country;
  
     @ManyToOne(fetch = FetchType.EAGER)
-
     @JoinColumn(name = "s_id", nullable = true)  // Nullable
-
     private State state;
  
     @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-
     @JsonManagedReference
-
     private Set<RoomTypes> roomtypes;
  
     @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-
     @JsonManagedReference
-
     private Set<HotelPrice> hotelprice;
  
     private String hdescription;
@@ -123,9 +110,7 @@ public class Hotel {
     private boolean isdelete;
  
     @ManyToOne(fetch = FetchType.EAGER)
-
     @JoinColumn(name = "d_id", nullable = true)  // Nullable
-
     private Destination destination;
  
     // Getters and Setters

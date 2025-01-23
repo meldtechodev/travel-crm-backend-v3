@@ -86,9 +86,13 @@ public class QueryBook {
 //	//@JsonBackReference
 //	private Pkg pkg;
 	 
+	@Column(name="remarks")
+	private String remarks;
 	 
-	 @Column(name="packId")
-		private Long packid;
+	 
+	 
+	@Column(name="packId")
+	private Long packid;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "did")
@@ -117,6 +121,14 @@ public class QueryBook {
 //	
 //	private List<Customer> customer = new ArrayList<>();
 
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 
 	public boolean isIsdelete() {
 		return isdelete;
