@@ -102,6 +102,10 @@ public class QueryBook {
 	@JoinColumn(name = "custId")
 	private Customer customer;
 	
+	private boolean isdelete;
+	
+	
+	
 	
 //	@ManyToMany(fetch = FetchType.EAGER)
 //	@JoinTable(
@@ -113,6 +117,14 @@ public class QueryBook {
 //	
 //	private List<Customer> customer = new ArrayList<>();
 
+
+	public boolean isIsdelete() {
+		return isdelete;
+	}
+
+	public void setIsdelete(boolean isdelete) {
+		this.isdelete = isdelete;
+	}
 
 	public Destination getDestination() {
 		return destination;
