@@ -275,6 +275,12 @@ public long getActiveCustomer() {
 	    return new ResponseEntity<>(successResponse, HttpStatus.OK);
 	}
  
+	public Customer getCustomersById(Long id) {
+	    Optional<Customer> customer = customerRepository.findById(id);
+	    return customer.orElse(null); // Return null if not found, or you can throw a custom exception
+	}
+	
+ 
  
 }
 	

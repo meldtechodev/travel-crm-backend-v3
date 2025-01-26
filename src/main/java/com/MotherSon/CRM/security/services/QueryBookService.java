@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 //import java.util.Optional;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -273,6 +274,14 @@ public class QueryBookService {
 	 
 	        return packageCountMap;
 	    }
+		
+		
+		
+		public QueryBook getQueryBookById(Long id) {
+		    Optional<QueryBook> queryBook = querybookRepository.findById(id);
+		    return queryBook.orElse(null); // Return null if not found, or you can throw a custom exception
+		}
+	 
 	 
 	 
 	
